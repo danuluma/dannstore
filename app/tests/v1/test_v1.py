@@ -37,5 +37,13 @@ class Apiv1Test(unittest.TestCase):
     self.assertEqual(json_data.get('Error'), "There are no books")
     self.assertEqual(response.status_code, 404)
 
+  def test_get_non_existent_product_by_id(self):
+    """Tests /products/productID endpoint. There are no items yet"""
+    response = self.client().get('/dann/api/v1/products/0')
+    json_data = json.loads(response.data)
+    self.assertTrue(json_data.get('Error'))
+    self.assertEqual(json_data.get('Error'), "That book does not exist")
+    self.assertEqual(response.status_code, 404)
+
 if __name__ == '__main__':
   unittest.main()
