@@ -1,5 +1,9 @@
 from flask_restful import Resource, reqparse
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import (
+    jwt_required, create_access_token,
+    jwt_refresh_token_required, create_refresh_token,
+    get_jwt_identity
+)
 
 
 users = [
@@ -9,6 +13,7 @@ users = [
 parser = reqparse.RequestParser(bundle_errors=True)
 parser.add_argument('username', type=str, required=True, help='please enter a username',  location='json')
 parser.add_argument('password', type=str, required=True, help='password can\'t be empty', location='json')
+parser.add_argument('role', type=int, help='enter user access level', location='json')
 parser.add_argument('access_token', location='json')
 
 def find_user(username):
@@ -16,12 +21,25 @@ def find_user(username):
   user = [user for user in users if user['username'] == username]
   return user
 
+def create_admin():
+  users.append({
+            "id": 0,
+            "username": "owner",
+            "password": "secret",
+            "role": 0
+        })
+
+def clear_users():
+  users.clear()
+
 class Register(Resource):
   """Endpoint to register a new user"""
+  @jwt_required
   def post(self):
     args = parser.parse_args()
     username = args['username'].strip()
     password = args['password'].strip()
+    role = args['role']
 
     user = find_user(username)
     if len(user) != 0:
@@ -33,10 +51,15 @@ class Register(Resource):
     new_user = {
             'id': len(users) + 1,
             'username': username,
-            'password': password
+            'password': password,
+            'role': role
             }
     users.append(new_user)
-    return {'users': users}, 200
+    return {'message': "Success!"}, 200
+
+  def get(self):
+    create_admin()
+    return users
 
 class Login(Resource):
   """Endpoint to login a user and create an access token"""
@@ -47,12 +70,12 @@ class Login(Resource):
 
     user = find_user(username)
     if len(user) == 0:
-      return {'Error':'Username/Email does not exist'}, 404
+      return {'Error':'Username does not exist'}, 404
 
     if password != user[0]['password']:
       return {'Error':'Wrong password'}, 401
 
-    i_user = [user[0]['id'], user[0]['username']]
+    i_user = [user[0]['id'], user[0]['username'], user[0]['role']]
     access_token = create_access_token(identity=i_user)
 
     mesg = {
