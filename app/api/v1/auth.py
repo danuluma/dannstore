@@ -1,6 +1,6 @@
 from flask_restful import Resource, reqparse
 from flask_jwt_extended import (
-    jwt_required, create_access_token
+    jwt_required, create_access_token, get_jwt_identity
 )
 
 
@@ -52,8 +52,12 @@ class Register(Resource):
             'password': password,
             'role': role
             }
-    users.append(new_user)
-    return {'message': "Success!"}, 200
+    current_user = get_jwt_identity()
+    if current_user[2] == 0:
+      users.append(new_user)
+      return {'message': "Success!"}, 200
+    else:
+      return {'Error': 'Only admins are allowed to add users'}
 
   def get(self):
     create_admin()
