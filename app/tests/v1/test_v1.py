@@ -28,7 +28,14 @@ class Apiv1Test(unittest.TestCase):
     self.assertTrue(json_data.get('message'))
     self.assertEqual(json_data.get('message'), "Hello, there ;-)")
     self.assertEqual(response.status_code, 200)
-    print("yes")
+
+  def test_get_empty_product_list(self):
+    """Tests /products endpoint. There are no items yet"""
+    response = self.client().get('/dann/api/v1/products')
+    json_data = json.loads(response.data)
+    self.assertTrue(json_data.get('Error'))
+    self.assertEqual(json_data.get('Error'), "There are no books")
+    self.assertEqual(response.status_code, 404)
 
 if __name__ == '__main__':
   unittest.main()
