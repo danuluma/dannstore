@@ -1,15 +1,6 @@
 from flask_restful import Resource
 
-products = [{
-        'id': 1,
-        'title': "Coming soon",
-        'description': "LOrem ipsum",
-        'price': 100,
-        'quantity': 20,
-        'minimun': 5,
-        'image_url':'coming_soon'
-    }]
-
+products = []
 class Home(Resource):
   """Just a test endpoint ~/dann/api/v1/home"""
   def get(self):
