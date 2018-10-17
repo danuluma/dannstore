@@ -107,15 +107,26 @@ class SalesTest(unittest.TestCase):
     response = self.client().post('/dann/api/v1/login', json=self.test_user)
     json_data = json.loads(response.data)
     access_token = json_data.get('access_token')
-    self.client().post('/dann/api/v1/sales', headers={"Authorization":"Bearer " + access_token}, json={'book_id':1})
+    self.client().post('/dann/api/v1/sales', headers={"Authorization":"Bearer " + access_token}, json={'book_id': 1})
     response = self.client().post('/dann/api/v1/login', json=self.test_admin)
     json_data = json.loads(response.data)
     access_token = json_data.get('access_token')
-    response = self.client().get('/dann/api/v1/sales', headers={"Authorization":"Bearer " + access_token})
+    response = self.client().get('/dann/api/v1/sales', headers={"Authorization": "Bearer " + access_token})
     json_data = json.loads(response.data)
     self.assertTrue(json_data.get('Sales'))
     self.assertEqual(response.status_code, 200)
 
+  def test_get_non_existent_sale(self):
+    """Tests /sales/<saleId> endpoint. There are no sales records yet"""
+    create_admin()
+    response = self.client().post('/dann/api/v1/login', json=self.test_admin)
+    json_data = json.loads(response.data)
+    access_token = json_data.get('access_token')
+    response = self.client().get('/dann/api/v1/sales/0', headers={"Authorization":"Bearer " + access_token})
+    json_data = json.loads(response.data)
+    self.assertTrue(json_data.get('Error'))
+    self.assertEqual(json_data.get('Error'), "That sale record does not exist")
+    self.assertEqual(response.status_code, 404)
 
 if __name__ == '__main__':
   unittest.main()
