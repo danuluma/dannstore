@@ -1,7 +1,12 @@
 # Dann's Store API
+[![Build Status](https://travis-ci.com/danuluma/dannstore.svg?branch=develop)](https://travis-ci.com/danuluma/dannstore)  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://raw.githubusercontent.com/danuluma/dannstore/develop/LICENSE)
 
+[![Maintainability](https://api.codeclimate.com/v1/badges/aff46e1c9a8c80f7235d/maintainability)](https://codeclimate.com/github/danuluma/dannstore/maintainability)   [![Coverage Status](https://coveralls.io/repos/github/danuluma/dannstore/badge.svg?branch=develop)](https://coveralls.io/github/danuluma/dannstore?branch=develop)
 
 # WIP
+
+This is the api backend for dann's bookstore. It's intended for use internally within a single store. There are currently two categories of users: attendants and admins/owner. Each user is identified by an access token which allows appropriate access level to be granted to him/her.
+This api provides and interface for the users to interact with the database via the available rest endpoints.
 
 
 ## Local Installation Guide
@@ -31,7 +36,7 @@ For windows users, please use ```pip install virtualenvwrapper-win```.
 * To run automatic test on the project, simply run ```python3 -m unittest``` while in the project's root directory.
 * Check on the terminal output for the test results
 
-You can manually test each of the enpoints using postman
+You can manually test each of the endpoints using postman
 
 ## Demo
 * [Heroku](https://dannstore.herokuapp.com)
