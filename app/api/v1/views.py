@@ -39,6 +39,7 @@ class Products(Resource):
     else:
       return {"Error": "There are no books"}, 404
 
+
   @jwt_required
   def post(self):
     """ endpoint for POST requests to /dann/api/v1/products"""
@@ -64,3 +65,14 @@ class Products(Resource):
       books.append(new_book)
       return {'message': 'Success! Book added'}, 200
     return {"Error": "Only Admins are allowed to add books"}, 401
+
+
+class SingleProduct(Resource):
+  """Maps to /products/<productID> endpoint."""
+
+  def get(self, productID):
+    """ endpoint for GET requests to /dann/api/v1/products/<productID>"""
+    book = [book for book in books if book['id'] == productID]
+    if len(book) == 0:
+      return {'Error':'That book does not exist'}, 404
+    return {'Book': book[0]}, 200

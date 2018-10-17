@@ -105,6 +105,27 @@ class Apiv1Test(unittest.TestCase):
     self.assertTrue(json_data.get('Books'))
     self.assertEqual(response.status_code, 200)
 
+  def test_get_a_book_by_id(self):
+    """Tests GET /products endpoint."""
+    create_admin()
+    response = self.client().post('/dann/api/v1/login', json=self.test_admin)
+    json_data = json.loads(response.data)
+    access_token = json_data.get('access_token')
+    self.client().post('/dann/api/v1/products', headers={"Authorization":"Bearer " + access_token}, json=self.test_book)
+    response = self.client().get('/dann/api/v1/products/1')
+    json_data = json.loads(response.data)
+    self.assertTrue(json_data.get('Book'))
+    self.assertEqual(response.status_code, 200)
+
+  def test_get_non_existent_book_by_id(self):
+    """Tests /products/productID endpoint. There are no items yet"""
+    response = self.client().get('/dann/api/v1/products/0')
+    json_data = json.loads(response.data)
+    self.assertTrue(json_data.get('Error'))
+    self.assertEqual(json_data.get('Error'), "That book does not exist")
+    self.assertEqual(response.status_code, 404)
+
+
   def test_login_as_owner(self):
     create_admin()
     response = self.client().post('/dann/api/v1/login', json=self.test_admin)
