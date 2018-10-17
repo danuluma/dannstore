@@ -19,6 +19,7 @@ def find_user(username):
   user = [user for user in users if user['username'] == username]
   return user
 
+"""function to create the default admin account"""
 def create_admin():
   users.append({
             "id": 0,
@@ -27,10 +28,13 @@ def create_admin():
             "role": 0
         })
 
+"""function to clear users list"""
 def clear_users():
   users.clear()
 
 class Register(Resource):
+  """docstring for /reg endpoint"""
+
   """Endpoint to register a new user"""
   @jwt_required
   def post(self):
@@ -64,6 +68,8 @@ class Register(Resource):
     return users
 
 class Login(Resource):
+  """docstring for /reg endpoint"""
+
   """Endpoint to login a user and create an access token"""
   def post(self):
     args = parser.parse_args()
