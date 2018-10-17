@@ -15,12 +15,15 @@ parser.add_argument('role', type=int, help='enter user access level', location='
 parser.add_argument('access_token', location='json')
 
 def find_user(username):
+  """Finds and returns a user by username."""
+
   args = parser.parse_args()
   user = [user for user in users if user['username'] == username]
   return user
 
-"""function to create the default admin account"""
 def create_admin():
+  """Creates the default admin account."""
+
   users.append({
             "id": 0,
             "username": "owner",
@@ -28,16 +31,19 @@ def create_admin():
             "role": 0
         })
 
-"""function to clear users list"""
 def clear_users():
+  """Clears the users list"""
+
   users.clear()
 
 class Register(Resource):
-  """docstring for /reg endpoint"""
+  """Maps to /reg endpoint"""
 
-  """Endpoint to register a new user"""
+
   @jwt_required
   def post(self):
+    """Endpoint to register a new user"""
+
     args = parser.parse_args()
     username = args['username'].strip()
     password = args['password'].strip()
@@ -63,15 +69,12 @@ class Register(Resource):
     else:
       return {'Error': 'Only admins are allowed to add users'}
 
-  def get(self):
-    create_admin()
-    return users
 
 class Login(Resource):
-  """docstring for /reg endpoint"""
+  """Maps to /reg endpoint"""
 
-  """Endpoint to login a user and create an access token"""
   def post(self):
+    """Endpoint to login a user and create an access token"""
     args = parser.parse_args()
     username = args['username'].strip()
     password = args['password'].strip()
