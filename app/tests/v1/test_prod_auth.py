@@ -9,7 +9,7 @@ sys.path.insert(0, LOCALPATH + '/../../../')
 
 from run import create_app
 from app.api.v1.auth import create_admin, clear_users
-from app.api.v1.views import clear_books
+from app.api.v1.products_view import clear_books
 
 
 
