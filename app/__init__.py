@@ -17,4 +17,3 @@ api.add_resource(SingleProduct, '/products/<int:productID>')
 api.add_resource(Register, '/reg')
 api.add_resource(Login, '/login')
 api.add_resource(Records, '/sales')
-
