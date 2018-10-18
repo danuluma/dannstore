@@ -3,7 +3,7 @@ import sys
 import unittest
 import json
 
-#local
+#local imports
 LOCALPATH = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, LOCALPATH + '/../../../')
 
