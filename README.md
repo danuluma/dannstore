@@ -41,10 +41,9 @@ The following endpoints are currently available:
 |  /dann/api/v1/reg |  POST | It registers a new user  |  Private (Only the owner can add new attendants) |
 |  /dann/api/v1/login |  POST | It authenticates a user and generates access_token  |  Public |
 |  /dann/api/v1/products | GET  |  Fetch all products |  Public |
-|  /dann/api/v1/products/<productId> | GET  |  Get a specific product using the product’s id |  Public |
+|  /dann/api/v1/products/productID | GET  |  Get a specific product using the product’s id |  Public |
 |  /dann/api/v1/sales |  GET |  Fetch all sale records | Private (Only admins/owner can view all sales)  |
-|  /dann/api/v1/sales/<saleId>
- |  Get a specific sale record using the sale record Id. |  GET | Private(Only admins/record creator can view)  |
+|  /dann/api/v1/sales/saleID|  Get a specific sale record using the sale record Id. |  GET | Private(Only admins/record creator can view)  |
 |  /dann/api/v1/products |  POST |  Create a new product record. |  Private (Only admins/owner can add products) |
 |  /dann/api/v1/sales |  POST |  Create a sale record.  |  Private (Only attendants can create sale records) |
 
@@ -77,7 +76,7 @@ You can manually test each of the endpoints using postman
 
 ## Contributing
 
-1. Fork it (<https://github.com/danuluma/dannstore/fork>)
+1. Fork this on [Github](https://github.com/danuluma/dannstore/fork)
 2. Create your feature branch (`git checkout -b ft-fooBar-<issueID>`)
 3. Commit your changes (`git commit -am 'Add some fooBar'`)
 4. Push to the branch (`git push origin ft-fooBar-<issueID>`)
