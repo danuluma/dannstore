@@ -3,7 +3,7 @@ import sys
 import unittest
 import json
 
-#local
+#local imports
 LOCALPATH = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, LOCALPATH + '/../../../')
 
@@ -19,8 +19,8 @@ class SalesTest(unittest.TestCase):
   def setUp(self):
     self.app = create_app()
     self.client = self.app.test_client
-    self.test_user = {"username": "dan", "password": "dann", "role": 2}
-    self.test_admin = {"username": "owner", "password": "secret"}
+    self.test_user = {"username": "dann", "password": "dann11", "role": 2}
+    self.test_admin = {"username": "owner", "password": "secret1"}
     self.test_book = {
         'id': 1,
         'title': "Coming soon",

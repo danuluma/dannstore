@@ -8,12 +8,17 @@ books = []
 
 
 parser = reqparse.RequestParser(bundle_errors=True)
-parser.add_argument('title', type=str, help='enter the book\'s name', location='json')
+parser.add_argument(
+    'title', type=str, help='enter the book\'s name', location='json')
 parser.add_argument('description', type=str, location='json')
-parser.add_argument('price', type=int, help='price of the book', location='json')
+parser.add_argument(
+    'price', type=int, help='price of the book', location='json')
 parser.add_argument('quantity', type=int, help='how many?', location='json')
-parser.add_argument('minimun', type=int, help='minimun required', location='json')
-parser.add_argument('image_url', type=str, help='url to the book\'s image', location='json')
+parser.add_argument('minimun', type=int,
+                    help='minimun required', location='json')
+parser.add_argument('image_url', type=str,
+                    help='url to the book\'s image', location='json')
+
 
 def clear_books():
   """Clears the books list"""
@@ -35,10 +40,9 @@ class Products(Resource):
     """ endpoint for GET requests to /dann/api/v1/products"""
 
     if len(books) != 0:
-      return {"Books" : books}, 200
+      return {"Books": books}, 200
     else:
       return {"Error": "There are no books"}, 404
-
 
   @jwt_required
   def post(self):
@@ -48,9 +52,9 @@ class Products(Resource):
     args = parser.parse_args()
     book = [book for book in books if book['title'] == args['title']]
     if len(book) != 0:
-      return {'Error':'Book already exists'}, 409
+      return {'Error': 'Book already exists'}, 409
     if args['title'].strip() == "":
-      return {'Error':'A book must have a valid title'}, 400
+      return {'Error': 'A book must have a valid title'}, 400
     new_book = {
         'id': len(books) + 1,
         'title': args['title'],
@@ -74,5 +78,5 @@ class SingleProduct(Resource):
     """ endpoint for GET requests to /dann/api/v1/products/<productID>"""
     book = [book for book in books if book['id'] == productID]
     if len(book) == 0:
-      return {'Error':'That book does not exist'}, 404
+      return {'Error': 'That book does not exist'}, 404
     return {'Book': book[0]}, 200

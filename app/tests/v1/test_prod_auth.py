@@ -20,16 +20,16 @@ class Apiv1Test(unittest.TestCase):
     self.app = create_app()
     self.client = self.app.test_client
     self.test_book = {
-        'id': 1,
-        'title': "Coming soon",
-        'description': "LOrem ipsum",
-        'price': 100,
-        'quantity': 20,
-        'minimun': 5,
-        'image_url':'coming_soon'
+        "id": 1,
+        "title": "Coming soon",
+        "description": "LOrem ipsum",
+        "price": 100,
+        "quantity": 20,
+        "minimun": 5,
+        "image_url": "coming_soon"
     }
-    self.test_user = {"username": "dan", "password": "dann", "role": 2}
-    self.test_admin = {"username": "owner", "password": "secret"}
+    self.test_user = {"username": "dann", "password": "dann11", "role": 2}
+    self.test_admin = {"username": "owner", "password": "secret1"}
 
   def tearDown(self):
     clear_users()

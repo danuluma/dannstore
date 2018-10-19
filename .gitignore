@@ -102,3 +102,8 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+#ignore these too :-)
+ignore
+ignore2
+app/api/v1/ahoy.py

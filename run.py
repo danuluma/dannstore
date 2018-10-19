@@ -1,5 +1,6 @@
 from flask import Flask
-import os, sys
+import os
+import sys
 from flask_jwt_extended import JWTManager
 
 LOCALPATH = os.path.dirname(os.path.abspath(__file__))

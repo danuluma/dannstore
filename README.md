@@ -1,10 +1,11 @@
 # Dann's Store API
+> RESTful API for dann's book store
+
 [![Build Status](https://travis-ci.com/danuluma/dannstore.svg?branch=develop)](https://travis-ci.com/danuluma/dannstore)  [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://raw.githubusercontent.com/danuluma/dannstore/develop/LICENSE)
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/aff46e1c9a8c80f7235d/maintainability)](https://codeclimate.com/github/danuluma/dannstore/maintainability)   [![Coverage Status](https://coveralls.io/repos/github/danuluma/dannstore/badge.svg?branch=ch-update-readme-161247582)](https://coveralls.io/github/danuluma/dannstore?branch=ch-update-readme-161247582)
 
-# WIP
-
+<!-- # WIP -->
 This is the api backend for dann's bookstore. It's intended for use internally within a single store. There are currently two categories of users: attendants and admins/owner. Each user is identified by an access token which allows appropriate access level to be granted to him/her.
 This api provides and interface for the users to interact with the database via the available rest endpoints.
 
@@ -31,12 +32,35 @@ For windows users, please use ```pip install virtualenvwrapper-win```.
 * Run the app locally with ```python3 run.py```
 
 
+## Usage
+
+The following endpoints are currently available:
+### Endpoints
+|  URL Endpoint | HTTP Request  |  Access | Status  |
+|---|---|---|---|
+|  /dann/api/v1/reg |  POST | It registers a new user  |  Private (Only the owner can add new attendants) |
+|  /dann/api/v1/login |  POST | It authenticates a user and generates access_token  |  Public |
+|  /dann/api/v1/products | GET  |  Fetch all products |  Public |
+|  /dann/api/v1/products/productID | GET  |  Get a specific product using the product’s id |  Public |
+|  /dann/api/v1/sales |  GET |  Fetch all sale records | Private (Only admins/owner can view all sales)  |
+|  /dann/api/v1/sales/saleID|  Get a specific sale record using the sale record Id. |  GET | Private(Only admins/record creator can view)  |
+|  /dann/api/v1/products |  POST |  Create a new product record. |  Private (Only admins/owner can add products) |
+|  /dann/api/v1/sales |  POST |  Create a sale record.  |  Private (Only attendants can create sale records) |
+
+
 
 ## Testing
 * To run automatic test on the project, simply run ```python3 -m unittest``` while in the project's root directory.
 * Check on the terminal output for the test results
 
 You can manually test each of the endpoints using postman
+
+## Release History
+
+* v1
+    * The first stable release
+    * Uses data structures to store data
+
 
 ## Demo
 * [Heroku](https://dannstore.herokuapp.com)
@@ -49,3 +73,11 @@ You can manually test each of the endpoints using postman
 
 ## License
 [MIT](https://raw.githubusercontent.com/danuluma/dannstore/develop/LICENSE)
+
+## Contributing
+
+1. Fork this on [Github](https://github.com/danuluma/dannstore/fork)
+2. Create your feature branch (`git checkout -b ft-fooBar-<issueID>`)
+3. Commit your changes (`git commit -am 'Add some fooBar'`)
+4. Push to the branch (`git push origin ft-fooBar-<issueID>`)
+5. Create a new Pull Request

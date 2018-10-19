@@ -66,8 +66,8 @@ class SingleRecord(Resource):
 
     record = [record for record in records if record['id'] == saleID]
     current_user = get_jwt_identity()
-    if current_user[2] == 0:
-      if len(record) == 0:
-        return {'Error': 'That sale record does not exist'}, 404
+    if len(record) == 0:
+      return {'Error': 'That sale record does not exist'}, 404
+    if (current_user[2] == 0) or (current_user[0] == record[3]):
       return {'Sale': record[0]}, 200
     return {"Error": "Only admins can access this"}, 401
