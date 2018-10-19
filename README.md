@@ -43,9 +43,15 @@ The following endpoints are currently available:
 |  /dann/api/v1/products | GET  |  Fetch all products |  Public |
 |  /dann/api/v1/products/productID | GET  |  Get a specific product using the product’s id |  Public |
 |  /dann/api/v1/sales |  GET |  Fetch all sale records | Private (Only admins/owner can view all sales)  |
-|  /dann/api/v1/sales/saleID|  Get a specific sale record using the sale record Id. |  GET | Private(Only admins/record creator can view)  |
+|  /dann/api/v1/sales/saleID| GET | Get a specific sale record using the sale record Id. | Private(Only admins/record creator can view)  |
 |  /dann/api/v1/products |  POST |  Create a new product record. |  Private (Only admins/owner can add products) |
 |  /dann/api/v1/sales |  POST |  Create a sale record.  |  Private (Only attendants can create sale records) |
+
+## Usage example
+* Please look here --> [Examples](https://documenter.getpostman.com/view/5303933/RWguvGJK) for usage examples of the api endpoints and expected results.
+* To test using curl, first set up the project as described in installation procedure.
+* Run the app in the terminal then open another terminal window to test the endpoints.
+* Select `curl` on the top right of this [page](https://documenter.getpostman.com/view/5303933/RWguvGJK). Copy and run examples on your local terminal.
 
 
 
@@ -53,7 +59,10 @@ The following endpoints are currently available:
 * To run automatic test on the project, simply run ```python3 -m unittest``` while in the project's root directory.
 * Check on the terminal output for the test results
 
-You can manually test each of the endpoints using postman
+* You can manually test each of the endpoints using postman
+* See an example below
+![Postman example](https://res.cloudinary.com/danuluma/image/upload/v1539902345/Screenshot_from_2018-10-19_01-30-39.png)
+
 
 ## Release History
 
@@ -64,9 +73,11 @@ You can manually test each of the endpoints using postman
 
 ## Demo
 * [Heroku](https://dannstore.herokuapp.com)
+* [Documentation](https://documenter.getpostman.com/view/5303933/RWguvGJK)
 
 ## Credits
 #### [Andela](https://andela.com/)
+#### Edward Mudaida
 
 ## Author
 #### [Dann](https://github.com/danuluma)
