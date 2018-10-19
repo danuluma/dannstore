@@ -43,7 +43,7 @@ The following endpoints are currently available:
 |  /dann/api/v1/products | GET  |  Fetch all products |  Public |
 |  /dann/api/v1/products/productID | GET  |  Get a specific product using the product’s id |  Public |
 |  /dann/api/v1/sales |  GET |  Fetch all sale records | Private (Only admins/owner can view all sales)  |
-|  /dann/api/v1/sales/saleID|  Get a specific sale record using the sale record Id. |  GET | Private(Only admins/record creator can view)  |
+|  /dann/api/v1/sales/saleID| GET | Get a specific sale record using the sale record Id. | Private(Only admins/record creator can view)  |
 |  /dann/api/v1/products |  POST |  Create a new product record. |  Private (Only admins/owner can add products) |
 |  /dann/api/v1/sales |  POST |  Create a sale record.  |  Private (Only attendants can create sale records) |
 
