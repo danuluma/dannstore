@@ -85,8 +85,7 @@ class Register(Resource):
     if current_user[2] == 0:
       users.append(new_user)
       return {'message': "Success!"}, 200
-    else:
-      return {'Error': 'Only admins are allowed to add users'}, 401
+    return {'Error': 'Only admins are allowed to add users'}, 401
 
 
 class Login(Resource):
