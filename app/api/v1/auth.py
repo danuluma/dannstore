@@ -86,7 +86,7 @@ class Register(Resource):
       users.append(new_user)
       return {'message': "Success!"}, 200
     else:
-      return {'Error': 'Only admins are allowed to add users'}
+      return {'Error': 'Only admins are allowed to add users'}, 401
 
 
 class Login(Resource):
@@ -94,6 +94,7 @@ class Login(Resource):
 
   def post(self):
     """Endpoint to login a user and create an access token"""
+
     args = parser.parse_args()
     username = args['username'].strip()
     password = args['password'].strip()
@@ -111,4 +112,4 @@ class Login(Resource):
     mesg = {
         'access_token': access_token,
     }
-    return mesg, 200
+    return mesg, 201
