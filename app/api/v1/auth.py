@@ -69,12 +69,15 @@ class Register(Resource):
     role = args['role']
 
     user = find_user(username)
+    error = []
     if len(user) != 0:
       return {'Error': 'Username already exists'}, 409
     if validate_username(username) != True:
-      return {'Error': 'Please input a valid username'}, 400
+      error.append({'Error': 'Please input a valid username'})
     if validate_password(password) != True:
-      return {'Error': 'Please input a valid password'}, 400
+      error.append({'Error': 'Please input a valid password'})
+    if len(error) > 0:
+      return error, 400
     new_user = {
         'id': len(users) + 1,
         'username': username,
