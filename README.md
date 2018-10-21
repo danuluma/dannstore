@@ -3,7 +3,7 @@
 
 [![Build Status](https://travis-ci.com/danuluma/dannstore.svg?branch=develop)](https://travis-ci.com/danuluma/dannstore)  [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://raw.githubusercontent.com/danuluma/dannstore/develop/LICENSE)
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/aff46e1c9a8c80f7235d/maintainability)](https://codeclimate.com/github/danuluma/dannstore/maintainability)   [![Coverage Status](https://coveralls.io/repos/github/danuluma/dannstore/badge.svg?branch=ch-update-readme-161247582)](https://coveralls.io/github/danuluma/dannstore?branch=ch-update-readme-161247582)
+<!-- [![Maintainability](https://api.codeclimate.com/v1/badges/aff46e1c9a8c80f7235d/maintainability)](https://codeclimate.com/github/danuluma/dannstore/maintainability)  -->  [![Coverage Status](https://coveralls.io/repos/github/danuluma/dannstore/badge.svg?branch=ch-update-readme-161247582)](https://coveralls.io/github/danuluma/dannstore?branch=ch-update-readme-161247582)
 
 <!-- # WIP -->
 This is the api backend for dann's bookstore. It's intended for use internally within a single store. There are currently two categories of users: attendants and admins/owner. Each user is identified by an access token which allows appropriate access level to be granted to him/her.
@@ -29,12 +29,18 @@ For windows users, please use ```pip install virtualenvwrapper-win```.
 * Switch into the project directory ```cd dannstore```
 * Create a virtual environment ```mkvirtualenv dannstore```. You can replace ```dannstore``` with a name of your liking.
 * Install the project's dependencies by running ```pip install -r requirements.txt```
+* Copy .env.sample to .env ```cp .env.sample .env```
 * Run the app locally with ```python3 run.py```
+* If you followed along properly, the app will create the neccesary databases and tables on its own during the first run
 
 
 ## Usage
 
 The following endpoints are currently available:
+
+## Version 1
+* Versin 1 uses data structures(lists and dictionaries to store data)
+
 ### Endpoints
 |  URL Endpoint | HTTP Request  |  Access | Status  |
 |---|---|---|---|
@@ -46,6 +52,33 @@ The following endpoints are currently available:
 |  /dann/api/v1/sales/saleID| GET | Get a specific sale record using the sale record Id. | Private(Only admins/record creator can view)  |
 |  /dann/api/v1/products |  POST |  Create a new product record. |  Private (Only admins/owner can add products) |
 |  /dann/api/v1/sales |  POST |  Create a sale record.  |  Private (Only attendants can create sale records) |
+
+
+## Version 2
+* Version 2 uses a postgres database to store data
+
+### Endpoints
+
+|  URL Endpoint | HTTP Request  |  Access | Status  |
+|---|---|---|---|
+|  /dann/api/v2/reg |  POST | It registers a new user  |  Private (Only the owner can add new attendants) |
+|  /dann/api/v2/login |  POST | It authenticates a user and generates access_token  |  Public |
+|  /dann/api/v2/logout |  DELETE | It logs out a user  |  Public |
+|  /dann/api/v2/users/userID |  GET | it retrieves a user by ID |  Private(Only the admin can access) |
+|  /dann/api/v2/users/userID |  PUT | It promotes or demotes a user |  Private(Only the owner can access) |
+|  /dann/api/v2/users |  GET | It retrieves all the users in the database  |  Private(Only admins can access) |
+|  /dann/api/v2/users |  DELETE | It deletes a user by userID  |  Private(Only the owner can access) |
+
+
+
+
+<!-- |  /dann/api/v2/products | GET  |  Fetch all products |  Public |
+|  /dann/api/v2/products/productID | GET  |  Get a specific product using the product’s id |  Public |
+|  /dann/api/v2/sales |  GET |  Fetch all sale records | Private (Only admins/owner can view all sales)  |
+|  /dann/api/v2/sales/saleID| GET | Get a specific sale record using the sale record Id. | Private(Only admins/record creator can view)  |
+|  /dann/api/v2/products |  POST |  Create a new product record. |  Private (Only admins/owner can add products) |
+|  /dann/api/v2/sales |  POST |  Create a sale record.  |  Private (Only attendants can create sale records) | -->
+
 
 ## Usage example
 * Please look here --> [Examples](https://documenter.getpostman.com/view/5303933/RWguvGJK) for usage examples of the api endpoints and expected results.
@@ -77,7 +110,7 @@ The following endpoints are currently available:
 
 ## Credits
 #### [Andela](https://andela.com/)
-#### Edward Mudaida
+#### [Edward Mudaida](https://github.com/EdwardMudaida)
 
 ## Author
 #### [Dann](https://github.com/danuluma)
