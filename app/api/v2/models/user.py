@@ -30,8 +30,8 @@ class UserModel(Db):
       userlist.append(details)
     return userlist
 
-  def get_single_user(self, username):
-    users = [row for row in Db().get_query('users') if row[1] == username]
+  def get_single_user(self, param, this_row):
+    users = [row for row in Db().get_query('users') if row[this_row] == param]
     if users :
       user = users[0]
       return format_user(user)
@@ -41,4 +41,11 @@ class UserModel(Db):
     INSERT INTO users (username, password, created_by)
     VALUES (%s,%s,%s);
     """, user)
+
+  def promote_demote_user(self, user_id, role):
+    updatesql = f"""UPDATE users SET role = {role} WHERE id = {user_id}"""
+    Db().put_query(updatesql)
+
+  def delete_user(self, user_id):
+    Db().delete_query(f"""DELETE FROM users WHERE id = {user_id}""")
 

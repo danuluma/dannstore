@@ -5,7 +5,7 @@ from flask_restful import Api
 from app.api.v1.sales_view import Records, SingleRecord
 from app.api.v1.products_view import Home, Products, SingleProduct
 from app.api.v1.auth import Register, Login
-from app.api.v2.views.users import Register as R2, Login as L2
+from app.api.v2.views.users import Register as R2, Login as L2, User, Users
 
 
 api_bp = Blueprint('api', __name__)
@@ -23,3 +23,5 @@ api.add_resource(Records, '/sales')
 api.add_resource(SingleRecord, '/sales/<int:saleID>')
 api2.add_resource(R2, '/reg')
 api2.add_resource(L2, '/login')
+api2.add_resource(User, '/users/<int:userID>')
+api2.add_resource(Users, '/users')
