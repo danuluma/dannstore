@@ -10,6 +10,7 @@ LOCALPATH = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, LOCALPATH + '/../../../')
 # Local imports below
 from app.api.v2.tables import create_tables, drop_tables
+from config import app_config
 
 
 load_dotenv()
@@ -19,7 +20,7 @@ class Db(object):
   """Database stuff"""
 
   def __init__(self):
-    self.dbase = os.getenv("DEV_DBURI")
+    self.dbase = app_config[os.getenv('APP_SETTINGS')].DB_URI
 
   def connect(self):
     """Creates a connection and returns it."""
