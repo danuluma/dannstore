@@ -52,13 +52,13 @@ class Db(object):
         cur.close()
         return psycopg2.connect(self.dbase)
       except:
-        """Sijui nitaambia nini watu"""
+        """Sijui nitaambia nini watu.."""
 
         return("Sorry couldn't")
 
 
   def run_query(self, queries):
-    """Run sql queries supplied. I expect a list or any enumerable"""
+    """Run sql queries supplied. expects a list or any enumerable"""
 
     for query in queries:
       try:
@@ -86,31 +86,15 @@ class Db(object):
 
     conn = Db().connect()
     cur = conn.cursor()
-    cur.execute("""SELECT * FROM {}""".format(table))
+    cur.execute(f"""SELECT * FROM {table}""")
     return [row for row in cur.fetchall()]
 
-  def post_query(self, post_query, data):
-    """POST quries handled here"""
+  def db_query(self, db_query):
+    """POST, PUT and DELETE queries handled here"""
 
     conn = Db().connect()
     cur = conn.cursor()
-    cur.execute(post_query, data)
+    cur.execute(db_query)
     conn.commit()
     conn.close()
-
-
-  def put_query(self, put_query):
-    conn = Db().connect()
-    cur = conn.cursor()
-    cur.execute(put_query)
-    conn.commit()
-    conn.close()
-
-  def delete_query(self, delete_query):
-    conn = Db().connect()
-    cur = conn.cursor()
-    cur.execute(delete_query)
-    conn.commit()
-    conn.close()
-
 
