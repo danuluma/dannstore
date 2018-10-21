@@ -16,9 +16,6 @@ sys.path.insert(0, LOCALPATH + '/../../../../')
 from app.api.v2.models.user import UserModel
 
 
-users = UserModel().get_all_users()
-
-
 parser = reqparse.RequestParser(bundle_errors=True)
 parser.add_argument('username', type=str, required=True,
                     help='please enter a username', location='json')
@@ -33,7 +30,7 @@ def find_user(username):
   """Finds and returns a user by username."""
 
   args = parser.parse_args()
-  user = [user for user in users if user[1] == username]
+  user = UserModel().get_single_user(username)
   return user
 
 
@@ -62,7 +59,7 @@ class Register(Resource):
     role = args['role']
 
     user = find_user(username)
-    if len(user) != 0:
+    if user:
       return {'Error': 'Username already exists'}, 409
     if validate_username(username) != True:
       return {'Error': 'Please input a valid username'}, 400
@@ -87,8 +84,7 @@ class Register(Resource):
     return {'Error': 'Only admins are allowed to add users'}, 401
 
   def get(self):
-    for i in users:
-      return i[1], 200
+    return UserModel().get_all_users()
     # return str(users)
 
 
@@ -105,10 +101,10 @@ class Login(Resource):
     if len(user) == 0:
       return {'Error': 'Username does not exist'}, 404
 
-    if password != user[0][2]:
+    if password != user['password']:
       return {'Error': 'Wrong password'}, 401
 
-    user_details = [user[0][0], user[0][1], user[0][3]]
+    user_details = [user['id'], user['username'], user['role']]
     access_token = create_access_token(identity=user_details)
 
     mesg = {

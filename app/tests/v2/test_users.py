@@ -22,6 +22,15 @@ class UsersTest(Apiv2Test):
     access_token = json_data.get('access_token')
     return access_token
 
+  def attendant_token(self):
+    access_token = self.owner_token()
+    self.client().post('/dann/api/v2/reg', headers={"Authorization":"Bearer " + access_token}, json=self.test_user)
+    response = self.client().post('/dann/api/v2/login', headers={"Authorization":"Bearer " + access_token}, json=self.test_user)
+    json_data = json.loads(response.data)
+    # print(json_data)
+    att_access_token = json_data.get('access_token')
+    return att_access_token
+
   def test_owner_login(self):
     """Default owner login."""
 
@@ -33,7 +42,6 @@ class UsersTest(Apiv2Test):
 
   def test_user_reg(self):
     """ Test user registration with valid credentials """
-
 
     access_token = self.owner_token()
     response = self.client().post('/dann/api/v2/reg', headers={"Authorization":"Bearer " + access_token}, json=self.test_user)
@@ -68,13 +76,9 @@ class UsersTest(Apiv2Test):
   # def test_user_login(self):
   #   """ test user login """
 
-  #   test_user5 = { "username": "dann2", "password": "Admintest1"}
-  #   response = self.client().post('/dann/api/v2/login', json=self.test_owner)
-  #   json_data = json.loads(response.data)
-  #   access_token = json_data.get('access_token')
+  #   test_user5 = { "username": "dann3", "password": "Admintest1"}
+  #   access_token = self.owner_token()
   #   self.client().post('/dann/api/v2/reg', headers={"Authorization":"Bearer " + access_token}, json=test_user5)
-  #   json_data = json.loads(response.data)
-  #   print(json_data)
   #   response = self.client().post('/dann/api/v2/login', json=test_user5)
   #   json_data = json.loads(response.data)
   #   print(json_data)
