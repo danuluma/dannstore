@@ -1,6 +1,6 @@
 from flask_restful import Resource, reqparse
 from flask_jwt_extended import (
-    jwt_required, create_access_token, get_jwt_identity
+    jwt_required, create_access_token, get_jwt_identity, get_raw_jwt
 )
 import re
 import os, sys
@@ -53,6 +53,7 @@ def get_role(action):
     return 0
 
 
+
 class Register(Resource):
   """Maps to /reg endpoint"""
 
@@ -88,6 +89,7 @@ class Register(Resource):
     return {'Error': 'Only admins are allowed to add users'}, 401
 
 
+
 class Login(Resource):
   """Maps to /reg endpoint"""
 
@@ -112,6 +114,21 @@ class Login(Resource):
         'access_token': access_token,
     }
     return mesg, 200
+
+
+class Logout(Resource):
+  """Logs out a user"""
+
+  @jwt_required
+  def delete(self):
+    """Revokes an access token"""
+
+    jti = get_raw_jwt()['jti']
+    UserModel.blacklist_token(self, jti)
+    return {"Message": "Successfully logged out"}, 200
+
+  # def get(self):
+  #   return str(UserModel().blacklisted_tokens())
 
 
 class User(Resource):

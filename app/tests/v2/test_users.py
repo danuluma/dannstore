@@ -227,6 +227,14 @@ class UsersTest(Apiv2Test):
     self.assertEqual(json_data.get('Error'), "Only the owner can delete attendats")
     self.assertEqual(response.status_code, 401)
 
+  def test_user_logout(self):
+    access_token = self.owner_token()
+    response = self.client().delete('/dann/api/v2/logout', headers={"Authorization":"Bearer " + access_token})
+    json_data = json.loads(response.data)
+    self.assertTrue(json_data.get('Message'))
+    self.assertEqual(json_data.get('Message'), "Successfully logged out")
+    self.assertEqual(response.status_code, 200)
+
 
 if __name__ == '__main__':
   unittest.main()

@@ -10,6 +10,7 @@ sys.path.insert(0, LOCALPATH + '/')
 
 from app.api.v1.auth import create_admin
 from app.api.v2.db import Db
+from app.api.v2.models.user import UserModel
 
 
 def create_app():
@@ -17,7 +18,14 @@ def create_app():
     app = Flask(__name__)
     from app import api_bp, api_bp2
     app.config['JWT_SECRET_KEY'] = "changing_soon"
+    app.config['JWT_BLACKLIST_ENABLED'] = True
+    app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
     jwt = JWTManager(app)
+
+    @jwt.token_in_blacklist_loader
+    def check_if_token_in_blacklist(decrypted_token):
+        jti = decrypted_token['jti']
+        return jti in UserModel().blacklisted_tokens()
     create_admin()
     # Db().drop()
     Db().create()

@@ -9,14 +9,20 @@ c1 = """CREATE TABLE users (
       );
 """
 
+c2 = """CREATE TABLE blacklist (
+       token VARCHAR
+      );
+"""
+
 i2 = """
        INSERT INTO users (username, password, role, created_by) VALUES ('owner', 'secret1', 0, 0);
     """
 
 
-create_tables = [c1, i2]
+create_tables = [c1, c2, i2]
 
 
 dr1 = """DROP TABLE IF EXISTS users  CASCADE;"""
+dr2 = """DROP TABLE IF EXISTS blacklist  CASCADE;"""
 
-drop_tables = [dr1]
+drop_tables = [dr1, dr2]

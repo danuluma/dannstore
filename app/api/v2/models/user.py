@@ -39,17 +39,30 @@ class UserModel(Db):
     """Gets a single user"""
 
     users = [row for row in Db().get_query('users') if row[this_row] == param]
-    if users :
+    if users:
       user = users[0]
       return format_user(user)
 
   def add_new_user(self, user):
-    """Adds anew user ti the db"""
+    """Adds a new user to the db"""
 
     Db().db_query(f"""
     INSERT INTO users (username, password, created_by)
     VALUES ('{(user[0])}', '{user[1]}', {user[2]});
     """)
+
+  def blacklist_token(self, jti):
+    """Blacklists a token"""
+
+    Db().db_query(f"""INSERT INTO blacklist (token) VALUES ('{jti}');""")
+
+  def blacklisted_tokens(self):
+    """Blacklists a token"""
+    tokenlist = set()
+    for tok in Db().get_query('blacklist'):
+      token = tok[0]
+      tokenlist.add(token)
+    return tokenlist
 
   def promote_demote_user(self, user_id, role):
     """Updates the access leve of a user"""
