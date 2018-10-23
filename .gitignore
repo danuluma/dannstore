@@ -103,7 +103,11 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+#vscode
+.vscode/*
+
 #ignore these too :-)
 ignore
 ignore2
 app/api/v1/ahoy.py
+ahoy.py
