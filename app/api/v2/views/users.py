@@ -202,6 +202,6 @@ class Users(Resource):
       try:
         UserModel().delete_user(user_id)
       except:
-        return {"Error":"Error"}, 404
+        return {"Error":"Error user failed to delete"}, 500
       return {'Message': "Success! That user has been deleted"}, 201
     return {"Error": "Only the owner can delete attendants"}, 401

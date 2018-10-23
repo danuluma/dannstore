@@ -142,6 +142,6 @@ class SingleProduct(Resource):
       try:
         ProductModel().delete_book(productID)
       except:
-        return {"Error":"Error"}, 404
+        return {"Error":"Error could not delete book"}, 500
       return {'Message': "Success! Book deleted"}, 200
     return {"Error": "Only admins can delete books"}, 401
