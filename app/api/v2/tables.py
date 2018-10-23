@@ -13,12 +13,27 @@ c2 = """CREATE TABLE books (
        id SERIAL primary key,
        title VARCHAR UNIQUE not null,
        description VARCHAR,
+       category VARCHAR,
        price INTEGER,
        quantity INTEGER,
        minimum INTEGER,
        image_url VARCHAR,
        created_by INTEGER,
+       updated_by VARCHAR DEFAULT 0,
        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+"""
+
+c4 = """CREATE TABLE categories (
+       id INTEGER primary key,
+       name VARCHAR
+      );
+"""
+
+c5 = """CREATE TABLE books_categories (
+       id INTEGER primary key,
+       category_id INTEGER,
+       book_id INTEGER
       );
 """
 
@@ -35,11 +50,13 @@ i3 = """ INSERT INTO books (title, description, price, quantity, minimum, image_
     """
 
 
-create_tables = [c1, c2, c3, i2, i3]
+create_tables = [c1, c2, c3, c4, c5, i2, i3]
 
 
 dr1 = """DROP TABLE IF EXISTS users  CASCADE;"""
 dr2 = """DROP TABLE IF EXISTS blacklist  CASCADE;"""
 dr3 = """DROP TABLE IF EXISTS books  CASCADE;"""
+dr4 = """DROP TABLE IF EXISTS categories  CASCADE;"""
+dr5 = """DROP TABLE IF EXISTS books_categories CASCADE;"""
 
-drop_tables = [dr1, dr2, dr3]
+drop_tables = [dr1, dr2, dr3, dr4, dr5]

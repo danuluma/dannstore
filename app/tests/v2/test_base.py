@@ -23,6 +23,7 @@ class Apiv2Test(unittest.TestCase):
     self.test_book ={
             "title": "test_book2",
             "description": "An awesome read",
+            "category": "fiction",
             "price": 100,
             "quantity": 5,
             "minimum": 4,
