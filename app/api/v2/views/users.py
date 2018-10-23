@@ -199,9 +199,6 @@ class Users(Resource):
     current_user = get_jwt_identity()
     uid = current_user[0]
     if uid == 1:
-      try:
-        UserModel().delete_user(user_id)
-      except:
-        return {"Error":"Error user failed to delete"}, 500
+      UserModel().delete_user(user_id)
       return {'Message': "Success! That user has been deleted"}, 201
     return {"Error": "Only the owner can delete attendants"}, 401

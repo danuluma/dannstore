@@ -66,5 +66,7 @@ class ProductModel(Db):
 
   def delete_book(self, book_id):
     """Deletes a book"""
-
-    Db().db_query(f"""DELETE FROM books WHERE id = {book_id};""")
+    try:
+      Db().db_query(f"""DELETE FROM books WHERE id = {book_id};""")
+    except:
+      return "Failed", 500

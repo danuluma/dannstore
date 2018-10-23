@@ -71,5 +71,7 @@ class UserModel(Db):
 
   def delete_user(self, user_id):
     """Deletes a user"""
-
-    Db().db_query(f"""DELETE FROM users WHERE id = {user_id};""")
+    try:
+      Db().db_query(f"""DELETE FROM users WHERE id = {user_id};""")
+    except:
+      return "Failed", 500

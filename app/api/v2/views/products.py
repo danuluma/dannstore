@@ -139,9 +139,6 @@ class SingleProduct(Resource):
     current_user = get_jwt_identity()
     role = current_user[2]
     if role == 0:
-      try:
-        ProductModel().delete_book(productID)
-      except:
-        return {"Error":"Error could not delete book"}, 500
+      ProductModel().delete_book(productID)
       return {'Message': "Success! Book deleted"}, 200
     return {"Error": "Only admins can delete books"}, 401
