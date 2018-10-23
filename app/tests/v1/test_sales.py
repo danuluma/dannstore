@@ -94,7 +94,7 @@ class SalesTest(unittest.TestCase):
     json_data = json.loads(response.data)
     self.assertTrue(json_data.get('message'))
     self.assertEqual(json_data.get('message'), "Success! Sale recorded")
-    self.assertEqual(response.status_code, 200)
+    self.assertEqual(response.status_code, 201)
 
   def test_get_sales_record(self):
     """Tests /sales endpoint."""

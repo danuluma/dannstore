@@ -30,6 +30,7 @@ class Records(Resource):
   @jwt_required
   def get(self):
     """ endpoint for GET requests to /dann/api/v1/sales"""
+
     current_user = get_jwt_identity()
     if current_user[2] == 0:
       if len(records) == 0:
@@ -40,6 +41,7 @@ class Records(Resource):
   @jwt_required
   def post(self):
     """ endpoint for POST requests to /dann/api/v1/sales"""
+
     args = parser.parse_args()
     book = [book for book in books if book['id'] == args['book_id']]
     current_user = get_jwt_identity()
@@ -52,13 +54,13 @@ class Records(Resource):
     if current_user[2] != 0:
       if len(book) != 0:
         records.append(new_sale)
-        return {"message": "Success! Sale recorded"}, 200
+        return {"message": "Success! Sale recorded"}, 201
       return {"Error": "That book does not exist"}, 404
     return {"Error": "Only store attendants can create sale records"}, 401
 
 
 class SingleRecord(Resource):
-  """docstring for SingleRecord"""
+  """Maps to /sales/<saleId>"""
 
   @jwt_required
   def get(self, saleID):
