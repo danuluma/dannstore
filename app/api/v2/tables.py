@@ -40,6 +40,6 @@ create_tables = [c1, c2, c3, i2, i3]
 
 dr1 = """DROP TABLE IF EXISTS users  CASCADE;"""
 dr2 = """DROP TABLE IF EXISTS blacklist  CASCADE;"""
-dr3 = """DROP TABLE IF EXISTS blacklist  CASCADE;"""
+dr3 = """DROP TABLE IF EXISTS books  CASCADE;"""
 
 drop_tables = [dr1, dr2, dr3]

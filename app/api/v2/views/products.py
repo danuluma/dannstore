@@ -41,7 +41,7 @@ def add_product(new_book):
   try:
         ProductModel().add_new_book(new_book)
   except:
-    return {"Error":"Book already exists"}, 409
+    return {"Error":"Title already exists"}, 409
   return {'Message': "Success! Book added"}, 201
 
 
@@ -49,16 +49,12 @@ class Products(Resource):
   """Maps to /products endpoint"""
 
 
-  # @jwt_required
+  @jwt_required
   def get(self):
     """ Returns all books in the database"""
+    books = ProductModel().get_all_books()
+    return books, 200
 
-    current_user = get_jwt_identity()
-    # role = current_user[2]
-    role = 0
-    if role == 0:
-      return ProductModel().get_all_books(), 200
-    return {"Error": "Only admins can view all users"}, 401
 
 
   @jwt_required
@@ -94,4 +90,3 @@ class Products(Resource):
     if role == 0:
       return add_product(new_book)
     return {'Error': 'Only admins are allowed to add new books'}, 401
-

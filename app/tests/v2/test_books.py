@@ -7,8 +7,6 @@ import unittest
 LOCALPATH = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, LOCALPATH + '/../../../')
 
-from run import create_app
-from app.api.v2.db import Db
 from app.tests.v2.test_base import Apiv2Test
 
 class ProductsTest(Apiv2Test):
@@ -37,31 +35,45 @@ class ProductsTest(Apiv2Test):
   def test_add_book(self):
     """ Test adding with a book valid credentials """
 
-    book4 = {
-            "title": "test_book4",
-            "description": "An awesome read",
-            "price": 100,
-            "quantity": 5,
-            "minimum": 4,
-            "image_url": "url",
-            "created_by": 0
-            }
     access_token = self.owner_token()
-    response = self.client().post('/dann/api/v2/products', headers={"Authorization":"Bearer " + access_token}, json=book4)
+    response = self.client().post('/dann/api/v2/products', headers={"Authorization":"Bearer " + access_token}, json=self.test_book)
     json_data = json.loads(response.data)
     print(json_data)
+    print(access_token)
     self.assertTrue(json_data.get('Message'))
     self.assertEqual(json_data.get('Message'), "Success! Book added")
     self.assertEqual(response.status_code, 201)
 
-  def test_get_all_books_as_owner(self):
-    """Test retrieve all books with admin rights"""
+  def test_try_add_book_without_admin_rights(self):
+    """ Test adding with a book invalid credentials """
+
+    access_token = self.attendant_token()
+    response = self.client().post('/dann/api/v2/products', headers={"Authorization":"Bearer " + access_token}, json=self.test_book)
+    json_data = json.loads(response.data)
+    print(json_data)
+    self.assertTrue(json_data.get('Error'))
+    self.assertEqual(json_data.get('Error'), "Only admins are allowed to add new books")
+    self.assertEqual(response.status_code, 401)
+
+  def test_try_add_a_duplicate_book(self):
+    """ Test adding a book that already exists """
 
     access_token = self.owner_token()
     self.client().post('/dann/api/v2/products', headers={"Authorization":"Bearer " + access_token}, json=self.test_book)
+    response = self.client().post('/dann/api/v2/products', headers={"Authorization":"Bearer " + access_token}, json=self.test_book)
+    json_data = json.loads(response.data)
+    print(json_data)
+    self.assertTrue(json_data.get('Error'))
+    self.assertEqual(json_data.get('Error'), "Title already exists")
+    self.assertEqual(response.status_code, 409)
+
+  def test_get_all_books(self):
+    """Test retrieve all books"""
+
+    access_token = self.attendant_token()
+    self.client().post('/dann/api/v2/products', headers={"Authorization":"Bearer " + access_token}, json=self.test_book)
     response = self.client().get('/dann/api/v2/products', headers={"Authorization":"Bearer " + access_token})
     self.assertEqual(response.status_code, 200)
-
 
 
 if __name__ == '__main__':
