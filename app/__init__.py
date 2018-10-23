@@ -19,6 +19,7 @@ from app.api.v2.views.users import Register as R2, Login as L2, User, Users, Log
 from app.api.v2.db import Db
 from app.api.v2.models.user import UserModel
 from config import app_config
+from app.api.v2.views.products import Products as P2
 
 load_dotenv()
 
@@ -42,6 +43,7 @@ api2.add_resource(L2, '/login')
 api2.add_resource(User, '/users/<int:userID>')
 api2.add_resource(Users, '/users')
 api2.add_resource(Logout, '/logout')
+api2.add_resource(P2, '/products')
 
 
 def create_app(config_name):

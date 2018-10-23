@@ -2,7 +2,6 @@ import json
 import os
 import sys
 import unittest
-from dotenv import load_dotenv
 
 #local
 LOCALPATH = os.path.dirname(os.path.abspath(__file__))
@@ -21,6 +20,16 @@ class Apiv2Test(unittest.TestCase):
                         "password": "Admintest1"}
     self.test_owner = { "username": "owner",
                         "password": "secret1"}
+    self.test_book ={
+            "title": "test_book2",
+            "description": "An awesome read",
+            "price": 100,
+            "quantity": 5,
+            "minimum": 4,
+            "image_url": "url",
+            "created_by": 0
+            }
+
 
     with self.app.app_context():
       Db().drop()

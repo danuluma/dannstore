@@ -211,4 +211,4 @@ class Users(Resource):
       except:
         return {"Error":"Error"}, 404
       return {'Message': "Success! That user has been deleted"}, 201
-    return {"Error": "Only the owner can delete attendats"}, 401
+    return {"Error": "Only the owner can delete attendants"}, 401
