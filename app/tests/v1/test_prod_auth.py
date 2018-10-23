@@ -62,7 +62,7 @@ class Apiv1Test(unittest.TestCase):
     json_data = json.loads(response.data)
     self.assertTrue(json_data.get('message'))
     self.assertEqual(json_data.get('message'), "Success! Book added")
-    self.assertEqual(response.status_code, 200)
+    self.assertEqual(response.status_code, 201)
 
   def test_add_duplicate_book(self):
     """Tests POST /products endpoint. Adds a new book"""
@@ -131,7 +131,7 @@ class Apiv1Test(unittest.TestCase):
     response = self.client().post('/dann/api/v1/login', json=self.test_admin)
     json_data = json.loads(response.data)
     self.assertTrue(json_data.get('access_token'))
-    self.assertEqual(response.status_code, 200)
+    self.assertEqual(response.status_code, 201)
 
   def test_register_new_attendant(self):
     create_admin()
@@ -155,6 +155,14 @@ class Apiv1Test(unittest.TestCase):
     self.assertTrue(json_data.get('Error'))
     self.assertEqual(json_data.get('Error'), "Username already exists")
     self.assertEqual(response.status_code, 409)
+
+  def test_resource_not_found(self):
+    response = self.client().get('/not/found')
+    json_data = json.loads(response.data)
+    self.assertTrue(json_data.get('Error'))
+    self.assertEqual(json_data.get('Error'), "Resource not found")
+    self.assertEqual(response.status_code, 404)
+
 
 if __name__ == '__main__':
   unittest.main()

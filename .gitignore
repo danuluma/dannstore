@@ -103,6 +103,9 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+#vscode
+.vscode/*
+
 #ignore these too :-)
 ignore
 ignore2
