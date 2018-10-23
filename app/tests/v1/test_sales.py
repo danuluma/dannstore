@@ -17,7 +17,7 @@ class SalesTest(unittest.TestCase):
   """ Tests for api /recordss endpoints """
 
   def setUp(self):
-    self.app = create_app()
+    self.app = create_app("testing")
     self.client = self.app.test_client
     self.test_user = {"username": "dann", "password": "dann11", "role": 2}
     self.test_admin = {"username": "owner", "password": "secret1"}
