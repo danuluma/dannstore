@@ -19,7 +19,7 @@ c2 = """CREATE TABLE books (
        minimum INTEGER,
        image_url VARCHAR,
        created_by INTEGER,
-       updated_by VARCHAR DEFAULT 0,
+       updated_by INTEGER DEFAULT 0,
        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
 """
@@ -46,7 +46,7 @@ i2 = """
        INSERT INTO users (username, password, role, created_by) VALUES ('owner', 'secret1', 0, 0);
        """
 
-i3 = """ INSERT INTO books (title, description, price, quantity, minimum, image_url, created_by) VALUES ('test', 'still testing', 20, 10, 2, 'url', 0);
+i3 = """ INSERT INTO books (title, description, price, quantity, minimum, image_url, created_by) VALUES ('mpya', 'still testing', 20, 10, 2, 'url', 0);
     """
 
 

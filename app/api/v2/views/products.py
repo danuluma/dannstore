@@ -55,10 +55,12 @@ class Products(Resource):
     minimum = args['minimum']
     image_url = args['image_url'].strip()
 
+
     book = ProductModel().get_single_book(title, 1)
 
     if book:
       return {'Error': 'Title already exists'}, 409
+
 
     current_user = get_jwt_identity()
     role = current_user[2]
@@ -126,7 +128,7 @@ class SingleProduct(Resource):
       try:
         ProductModel().edit_book(productID, new_book)
       except:
-        return {"Error":"Error"}, 404
+        return {"Error": "Error"}, 404
       return {'Message': "Success! Book details updated!"}, 201
     return {"Error": "Only an admin can edit a book"}, 401
 
@@ -136,10 +138,10 @@ class SingleProduct(Resource):
 
     current_user = get_jwt_identity()
     role = current_user[2]
-    if role == 2:
+    if role == 0:
       try:
         ProductModel().delete_book(productID)
       except:
         return {"Error":"Error"}, 404
-      return {'Message': "Success! Book deleted"}, 201
+      return {'Message': "Success! Book deleted"}, 200
     return {"Error": "Only admins can delete books"}, 401

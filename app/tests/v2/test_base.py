@@ -33,14 +33,13 @@ class Apiv2Test(unittest.TestCase):
 
 
     with self.app.app_context():
-      Db.drop(self)
-      Db.create(self)
+      Db().drop()
+      Db().create()
 
 
   def tearDown(self):
     with self.app.app_context():
-      Db.drop(self)
-      Db.create(self)
+      Db().drop()
 
 if __name__ == '__main__':
   unittest.main()

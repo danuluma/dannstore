@@ -38,8 +38,6 @@ class ProductsTest(Apiv2Test):
     access_token = self.owner_token()
     response = self.client().post('/dann/api/v2/products', headers={"Authorization":"Bearer " + access_token}, json=self.test_book)
     json_data = json.loads(response.data)
-    print(json_data)
-    print(access_token)
     self.assertTrue(json_data.get('Message'))
     self.assertEqual(json_data.get('Message'), "Success! Book added")
     self.assertEqual(response.status_code, 201)
@@ -50,7 +48,6 @@ class ProductsTest(Apiv2Test):
     access_token = self.attendant_token()
     response = self.client().post('/dann/api/v2/products', headers={"Authorization":"Bearer " + access_token}, json=self.test_book)
     json_data = json.loads(response.data)
-    print(json_data)
     self.assertTrue(json_data.get('Error'))
     self.assertEqual(json_data.get('Error'), "Only admins are allowed to add new books")
     self.assertEqual(response.status_code, 401)
@@ -63,6 +60,8 @@ class ProductsTest(Apiv2Test):
     response = self.client().post('/dann/api/v2/products', headers={"Authorization":"Bearer " + access_token}, json=self.test_book)
     json_data = json.loads(response.data)
     print(json_data)
+    print(access_token)
+    print("adminnnnnnnnn")
     self.assertTrue(json_data.get('Error'))
     self.assertEqual(json_data.get('Error'), "Title already exists")
     self.assertEqual(response.status_code, 409)
@@ -77,6 +76,7 @@ class ProductsTest(Apiv2Test):
 
   def test_update_book(self):
     """ Test adding with a book valid credentials """
+
     book3 = {
             "title": "book3",
             "description": "Another awesome read",
@@ -85,16 +85,16 @@ class ProductsTest(Apiv2Test):
             "quantity": 50,
             "minimum": 4,
             "image_url": "new_url",
-            "created_by": 0,
             "updated_by":0
             }
     access_token = self.owner_token()
-    response = self.client().put('/dann/api/v2/products', headers={"Authorization":"Bearer " + access_token}, json=book3)
+    self.client().post('/dann/api/v2/products', headers={"Authorization":"Bearer " + access_token}, json=self.test_book)
+    response = self.client().put('/dann/api/v2/products/1', headers={"Authorization":"Bearer " + access_token}, json=book3)
     json_data = json.loads(response.data)
     print(json_data)
     print(access_token)
     self.assertTrue(json_data.get('Message'))
-    self.assertEqual(json_data.get('Message'), "Success! Book added")
+    self.assertEqual(json_data.get('Message'), "Success! Book details updated!")
     self.assertEqual(response.status_code, 201)
 
   def test_delete_a_book(self):
@@ -102,12 +102,11 @@ class ProductsTest(Apiv2Test):
 
     access_token = self.owner_token()
     self.client().post('/dann/api/v2/products', headers={"Authorization":"Bearer " + access_token}, json=self.test_book)
-    response = self.client().delete('/dann/api/v2/products', headers={"Authorization":"Bearer " + access_token}, json={"user_id": 1})
+    response = self.client().delete('/dann/api/v2/products/1', headers={"Authorization":"Bearer " + access_token})
     json_data = json.loads(response.data)
-    self.assertNotEqual(response.status_code, 200)
     self.assertTrue(json_data.get('Message'))
     self.assertEqual(json_data.get('Message'), "Success! Book deleted")
-    self.assertEqual(response.status_code, 201)
+    self.assertEqual(response.status_code, 200)
 
 
   def test_try_delete_a_book_without_admin_rights(self):
@@ -115,7 +114,7 @@ class ProductsTest(Apiv2Test):
 
     access_token = self.attendant_token()
     self.client().post('/dann/api/v2/products', headers={"Authorization":"Bearer " + access_token}, json=self.test_book)
-    response = self.client().delete('/dann/api/v2/products', headers={"Authorization":"Bearer " + access_token}, json={"user_id": 1})
+    response = self.client().delete('/dann/api/v2/products/1', headers={"Authorization":"Bearer " + access_token}, json={"user_id": 1})
     json_data = json.loads(response.data)
     self.assertNotEqual(response.status_code, 200)
     self.assertTrue(json_data.get('Error'))

@@ -19,7 +19,8 @@ def format_book(book):
             "minimum": book[6],
             "image_url": book[7],
             "created_by": book[8],
-            "created_at": str(book[9])
+            "updated_by": book[9],
+            "created_at": str(book[10])
       }
   return book
 
@@ -52,35 +53,15 @@ class ProductModel(Db):
     try:
       Db().db_query(f"""
       INSERT INTO books (title, description, category, price, quantity, minimum, image_url, created_by)
-      VALUES ('{book[0]}', '{book[1]}', {book[2]}, {book[3]}, {book[4]}, '{book[5]}', {book[6]});
+      VALUES ('{book[0]}', '{book[1]}', '{book[2]}', {book[3]}, {book[4]}, {book[5]}, '{book[6]}', {book[7]});
       """)
     except:
-      return "Failed to add"
+      return "Failed to add", 500
 
-  def edit_book(self, user_id, book):
+  def edit_book(self, book_id, book):
     """Updates a book's details"""
-    title = book[0]
-    description = book[1]
-    price = book[2]
-    quantity = book[3]
-    minimum = book[4]
-    image_url = book[5]
-    my_id = book[6]
 
-    details = {
-        "title": '"' + 'book3' + '"',
-        "description": '"' + "Lorem ipsum" + '"',
-        "description": '"' + "Fiction" + '"',
-        "price": 110,
-        "quantity": 50,
-        "minimum": 4,
-        "image_url": '"' + "new_url" + '"',
-        "created_by": 0,
-        "updated_by":0
-        }
-    for key,value in details.items():
-        updatesql = f"""UPDATE users SET {key} = {value} WHERE id = {user_id};"""
-        Db().db_query(updatesql)
+    Db().db_query(f"""UPDATE books SET title = '{book[0]}', description = '{book[1]}',  category = '{book[2]}', price = {book[3]}, quantity = {book[4]}, minimum = {book[5]}, image_url = '{book[6]}', updated_by = {book[7]} WHERE id = {book_id};""")
 
 
   def delete_book(self, book_id):

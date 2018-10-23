@@ -109,7 +109,7 @@ class Login(Resource):
     args = parser.parse_args()
     username = args['username'].strip()
     password = args['password'].strip()
-
+    # user = []
     user = UserModel().get_single_user(username, 1)
     if not user:
       return {'Error': 'Wrong password or username'}, 400
@@ -118,7 +118,7 @@ class Login(Resource):
       return {'Error': 'Wrong password or username'}, 400
 
     user_details = [user['id'], user['username'], user['role']]
-    access_token = create_access_token(identity=user_details)
+    access_token = create_access_token(identity=user_details, expires_delta=False)
 
     mesg = {
         'access_token': access_token,
