@@ -25,25 +25,10 @@ parser.add_argument('image_url', type=str,
                     help='url to the book\'s image', location='json')
 
 
-
-def find_book(param, which_row):
-  """Finds and returns a book by supplied param."""
-
-  args = parser.parse_args()
-  book = ProductModel().get_single_book(param, which_row)
-  return book
-
-
-
 def add_product(new_book):
   """Adds a new book"""
 
-  try:
-        ProductModel().add_new_book(new_book)
-  except:
-    return {"Error":"Title already exists"}, 409
-  return {'Message': "Success! Book added"}, 201
-
+  
 
 class Products(Resource):
   """Maps to /products endpoint"""
@@ -69,7 +54,7 @@ class Products(Resource):
     minimum = args['minimum']
     image_url = args['image_url'].strip()
 
-    user = find_book(title, 1)
+    user = ProductModel().get_single_book(title, 1)
 
     if user:
       return {'Error': 'Title already exists'}, 409
@@ -88,5 +73,6 @@ class Products(Resource):
     ]
 
     if role == 0:
-      return add_product(new_book)
+      ProductModel().add_new_book(new_book)
+      return {'Message': "Success! Book added"}, 201
     return {'Error': 'Only admins are allowed to add new books'}, 401

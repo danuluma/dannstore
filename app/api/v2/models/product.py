@@ -48,11 +48,13 @@ class ProductModel(Db):
 
   def add_new_book(self, book):
     """Adds a new book to the db"""
-
-    Db().db_query(f"""
-    INSERT INTO books (title, description, price, quantity, minimum, image_url, created_by)
-    VALUES ('{book[0]}', '{book[1]}', {book[2]}, {book[3]}, {book[4]}, '{book[5]}', {book[6]});
-    """)
+    try:
+      Db().db_query(f"""
+      INSERT INTO books (title, description, price, quantity, minimum, image_url, created_by)
+      VALUES ('{book[0]}', '{book[1]}', {book[2]}, {book[3]}, {book[4]}, '{book[5]}', {book[6]});
+      """)
+    except:
+      return "Failed to add"
 
   def delete_book(self, book_id):
     """Deletes a book"""

@@ -24,13 +24,6 @@ parser.add_argument('user_id', type=int, help='user id', location='json')
 parser.add_argument('access_token', location='json')
 
 
-def find_user(param, which_row):
-  """Finds and returns a user by supplied param."""
-
-  args = parser.parse_args()
-  user = UserModel().get_single_user(param, which_row)
-  return user
-
 
 def validate_password(passw):
   """Validates password."""
@@ -81,7 +74,7 @@ class Register(Resource):
     username = args['username'].strip()
     password = args['password'].strip()
 
-    user = find_user(username, 1)
+    user = UserModel().get_single_user(username, 1)
 
     if user:
       return {'Error': 'Username already exists'}, 409
@@ -117,7 +110,7 @@ class Login(Resource):
     username = args['username'].strip()
     password = args['password'].strip()
 
-    user = find_user(username, 1)
+    user = UserModel().get_single_user(username, 1)
     if not user:
       return {'Error': 'Wrong password or username'}, 400
 
