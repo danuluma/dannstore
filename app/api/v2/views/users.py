@@ -52,6 +52,22 @@ def get_role(action):
   if action == "promote":
     return 0
 
+def ret_errors(errors):
+  """Returns errors froma list"""
+
+  for i in range(len(errors)):
+        print(errors[i])
+        return {"Error": errors[i]}, 400
+
+
+def add_user(new_user):
+  """Adds a new user"""
+
+  try:
+        UserModel().add_new_user(new_user)
+  except:
+    return {"Error":"Username already exists"}, 409
+  return {'Message': "Success! User created"}, 201
 
 
 class Register(Resource):
@@ -66,12 +82,17 @@ class Register(Resource):
     password = args['password'].strip()
 
     user = find_user(username, 1)
+
     if user:
       return {'Error': 'Username already exists'}, 409
+
+    val_errors = []
     if validate_username(username) != True:
-      return {'Error': 'Please input a valid username'}, 400
+      val_errors.append('Please input a valid username')
     if validate_password(password) != True:
-      return {'Error': 'Please input a valid password'}, 400
+      val_errors.append('Please input a valid password')
+    if val_errors:
+      return ret_errors(val_errors)
     current_user = get_jwt_identity()
     role = current_user[2]
     my_id = current_user[0]
@@ -81,11 +102,7 @@ class Register(Resource):
         my_id
     ]
     if role == 0:
-      try:
-        UserModel.add_new_user(self, new_user)
-      except:
-        return {"Error":"Username already exists"}, 409
-      return {'Message': "Success! User created"}, 201
+      return add_user(new_user)
     return {'Error': 'Only admins are allowed to add users'}, 401
 
 
@@ -183,7 +200,6 @@ class Users(Resource):
   @jwt_required
   def delete(self):
     """Deletes a user. Requires the user Id"""
-
 
     args = parser.parse_args()
     user_id = args['user_id']
