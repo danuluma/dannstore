@@ -2,14 +2,11 @@ import json
 import os
 import sys
 import unittest
-from dotenv import load_dotenv
 
 #local
 LOCALPATH = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, LOCALPATH + '/../../../')
 
-from run import create_app
-from app.api.v2.db import Db
 from app.tests.v2.test_base import Apiv2Test
 
 class UsersTest(Apiv2Test):
@@ -224,7 +221,7 @@ class UsersTest(Apiv2Test):
     json_data = json.loads(response.data)
     self.assertNotEqual(response.status_code, 200)
     self.assertTrue(json_data.get('Error'))
-    self.assertEqual(json_data.get('Error'), "Only the owner can delete attendats")
+    self.assertEqual(json_data.get('Error'), "Only the owner can delete attendants")
     self.assertEqual(response.status_code, 401)
 
   def test_user_logout(self):

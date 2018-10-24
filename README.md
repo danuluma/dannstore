@@ -3,7 +3,8 @@
 
 [![Build Status](https://travis-ci.com/danuluma/dannstore.svg?branch=develop)](https://travis-ci.com/danuluma/dannstore)  [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://raw.githubusercontent.com/danuluma/dannstore/develop/LICENSE)
 
-<!-- [![Maintainability](https://api.codeclimate.com/v1/badges/aff46e1c9a8c80f7235d/maintainability)](https://codeclimate.com/github/danuluma/dannstore/maintainability)  -->  [![Coverage Status](https://coveralls.io/repos/github/danuluma/dannstore/badge.svg?branch=ch-update-readme-161247582)](https://coveralls.io/github/danuluma/dannstore?branch=ch-update-readme-161247582)
+<!-- [![Maintainability](https://api.codeclimate.com/v1/badges/aff46e1c9a8c80f7235d/maintainability)](https://codeclimate.com/github/danuluma/dannstore/maintainability)  -->
+[![Coverage Status](https://coveralls.io/repos/github/danuluma/dannstore/badge.svg?branch=ch-update-readme-161247582)](https://coveralls.io/github/danuluma/dannstore?branch=ch-update-readme-161247582)
 
 <!-- # WIP -->
 This is the api backend for dann's bookstore. It's intended for use internally within a single store. There are currently two categories of users: attendants and admins/owner. Each user is identified by an access token which allows appropriate access level to be granted to him/her.
@@ -28,6 +29,7 @@ For windows users, please use ```pip install virtualenvwrapper-win```.
 * Clone this repo to your local computer using ```git clone https://github.com/danuluma/dannstore.git```
 * Switch into the project directory ```cd dannstore```
 * Create a virtual environment ```mkvirtualenv dannstore```. You can replace ```dannstore``` with a name of your liking.
+* Activate your virtual environment ```source dannstore/bin/activate```
 * Install the project's dependencies by running ```pip install -r requirements.txt```
 * Copy .env.sample to .env ```cp .env.sample .env```
 * Run the app locally with ```python3 run.py```

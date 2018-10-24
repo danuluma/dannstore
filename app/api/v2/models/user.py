@@ -5,7 +5,6 @@ sys.path.insert(0, LOCALPATH + '/../../../../')
 from app.api.v2.db import Db
 
 
-
 def format_user(user):
   """Formats the results to a dictionary"""
 
@@ -65,12 +64,14 @@ class UserModel(Db):
     return tokenlist
 
   def promote_demote_user(self, user_id, role):
-    """Updates the access leve of a user"""
+    """Updates the access level of a user"""
 
     updatesql = f"""UPDATE users SET role = {role} WHERE id = {user_id};"""
     Db().db_query(updatesql)
 
   def delete_user(self, user_id):
     """Deletes a user"""
-
-    Db().db_query(f"""DELETE FROM users WHERE id = {user_id};""")
+    try:
+      Db().db_query(f"""DELETE FROM users WHERE id = {user_id};""")
+    except:
+      return "Failed", 500

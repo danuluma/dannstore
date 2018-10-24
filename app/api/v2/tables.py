@@ -9,20 +9,54 @@ c1 = """CREATE TABLE users (
       );
 """
 
-c2 = """CREATE TABLE blacklist (
+c2 = """CREATE TABLE books (
+       id SERIAL primary key,
+       title VARCHAR UNIQUE not null,
+       description VARCHAR,
+       category VARCHAR,
+       price INTEGER,
+       quantity INTEGER,
+       minimum INTEGER,
+       image_url VARCHAR,
+       created_by INTEGER,
+       updated_by INTEGER DEFAULT 0,
+       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+"""
+
+c4 = """CREATE TABLE categories (
+       id INTEGER primary key,
+       name VARCHAR
+      );
+"""
+
+c5 = """CREATE TABLE books_categories (
+       id INTEGER primary key,
+       category_id INTEGER,
+       book_id INTEGER
+      );
+"""
+
+c3 = """CREATE TABLE blacklist (
        token VARCHAR
       );
 """
 
 i2 = """
        INSERT INTO users (username, password, role, created_by) VALUES ('owner', 'secret1', 0, 0);
+       """
+
+i3 = """ INSERT INTO books (title, description, price, quantity, minimum, image_url, created_by) VALUES ('mpya', 'still testing', 20, 10, 2, 'url', 0);
     """
 
 
-create_tables = [c1, c2, i2]
+create_tables = [c1, c2, c3, c4, c5, i2, i3]
 
 
 dr1 = """DROP TABLE IF EXISTS users  CASCADE;"""
 dr2 = """DROP TABLE IF EXISTS blacklist  CASCADE;"""
+dr3 = """DROP TABLE IF EXISTS books  CASCADE;"""
+dr4 = """DROP TABLE IF EXISTS categories  CASCADE;"""
+dr5 = """DROP TABLE IF EXISTS books_categories CASCADE;"""
 
-drop_tables = [dr1, dr2]
+drop_tables = [dr1, dr2, dr3, dr4, dr5]

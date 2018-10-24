@@ -29,7 +29,7 @@ class Db(object):
       """Try creating a connection to an existing database"""
 
       conn = psycopg2.connect(self.dbase)
-      print("Connection successful")
+      # print("Connection successful")
       return conn
     except:
       print("Error connecting......Hold on while I create one")

@@ -24,13 +24,6 @@ parser.add_argument('user_id', type=int, help='user id', location='json')
 parser.add_argument('access_token', location='json')
 
 
-def find_user(param, which_row):
-  """Finds and returns a user by supplied param."""
-
-  args = parser.parse_args()
-  user = UserModel().get_single_user(param, which_row)
-  return user
-
 
 def validate_password(passw):
   """Validates password."""
@@ -81,7 +74,7 @@ class Register(Resource):
     username = args['username'].strip()
     password = args['password'].strip()
 
-    user = find_user(username, 1)
+    user = UserModel().get_single_user(username, 1)
 
     if user:
       return {'Error': 'Username already exists'}, 409
@@ -116,8 +109,8 @@ class Login(Resource):
     args = parser.parse_args()
     username = args['username'].strip()
     password = args['password'].strip()
-
-    user = find_user(username, 1)
+    # user = []
+    user = UserModel().get_single_user(username, 1)
     if not user:
       return {'Error': 'Wrong password or username'}, 400
 
@@ -125,7 +118,7 @@ class Login(Resource):
       return {'Error': 'Wrong password or username'}, 400
 
     user_details = [user['id'], user['username'], user['role']]
-    access_token = create_access_token(identity=user_details)
+    access_token = create_access_token(identity=user_details, expires_delta=False)
 
     mesg = {
         'access_token': access_token,
@@ -206,9 +199,6 @@ class Users(Resource):
     current_user = get_jwt_identity()
     uid = current_user[0]
     if uid == 1:
-      try:
-        UserModel().delete_user(user_id)
-      except:
-        return {"Error":"Error"}, 404
+      UserModel().delete_user(user_id)
       return {'Message': "Success! That user has been deleted"}, 201
-    return {"Error": "Only the owner can delete attendats"}, 401
+    return {"Error": "Only the owner can delete attendants"}, 401
