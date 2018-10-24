@@ -23,6 +23,14 @@ c2 = """CREATE TABLE books (
        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
 """
+c6 = """CREATE TABLE sales (
+       id SERIAL primary key,
+       details VARCHAR,
+       total INTEGER,
+       created_by INTEGER,
+       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+"""
 
 c4 = """CREATE TABLE categories (
        id INTEGER primary key,
