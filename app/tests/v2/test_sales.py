@@ -43,7 +43,7 @@ class ProductsTest(Apiv2Test):
 
   def test_get_empty_sales_record(self):
     """Tests /sales endpoint. There are no sales records yet"""
-    access_token = self.attendant_token()
+    access_token = self.owner_token()
     response = self.client().get('/dann/api/v2/sales', headers={"Authorization":"Bearer " + access_token})
     json_data = json.loads(response.data)
     self.assertTrue(json_data.get('Error'))
@@ -66,7 +66,7 @@ class ProductsTest(Apiv2Test):
 
     access_token = self.owner_token()
     self.client().post('/dann/api/v2/products', headers={"Authorization":"Bearer " + access_token}, json=self.test_book)
-    access_token = self.owner_token
+    access_token = self.attendant_token()
     response = self.client().post('/dann/api/v2/sales', headers={"Authorization":"Bearer " + access_token}, json={'book_id':1})
     json_data = json.loads(response.data)
     self.assertTrue(json_data.get('message'))

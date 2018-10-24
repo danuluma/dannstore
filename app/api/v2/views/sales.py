@@ -26,7 +26,7 @@ class Records(Resource):
 
     current_user = get_jwt_identity()
     if current_user[2] == 0:
-      sales = SalesModel().get_all_books()
+      sales = SalesModel().get_all_sales()
       if len(sales) == 0:
         return {"Error": "There are no sale records"}, 404
       return {"Sales": sales}, 200
@@ -40,16 +40,17 @@ class Records(Resource):
     book_id = args['book_id']
     details = ProductModel().get_single_book(book_id, 0)
     total = details.get('price')
+    book_id = details.get('id')
     current_user = get_jwt_identity()
     created_by = current_user[0]
     new_sale = [
-         details,
+         book_id,
          total,
          created_by
     ]
     if current_user[2] != 0:
       if len(details) != 0:
-        SalesModel().add_new_book(new_sale)
+        SalesModel().add_new_record(new_sale)
         return {"message": "Success! Sale recorded"}, 201
       return {"Error": "That book does not exist"}, 404
     return {"Error": "Only store attendants can create sale records"}, 401
@@ -60,11 +61,11 @@ class SingleRecord(Resource):
 
   @jwt_required
   def get(self, saleID):
-    """ endpoint for POST requests to /dann/api/v2/sales/<saleId>"""
+    """ Endpoint for POST requests to /dann/api/v2/sales/<saleId>"""
 
     record = SalesModel().get_single_sale(saleID, 0)
     current_user = get_jwt_identity()
-    if len(record) == 0:
+    if not record:
       return {'Error': 'That sale record does not exist'}, 404
     if (current_user[2] == 0) or (current_user[0] == record[3]):
       return {'Sale': record[0]}, 200

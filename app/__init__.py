@@ -47,7 +47,7 @@ api2.add_resource(Logout, '/logout')
 api2.add_resource(P2, '/products')
 api2.add_resource(SR2, '/sales')
 api2.add_resource(S2, '/products/<int:productID>')
-api2.add_resource(SR3, '/sales/<int:productID>')
+api2.add_resource(SR3, '/sales/<int:saleID>')
 
 
 def create_app(config_name):
@@ -69,7 +69,7 @@ def create_app(config_name):
         jti = decrypted_token['jti']
         return jti in UserModel().blacklisted_tokens()
     create_admin()
-    # Db().drop()
+    Db().drop()
     Db().create()
     app.register_blueprint(api_bp, url_prefix='/dann/api/v1')
     app.register_blueprint(api_bp2, url_prefix='/dann/api/v2')

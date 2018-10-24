@@ -11,10 +11,10 @@ def format_sale(sale):
 
   sale = {
             "id": sale[0],
-            "details": sale[1],
+            "book_id": sale[1],
             "total": sale[2],
             "created_by": sale[3],
-            "created_at": sale[4]
+            "created_at": str(sale[4])
       }
   return sale
 
@@ -34,7 +34,7 @@ class SalesModel(Db):
       records.append(details)
     return records
 
-  def get_single_book(self, param, this_row):
+  def get_single_sale(self, param, this_row):
     """Gets a single sale record"""
 
     records = [row for row in Db().get_query('sales') if row[this_row] == param]
@@ -42,12 +42,12 @@ class SalesModel(Db):
       sale = records[0]
       return format_sale(sale)
 
-  def add_new_(self, book):
+  def add_new_record(self, new_sale):
     """Adds a new sale record to the db"""
     try:
       Db().db_query(f"""
-      INSERT INTO books (details, total, created_by)
-      VALUES ('{book[0]}', {book[1]}, {book[2]});
+      INSERT INTO sales (book_id, total, created_by)
+      VALUES ('{new_sale[0]}', {new_sale[1]}, {new_sale[2]});
       """)
     except:
       return "Failed to add", 500
