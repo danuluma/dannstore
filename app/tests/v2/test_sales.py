@@ -9,7 +9,7 @@ sys.path.insert(0, LOCALPATH + '/../../../')
 
 from app.tests.v2.test_base import Apiv2Test
 
-class ProductsTest(Apiv2Test):
+class SalesTest(Apiv2Test):
   """ Tests for apiv2 products endpoints """
 
 

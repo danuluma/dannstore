@@ -26,7 +26,7 @@ class SalesModel(Db):
     pass
 
   def get_all_sales(self):
-    """Gets all books from the db"""
+    """Gets all sales records from the db"""
 
     records = []
     for sale in Db().get_query('sales'):
@@ -44,6 +44,7 @@ class SalesModel(Db):
 
   def add_new_record(self, new_sale):
     """Adds a new sale record to the db"""
+
     try:
       Db().db_query(f"""
       INSERT INTO sales (book_id, total, created_by)
@@ -51,4 +52,3 @@ class SalesModel(Db):
       """)
     except:
       return "Failed to add", 500
-
