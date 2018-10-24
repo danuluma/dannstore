@@ -64,9 +64,12 @@ class SingleRecord(Resource):
     """ Endpoint for POST requests to /dann/api/v2/sales/<saleId>"""
 
     record = SalesModel().get_single_sale(saleID, 0)
-    current_user = get_jwt_identity()
     if not record:
       return {'Error': 'That sale record does not exist'}, 404
-    if (current_user[2] == 0) or (current_user[0] == record[3]):
-      return {'Sale': record[0]}, 200
+    current_user = get_jwt_identity()
+    user_role = current_user[2]
+    user_id = current_user[0]
+    sale_creator = record.get('created_by')
+    if (user_role == 0) or (user_id == sale_creator):
+      return {'Sale': record}, 200
     return {"Error": "Only admins can access this"}, 401
