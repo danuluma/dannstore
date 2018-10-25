@@ -25,7 +25,7 @@ class UsersTest(Apiv2Test):
     """Get attendant token."""
 
     access_token = self.owner_token()
-    self.client().post('/dann/api/v2/reg', headers={"Authorization":"Bearer " + access_token}, json=self.test_user)
+    self.client().post('/dann/api/v2/signup', headers={"Authorization":"Bearer " + access_token}, json=self.test_user)
     response = self.client().post('/dann/api/v2/login', headers={"Authorization":"Bearer " + access_token}, json=self.test_user)
     json_data = json.loads(response.data)
     att_access_token = json_data.get('access_token')
@@ -44,7 +44,7 @@ class UsersTest(Apiv2Test):
     """ Test user registration with valid credentials """
 
     access_token = self.owner_token()
-    response = self.client().post('/dann/api/v2/reg', headers={"Authorization":"Bearer " + access_token}, json=self.test_user)
+    response = self.client().post('/dann/api/v2/signup', headers={"Authorization":"Bearer " + access_token}, json=self.test_user)
     json_data = json.loads(response.data)
     self.assertTrue(json_data.get('Message'))
     self.assertEqual(json_data.get('Message'), "Success! User created")
@@ -54,8 +54,8 @@ class UsersTest(Apiv2Test):
     """ Test user registration with valid credentials """
 
     access_token = self.owner_token()
-    self.client().post('/dann/api/v2/reg', headers={"Authorization":"Bearer " + access_token}, json=self.test_user)
-    response = self.client().post('/dann/api/v2/reg', headers={"Authorization":"Bearer " + access_token}, json=self.test_user)
+    self.client().post('/dann/api/v2/signup', headers={"Authorization":"Bearer " + access_token}, json=self.test_user)
+    response = self.client().post('/dann/api/v2/signup', headers={"Authorization":"Bearer " + access_token}, json=self.test_user)
     json_data = json.loads(response.data)
     self.assertTrue(json_data.get('Error'))
     self.assertEqual(json_data.get('Error'), "Username already exists")
@@ -66,7 +66,7 @@ class UsersTest(Apiv2Test):
 
     test_user2 = { "username": "", "password": "Admintest1"}
     access_token = self.owner_token()
-    response = self.client().post('/dann/api/v2/reg', headers={"Authorization":"Bearer " + access_token}, json=test_user2)
+    response = self.client().post('/dann/api/v2/signup', headers={"Authorization":"Bearer " + access_token}, json=test_user2)
     json_data = json.loads(response.data)
     self.assertTrue(json_data.get('Error'))
     self.assertEqual(json_data.get('Error'), "Please input a valid username")
@@ -77,7 +77,7 @@ class UsersTest(Apiv2Test):
 
     test_user3 = { "username": "dann", "password": ""}
     access_token = self.owner_token()
-    response = self.client().post('/dann/api/v2/reg', headers={"Authorization":"Bearer " + access_token}, json=test_user3)
+    response = self.client().post('/dann/api/v2/signup', headers={"Authorization":"Bearer " + access_token}, json=test_user3)
     json_data = json.loads(response.data)
     self.assertTrue(json_data.get('Error'))
     self.assertEqual(json_data.get('Error'), "Please input a valid password")
@@ -88,7 +88,7 @@ class UsersTest(Apiv2Test):
 
     test_user5 = { "username": "dann79", "password": "Admintest1"}
     access_token = self.owner_token()
-    self.client().post('/dann/api/v2/reg', headers={"Authorization": "Bearer " + access_token}, json=test_user5)
+    self.client().post('/dann/api/v2/signup', headers={"Authorization": "Bearer " + access_token}, json=test_user5)
     response = self.client().post('/dann/api/v2/login', json=test_user5)
     json_data = json.loads(response.data)
     self.assertTrue(json_data.get('access_token'))
@@ -100,7 +100,7 @@ class UsersTest(Apiv2Test):
     test_user4 = { "username": "dancan",
                         "password": "wrong"}
     access_token = self.owner_token()
-    self.client().post('/dann/api/v2/reg', headers={"Authorization":"Bearer " + access_token}, json=self.test_user)
+    self.client().post('/dann/api/v2/signup', headers={"Authorization":"Bearer " + access_token}, json=self.test_user)
     response = self.client().post('/dann/api/v2/login', json=test_user4)
     json_data = json.loads(response.data)
     self.assertNotEqual(response.status_code, 200)
@@ -115,7 +115,7 @@ class UsersTest(Apiv2Test):
     test_user4 = { "username": "wrong",
                         "password": "Admintest1"}
     access_token = self.owner_token()
-    self.client().post('/dann/api/v2/reg', headers={"Authorization":"Bearer " + access_token}, json=self.test_user)
+    self.client().post('/dann/api/v2/signup', headers={"Authorization":"Bearer " + access_token}, json=self.test_user)
     response = self.client().post('/dann/api/v2/login', json=test_user4)
     json_data = json.loads(response.data)
     self.assertNotEqual(response.status_code, 200)
@@ -127,7 +127,7 @@ class UsersTest(Apiv2Test):
   def test_access_protected_endpoint_without_authorization(self):
     """Test access to a protected endpoint without logging in"""
 
-    response = self.client().post('/dann/api/v2/reg')
+    response = self.client().post('/dann/api/v2/signup')
     json_data = json.loads(response.data)
     print(json_data)
     self.assertNotEqual(response.status_code, 201)
@@ -136,7 +136,7 @@ class UsersTest(Apiv2Test):
     """Test retrieve all users with admin rights"""
 
     access_token = self.owner_token()
-    self.client().post('/dann/api/v2/reg', headers={"Authorization":"Bearer " + access_token}, json=self.test_user)
+    self.client().post('/dann/api/v2/signup', headers={"Authorization":"Bearer " + access_token}, json=self.test_user)
     response = self.client().get('/dann/api/v2/users', headers={"Authorization":"Bearer " + access_token})
     self.assertEqual(response.status_code, 200)
 
@@ -145,7 +145,7 @@ class UsersTest(Apiv2Test):
     """Test retrieve all users without admin rights"""
 
     access_token = self.owner_token()
-    self.client().post('/dann/api/v2/reg', headers={"Authorization":"Bearer " + access_token}, json=self.test_user)
+    self.client().post('/dann/api/v2/signup', headers={"Authorization":"Bearer " + access_token}, json=self.test_user)
     access_token = self.attendant_token()
     response = self.client().get('/dann/api/v2/users', headers={"Authorization":"Bearer " + access_token})
     json_data = json.loads(response.data)
@@ -158,7 +158,7 @@ class UsersTest(Apiv2Test):
     """Test retrieve a single user by id with admin rights"""
 
     access_token = self.owner_token()
-    self.client().post('/dann/api/v2/reg', headers={"Authorization":"Bearer " + access_token}, json=self.test_user)
+    self.client().post('/dann/api/v2/signup', headers={"Authorization":"Bearer " + access_token}, json=self.test_user)
     response = self.client().get('/dann/api/v2/users/1', headers={"Authorization":"Bearer " + access_token})
     self.assertEqual(response.status_code, 200)
 
@@ -166,7 +166,7 @@ class UsersTest(Apiv2Test):
     """Test retrieve a single user by id without admin rights"""
 
     access_token = self.attendant_token()
-    self.client().post('/dann/api/v2/reg', headers={"Authorization":"Bearer " + access_token}, json=self.test_user)
+    self.client().post('/dann/api/v2/signup', headers={"Authorization":"Bearer " + access_token}, json=self.test_user)
     response = self.client().get('/dann/api/v2/users/1', headers={"Authorization":"Bearer " + access_token})
     json_data = json.loads(response.data)
     self.assertTrue(json_data.get('Error'))
@@ -177,7 +177,7 @@ class UsersTest(Apiv2Test):
     """Test promote user as the owner."""
 
     access_token = self.owner_token()
-    self.client().post('/dann/api/v2/reg', headers={"Authorization":"Bearer " + access_token}, json=self.test_user)
+    self.client().post('/dann/api/v2/signup', headers={"Authorization":"Bearer " + access_token}, json=self.test_user)
     response = self.client().put('/dann/api/v2/users/1', headers={"Authorization":"Bearer " + access_token}, json={"action":"promote"})
     json_data = json.loads(response.data)
     print(json_data)
@@ -191,7 +191,7 @@ class UsersTest(Apiv2Test):
     """Try promote another user as an attendant"""
 
     access_token = self.attendant_token()
-    self.client().post('/dann/api/v2/reg', headers={"Authorization":"Bearer " + access_token}, json=self.test_user)
+    self.client().post('/dann/api/v2/signup', headers={"Authorization":"Bearer " + access_token}, json=self.test_user)
     response = self.client().put('/dann/api/v2/users/1', headers={"Authorization":"Bearer " + access_token}, json={"action":"promote"})
     json_data = json.loads(response.data)
     self.assertNotEqual(response.status_code, 200)
@@ -203,8 +203,8 @@ class UsersTest(Apiv2Test):
     """Delete a user as the owner"""
 
     access_token = self.owner_token()
-    self.client().post('/dann/api/v2/reg', headers={"Authorization":"Bearer " + access_token}, json=self.test_user)
-    response = self.client().delete('/dann/api/v2/users', headers={"Authorization":"Bearer " + access_token}, json={"user_id": 1})
+    self.client().post('/dann/api/v2/signup', headers={"Authorization":"Bearer " + access_token}, json=self.test_user)
+    response = self.client().delete('/dann/api/v2/users/1', headers={"Authorization":"Bearer " + access_token})
     json_data = json.loads(response.data)
     self.assertNotEqual(response.status_code, 200)
     self.assertTrue(json_data.get('Message'))
@@ -216,8 +216,8 @@ class UsersTest(Apiv2Test):
     """Try to delete a user without admin rights"""
 
     access_token = self.attendant_token()
-    self.client().post('/dann/api/v2/reg', headers={"Authorization":"Bearer " + access_token}, json=self.test_user)
-    response = self.client().delete('/dann/api/v2/users', headers={"Authorization":"Bearer " + access_token}, json={"user_id": 1})
+    self.client().post('/dann/api/v2/signup', headers={"Authorization":"Bearer " + access_token}, json=self.test_user)
+    response = self.client().delete('/dann/api/v2/users/1', headers={"Authorization":"Bearer " + access_token})
     json_data = json.loads(response.data)
     self.assertNotEqual(response.status_code, 200)
     self.assertTrue(json_data.get('Error'))

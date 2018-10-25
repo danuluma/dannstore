@@ -38,7 +38,9 @@ class Products(Resource):
   def get(self):
     """ Returns all books in the database"""
     books = ProductModel().get_all_books()
-    return books, 200
+    if books:
+      return books, 200
+    return {"Error": "No products available"}, 404
 
 
 

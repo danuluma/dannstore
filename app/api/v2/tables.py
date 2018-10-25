@@ -58,7 +58,7 @@ i3 = """ INSERT INTO books (title, description, price, quantity, minimum, image_
     """
 
 
-create_tables = [c1, c2, c3, c4, c5, c6, i2, i3]
+create_tables = [c1, c2, c3, c4, c5, c6, i2]
 
 
 dr1 = """DROP TABLE IF EXISTS users  CASCADE;"""

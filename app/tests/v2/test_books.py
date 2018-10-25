@@ -25,7 +25,7 @@ class ProductsTest(Apiv2Test):
     """Get attendant token."""
 
     access_token = self.owner_token()
-    self.client().post('/dann/api/v2/reg', headers={"Authorization":"Bearer " + access_token}, json=self.test_user)
+    self.client().post('/dann/api/v2/signup', headers={"Authorization":"Bearer " + access_token}, json=self.test_user)
     response = self.client().post('/dann/api/v2/login', headers={"Authorization":"Bearer " + access_token}, json=self.test_user)
     json_data = json.loads(response.data)
     att_access_token = json_data.get('access_token')
@@ -69,7 +69,7 @@ class ProductsTest(Apiv2Test):
   def test_get_all_books(self):
     """Test retrieve all books"""
 
-    access_token = self.attendant_token()
+    access_token = self.owner_token()
     self.client().post('/dann/api/v2/products', headers={"Authorization":"Bearer " + access_token}, json=self.test_book)
     response = self.client().get('/dann/api/v2/products', headers={"Authorization":"Bearer " + access_token})
     self.assertEqual(response.status_code, 200)

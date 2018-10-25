@@ -63,7 +63,7 @@ The following endpoints are currently available:
 
 |  URL Endpoint | HTTP Request  |  Access | Status  |
 |---|---|---|---|
-|  /dann/api/v2/reg |  POST | It registers a new user  |  Private (Only the owner can add new attendants) |
+|  /dann/api/v2/signup |  POST | It registers a new user  |  Private (Only the owner can add new attendants) |
 |  /dann/api/v2/login |  POST | It authenticates a user and generates access_token  |  Public |
 |  /dann/api/v2/logout |  DELETE | It logs out a user  |  Public |
 |  /dann/api/v2/users/userID |  GET | it retrieves a user by ID |  Private(Only the admin can access) |

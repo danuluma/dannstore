@@ -166,15 +166,35 @@ class User(Resource):
     current_user = get_jwt_identity()
     my_id = current_user[0]
     if my_id == 1:
+      mess = []
       user = UserModel.get_single_user(self, userID, 0)
       if not user:
-        return {'Error': 'User by that id does not exist'}, 404
+        mess = {'Error': 'User by that id does not exist'}, 404
       try:
         UserModel().promote_demote_user(userID, role)
       except:
-        return {"Error":"Error"}, 404
-      return {'Message': "Success! User promoted to an admin"}, 201
+        mess = {"Error":"Error...."}, 500
+      if action == 'promote':
+        mess = {'Message': "Success! User promoted to an admin"}, 201
+      if action == 'demote':
+        mess = {'Message': "Success! User demoted!"}, 201
+      return mess
     return {"Error": "Only the owner can promote or demote"}, 401
+
+
+  @jwt_required
+  def delete(self, userID):
+    """Deletes a user. Requires the user Id"""
+
+    current_user = get_jwt_identity()
+    uid = current_user[0]
+    user = UserModel().get_single_user(userID, 0)
+    if uid == 1:
+      if user:
+        UserModel().delete_user(userID)
+        return {'Message': "Success! That user has been deleted"}, 201
+      return {"Error": "User does not exist"}, 404
+    return {"Error": "Only the owner can delete attendants"}, 401
 
 
 class Users(Resource):
@@ -189,16 +209,3 @@ class Users(Resource):
     if role == 0:
       return UserModel().get_all_users(), 200
     return {"Error": "Only admins can view all users"}, 401
-
-  @jwt_required
-  def delete(self):
-    """Deletes a user. Requires the user Id"""
-
-    args = parser.parse_args()
-    user_id = args['user_id']
-    current_user = get_jwt_identity()
-    uid = current_user[0]
-    if uid == 1:
-      UserModel().delete_user(user_id)
-      return {'Message': "Success! That user has been deleted"}, 201
-    return {"Error": "Only the owner can delete attendants"}, 401
