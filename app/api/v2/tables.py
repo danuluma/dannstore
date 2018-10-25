@@ -23,6 +23,14 @@ c2 = """CREATE TABLE books (
        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
 """
+c6 = """CREATE TABLE sales (
+       id SERIAL primary key,
+       book_id INTEGER,
+       total INTEGER,
+       created_by INTEGER,
+       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+"""
 
 c4 = """CREATE TABLE categories (
        id INTEGER primary key,
@@ -50,13 +58,16 @@ i3 = """ INSERT INTO books (title, description, price, quantity, minimum, image_
     """
 
 
-create_tables = [c1, c2, c3, c4, c5, i2, i3]
+create_tables = [c1, c2, c3, c4, c5, c6, i2, i3]
 
 
 dr1 = """DROP TABLE IF EXISTS users  CASCADE;"""
 dr2 = """DROP TABLE IF EXISTS blacklist  CASCADE;"""
 dr3 = """DROP TABLE IF EXISTS books  CASCADE;"""
 dr4 = """DROP TABLE IF EXISTS categories  CASCADE;"""
+
 dr5 = """DROP TABLE IF EXISTS books_categories CASCADE;"""
 
-drop_tables = [dr1, dr2, dr3, dr4, dr5]
+dr6 = """DROP TABLE IF EXISTS sales CASCADE;"""
+
+drop_tables = [dr1, dr2, dr3, dr4, dr5, dr6]
