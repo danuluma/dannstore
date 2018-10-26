@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, redirect
 from flask import Blueprint
 from flask_restful import Api
 import flask_restful
@@ -85,5 +85,8 @@ def create_app(config_name):
         """Handle resource not found error"""
 
         return jsonify({"Error": "Resource not found"}), 404
+    @app.route('/')
+    def root():
+        return redirect('https://documenter.getpostman.com/view/5303933/RWgxvvVD')
 
     return app
