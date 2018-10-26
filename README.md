@@ -56,6 +56,13 @@ The following endpoints are currently available:
 |  /dann/api/v1/sales |  POST |  Create a sale record.  |  Private (Only attendants can create sale records) |
 
 
+## Usage example
+* Please look here --> [Examples](https://documenter.getpostman.com/view/5303933/RWguvGJK) for usage examples of the api endpoints and expected results.
+* To test using curl, first set up the project as described in installation procedure.
+* Run the app in the terminal then open another terminal window to test the endpoints.
+* Select `curl` on the top right of this [page](https://documenter.getpostman.com/view/5303933/RWguvGJK). Copy and run examples on your local terminal.
+
+
 ## Version 2
 * Version 2 uses a postgres database to store data
 
@@ -70,16 +77,15 @@ The following endpoints are currently available:
 |  /dann/api/v2/users/userID |  PUT | It promotes or demotes a user |  Private(Only the owner can access) |
 |  /dann/api/v2/users |  GET | It retrieves all the users in the database  |  Private(Only admins can access) |
 |  /dann/api/v2/users |  DELETE | It deletes a user by userID  |  Private(Only the owner can access) |
-
-
-
-
-<!-- |  /dann/api/v2/products | GET  |  Fetch all products |  Public |
+|  /dann/api/v2/products | GET  |  Fetch all products |  Public |
 |  /dann/api/v2/products/productID | GET  |  Get a specific product using the product’s id |  Public |
-|  /dann/api/v2/sales |  GET |  Fetch all sale records | Private (Only admins/owner can view all sales)  |
-|  /dann/api/v2/sales/saleID| GET | Get a specific sale record using the sale record Id. | Private(Only admins/record creator can view)  |
 |  /dann/api/v2/products |  POST |  Create a new product record. |  Private (Only admins/owner can add products) |
-|  /dann/api/v2/sales |  POST |  Create a sale record.  |  Private (Only attendants can create sale records) | -->
+|  /dann/api/v2/products |  PUT |  Updates a product record. |  Private (Only admins/owner can edit products) |
+|  /dann/api/v2/products |  DELETE |  Deletes a product record. |  Private (Only admins/owner can delete products) |
+all sales)  |
+|  /dann/api/v2/sales |  POST |  Create a sale record.  |  Private (Only attendants can create sale records) |
+|  /dann/api/v2/sales/saleID| GET | Get a specific sale record using the sale record Id. | Private(Only admins/record creator can view)  |
+|  /dann/api/v2/sales |  GET |  Fetch all sale records | Private (Only admins/owner can view 
 
 
 ## Usage example
