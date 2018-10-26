@@ -89,10 +89,10 @@ all sales)  |
 
 
 ## Usage example
-* Please look here --> [Examples](https://documenter.getpostman.com/view/5303933/RWguvGJK) for usage examples of the api endpoints and expected results.
+* Please look here --> [Examples](https://documenter.getpostman.com/view/5303933/RWgxvvVD) for usage examples of the api endpoints and expected results.
 * To test using curl, first set up the project as described in installation procedure.
 * Run the app in the terminal then open another terminal window to test the endpoints.
-* Select `curl` on the top right of this [page](https://documenter.getpostman.com/view/5303933/RWguvGJK). Copy and run examples on your local terminal.
+* Select `curl` on the top right of this [page](https://documenter.getpostman.com/view/5303933/RWgxvvVD). Copy and run examples on your local terminal.
 
 
 
@@ -110,11 +110,16 @@ all sales)  |
 * v1
     * The first stable release
     * Uses data structures to store data
+* v2
+    * The second stable release
+    * Uses postgres database to store data
 
 
 ## Demo
 * [Heroku](https://dannstore.herokuapp.com)
 * [Documentation](https://documenter.getpostman.com/view/5303933/RWguvGJK)
+* [Documentation](https://documenter.getpostman.com/view/5303933/RWgxvvVD)
+
 
 ## Credits
 #### [Andela](https://andela.com/)
