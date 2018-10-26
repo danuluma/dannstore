@@ -63,6 +63,9 @@ class Products(Resource):
     if book:
       return {'Error': 'Title already exists'}, 409
 
+    if quantity < 1:
+      return {'Error': 'Quantity can\'t be less than one'}, 400
+
 
     current_user = get_jwt_identity()
     role = current_user[2]
