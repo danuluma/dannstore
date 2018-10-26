@@ -82,10 +82,9 @@ The following endpoints are currently available:
 |  /dann/api/v2/products |  POST |  Create a new product record. |  Private (Only admins/owner can add products) |
 |  /dann/api/v2/products |  PUT |  Updates a product record. |  Private (Only admins/owner can edit products) |
 |  /dann/api/v2/products |  DELETE |  Deletes a product record. |  Private (Only admins/owner can delete products) |
-all sales)  |
 |  /dann/api/v2/sales |  POST |  Create a sale record.  |  Private (Only attendants can create sale records) |
 |  /dann/api/v2/sales/saleID| GET | Get a specific sale record using the sale record Id. | Private(Only admins/record creator can view)  |
-|  /dann/api/v2/sales |  GET |  Fetch all sale records | Private (Only admins/owner can view 
+|  /dann/api/v2/sales |  GET |  Fetch all sale records | Private (Only admins/owner can view all records)
 
 
 ## Usage example
