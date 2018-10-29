@@ -28,7 +28,7 @@ class Records(Resource):
         sales = SalesModel().get_all_sales()
         user_id = current_user[0]
         if current_user[2] == 0:
-            if len(sales) == 0:
+            if not sales:
                 return {"Error": "There are no sale records"}, 404
             return {"Sales": sales}, 200
         for sale in sales:

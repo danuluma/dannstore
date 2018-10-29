@@ -66,6 +66,27 @@ def add_user(new_user):
         return {"Error": "Username already exists"}, 409
     return {'Message': "Success! User created"}, 201
 
+def edit_user(self, userID):
+    """Promotes or demotes user"""
+
+    args = parser.parse_args()
+    action = args['action']
+    role = get_role(action)
+
+    mess = []
+    user = UserModel.get_single_user(self, userID, 0)
+    if not user:
+        mess = {'Error': 'User by that id does not exist'}, 404
+    try:
+        UserModel().promote_demote_user(userID, role)
+    except:
+        mess = {"Error": "Error...."}, 500
+    if action == 'promote':
+        mess = {'Message': "Success! User promoted to an admin"}, 201
+    if action == 'demote':
+        mess = {'Message': "Success! User demoted!"}, 201
+    return mess
+
 
 class Register(Resource):
     """Maps to /reg endpoint"""
@@ -162,26 +183,10 @@ class User(Resource):
     def put(self, userID):
         """Endpoint to promote/demote a user."""
 
-        args = parser.parse_args()
-        action = args['action']
-        role = get_role(action)
-
         current_user = get_jwt_identity()
         my_id = current_user[0]
         if my_id == 1:
-            mess = []
-            user = UserModel.get_single_user(self, userID, 0)
-            if not user:
-                mess = {'Error': 'User by that id does not exist'}, 404
-            try:
-                UserModel().promote_demote_user(userID, role)
-            except:
-                mess = {"Error": "Error...."}, 500
-            if action == 'promote':
-                mess = {'Message': "Success! User promoted to an admin"}, 201
-            if action == 'demote':
-                mess = {'Message': "Success! User demoted!"}, 201
-            return mess
+            edit_user(self, userID)
         return {"Error": "Only the owner can promote or demote"}, 401
 
     @jwt_required
