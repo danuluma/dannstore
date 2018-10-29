@@ -22,7 +22,6 @@ parser.add_argument('access_token', location='json')
 def find_user(username):
     """Finds and returns a user by username."""
 
-    args = parser.parse_args()
     user = [user for user in users if user['username'] == username]
     return user
 
@@ -72,11 +71,11 @@ class Register(Resource):
         error = []
         if len(user) != 0:
             return {'Error': 'Username already exists'}, 409
-        if validate_username(username) != True:
+        if not validate_username(username):
             error.append({'Error': 'Please input a valid username'})
-        if validate_password(password) != True:
+        if not validate_password(password):
             error.append({'Error': 'Please input a valid password'})
-        if len(error) > 0:
+        if error:
             return error, 400
         new_user = {
             'id': len(users) + 1,
@@ -102,7 +101,7 @@ class Login(Resource):
         password = args['password'].strip()
 
         user = find_user(username)
-        if len(user) == 0:
+        if not user:
             return {'Error': 'Username does not exist'}, 404
 
         if password != user[0]['password']:

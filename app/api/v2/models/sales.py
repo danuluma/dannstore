@@ -22,9 +22,6 @@ def format_sale(sale):
 class SalesModel(Db):
     """Sales Model. Sales Records stuff here"""
 
-    def __init__(self):
-        pass
-
     def get_all_sales(self):
         """Gets all sales records from the db"""
 
@@ -34,11 +31,11 @@ class SalesModel(Db):
             records.append(details)
         return records
 
-    def get_single_sale(self, param, this_row):
+    def get_single_sale(self, param, this_col):
         """Gets a single sale record"""
 
         records = [row for row in Db().get_query(
-            'sales') if row[this_row] == param]
+            'sales') if row[this_col] == param]
         if records:
             sale = records[0]
             return format_sale(sale)
