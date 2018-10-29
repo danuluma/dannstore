@@ -17,6 +17,16 @@ parser = reqparse.RequestParser(bundle_errors=True)
 parser.add_argument('book_id', type=int, location='json')
 
 
+def attendant_sales(sales, user_id):
+    """Return attendant sales"""
+
+    for sale in sales:
+        items = []
+        if sale.get('created_by') == user_id:
+            items.append(sale)
+        return {"Sales": items}, 200
+
+
 class Records(Resource):
     """Maps to /sales"""
 
@@ -31,16 +41,12 @@ class Records(Resource):
             if not sales:
                 return {"Error": "There are no sale records"}, 404
             return {"Sales": sales}, 200
-        for sale in sales:
-            items = []
-            if sale.get('created_by') == user_id:
-                items.append(sale)
-            return {"Sales": items}, 200
+        attendant_sales(sales, user_id)
         return {"Error": "Only admins are allowed to view all sales records"}, 401
 
     @jwt_required
     def post(self):
-        """ endpoint for POST requests to /dann/api/v2/sales"""
+        """ Endpoint for POST requests to /dann/api/v2/sales"""
 
         args = parser.parse_args()
         book_id = args['book_id']
