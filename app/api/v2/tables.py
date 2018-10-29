@@ -1,3 +1,15 @@
+import os
+import sys
+from dotenv import load_dotenv
+
+LOCALPATH = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, LOCALPATH + '/../../../')
+# Local imports below
+load_dotenv()
+
+name = os.getenv('DEFAULT_OWNER')
+password = os.getenv('DEFAULT_OWNER_PASSW')
+
 
 c1 = """CREATE TABLE users (
        id SERIAL primary key,
@@ -50,8 +62,8 @@ c3 = """CREATE TABLE blacklist (
       );
 """
 
-i2 = """
-       INSERT INTO users (username, password, role, created_by) VALUES ('owner', 'secret1', 0, 0);
+i2 = f"""
+       INSERT INTO users (username, password, role, created_by) VALUES ({name}, {password}, 0, 0);
        """
 
 i3 = """ INSERT INTO books (title, description, price, quantity, minimum, image_url, created_by) VALUES ('mpya', 'still testing', 20, 10, 2, 'url', 0);

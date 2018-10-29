@@ -2,7 +2,8 @@ from flask import Flask, jsonify, redirect
 from flask import Blueprint
 from flask_restful import Api
 import flask_restful
-import os, sys
+import os
+import sys
 from flask_jwt_extended import JWTManager
 from dotenv import load_dotenv
 
@@ -85,6 +86,7 @@ def create_app(config_name):
         """Handle resource not found error"""
 
         return jsonify({"Error": "Resource not found"}), 404
+
     @app.route('/')
     def root():
         return redirect('https://documenter.getpostman.com/view/5303933/RWgxvvVD')
