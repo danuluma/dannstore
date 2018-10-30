@@ -24,6 +24,7 @@ parser.add_argument('password', type=str,
                     help='password can\'t be empty', location='json')
 parser.add_argument('action', type=str,
                     help='either promote or demote', location='json')
+
 parser.add_argument('user_id', type=int, help='user id', location='json')
 parser.add_argument('access_token', location='json')
 

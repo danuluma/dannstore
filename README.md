@@ -4,6 +4,7 @@
 [![Build Status](https://travis-ci.com/danuluma/dannstore.svg?branch=develop)](https://travis-ci.com/danuluma/dannstore)  [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://raw.githubusercontent.com/danuluma/dannstore/develop/LICENSE)
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/aff46e1c9a8c80f7235d/maintainability)](https://codeclimate.com/github/danuluma/dannstore/maintainability) 
+
 [![Coverage Status](https://coveralls.io/repos/github/danuluma/dannstore/badge.svg?branch=ch-update-readme-161247582)](https://coveralls.io/github/danuluma/dannstore?branch=ch-update-readme-161247582)
 
 <!-- # WIP -->
@@ -95,6 +96,7 @@ The following endpoints are currently available:
 
 
 
+
 ## Testing
 * To run automatic test on the project, simply run ```python3 -m unittest``` while in the project's root directory.
 * Check on the terminal output for the test results
@@ -118,6 +120,7 @@ The following endpoints are currently available:
 * [Heroku](https://dannstore.herokuapp.com)
 * [Documentation](https://documenter.getpostman.com/view/5303933/RWguvGJK)
 * [Documentation](https://documenter.getpostman.com/view/5303933/RWgxvvVD)
+
 
 
 ## Credits
