@@ -6,6 +6,7 @@ import os
 import sys
 from flask_jwt_extended import JWTManager
 from dotenv import load_dotenv
+from flask_cors import CORS
 
 
 # local imports
@@ -55,6 +56,7 @@ def create_app(config_name):
     """Create the flask app."""
 
     app = Flask(__name__)
+    CORS(app)
     app.config.from_object(app_config[config_name])
 
     from app import api_bp, api_bp2
