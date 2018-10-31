@@ -42,7 +42,7 @@ def validate_username(username):
 
 
 def get_role(action):
-    """Maps role from input to a digit (0 or 1)"""
+    """Maps action from input to a role (promote or demote)"""
 
     if action == "demote":
         return 'user'
@@ -143,16 +143,14 @@ class Login(Resource):
         if password != user['password']:
             return {'Error': 'Wrong password or username'}, 401
 
-        role = None                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+        role = None
         if user['role'] == 'admin':
             role = 0
-            pass
 
         if user['role'] == 'user':
             role = 1
-            pass
-        print(role)
-        print("bvsdvbdsivbdisvbik")
+
+
         user_details = [user['id'], user['username'], role]
         access_token = create_access_token(
             identity=user_details, expires_delta=False)
@@ -174,9 +172,6 @@ class Logout(Resource):
         jti = get_raw_jwt()['jti']
         UserModel.blacklist_token(self, jti)
         return {"Message": "Successfully logged out"}, 200
-
-    # def get(self):
-    #   return str(UserModel().blacklisted_tokens())
 
 
 class User(Resource):
