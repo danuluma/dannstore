@@ -45,9 +45,9 @@ def get_role(action):
     """Maps role from input to a digit (0 or 1)"""
 
     if action == "demote":
-        return 1
+        return 'user'
     if action == "promote":
-        return 0
+        return 'admin'
 
 
 def ret_errors(errors):
@@ -138,12 +138,22 @@ class Login(Resource):
         password = args['password'].strip()
         user = UserModel().get_single_user(username, 1)
         if not user:
-            return {'Error': 'Wrong password or username'}, 400
+            return {'Error': 'Wrong password or username'}, 401
 
         if password != user['password']:
-            return {'Error': 'Wrong password or username'}, 400
+            return {'Error': 'Wrong password or username'}, 401
 
-        user_details = [user['id'], user['username'], user['role']]
+        role = None                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+        if user['role'] == 'admin':
+            role = 0
+            pass
+
+        if user['role'] == 'user':
+            role = 1
+            pass
+        print(role)
+        print("bvsdvbdsivbdisvbik")
+        user_details = [user['id'], user['username'], role]
         access_token = create_access_token(
             identity=user_details, expires_delta=False)
 

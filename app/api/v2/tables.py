@@ -16,7 +16,7 @@ c1 = """CREATE TABLE users (
        id SERIAL primary key,
        username VARCHAR(80) UNIQUE not null,
        password VARCHAR(80) not null,
-       role INTEGER DEFAULT 1,
+       role VARCHAR DEFAULT 'attendant',
        created_by INTEGER,
        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
@@ -64,7 +64,7 @@ c3 = """CREATE TABLE blacklist (
 """
 
 i2 = """
-       INSERT INTO users (username, password, role, created_by) VALUES ('owner', 'secret1', 0, 0);
+       INSERT INTO users (username, password, role, created_by) VALUES (f'{name}', '{password}', 'admin', 0);
        """
 
 i3 = """ INSERT INTO books (title, description, price, quantity, minimum, image_url, created_by) VALUES ('mpya', 'still testing', 20, 10, 2, 'url', 0);
