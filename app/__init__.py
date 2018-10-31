@@ -93,4 +93,5 @@ def create_app(config_name):
     def root():
         return redirect('https://documenter.getpostman.com/view/5303933/RWgxvvVD')
 
+
     return app

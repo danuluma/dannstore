@@ -1,5 +1,6 @@
 import os
 import sys
+
 LOCALPATH = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, LOCALPATH + '/../../../../')
 
@@ -45,6 +46,7 @@ class UserModel(Db):
         """Adds a new user to the db"""
 
         Db().db_query(f"""
+
     INSERT INTO users (username, password, created_by)
     VALUES ('{(user[0])}', '{user[1]}', {user[2]});
     """)

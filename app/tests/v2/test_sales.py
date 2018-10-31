@@ -4,6 +4,7 @@ import sys
 import unittest
 
 # local
+
 LOCALPATH = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, LOCALPATH + '/../../../')
 

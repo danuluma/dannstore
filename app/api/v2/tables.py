@@ -9,8 +9,7 @@ load_dotenv()
 
 name = os.getenv('DEFAULT_OWNER')
 password = os.getenv('DEFAULT_OWNER_PASSW')
-print(name)
-print(password)
+
 
 
 c1 = """CREATE TABLE users (
@@ -64,8 +63,8 @@ c3 = """CREATE TABLE blacklist (
       );
 """
 
-i2 = f"""
-       INSERT INTO users (username, password, role, created_by) VALUES ('{name}', '{password}', 0, 0);
+i2 = """
+       INSERT INTO users (username, password, role, created_by) VALUES ('owner', 'secret1', 0, 0);
        """
 
 i3 = """ INSERT INTO books (title, description, price, quantity, minimum, image_url, created_by) VALUES ('mpya', 'still testing', 20, 10, 2, 'url', 0);
@@ -73,6 +72,7 @@ i3 = """ INSERT INTO books (title, description, price, quantity, minimum, image_
 
 
 create_tables = [c1, c2, c3, c4, c5, c6, i2]
+
 
 
 dr1 = """DROP TABLE IF EXISTS users  CASCADE;"""

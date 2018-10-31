@@ -24,6 +24,7 @@ parser.add_argument('password', type=str,
                     help='password can\'t be empty', location='json')
 parser.add_argument('action', type=str,
                     help='either promote or demote', location='json')
+
 parser.add_argument('user_id', type=int, help='user id', location='json')
 parser.add_argument('access_token', location='json')
 
@@ -50,7 +51,7 @@ def get_role(action):
 
 
 def ret_errors(errors):
-    """Returns errors froma list"""
+    """Returns errors from a list"""
 
     for i in range(len(errors)):
         print(errors[i])
@@ -68,6 +69,8 @@ def add_user(new_user):
 
 def edit_user(self, userID):
     """Promotes or demotes user"""
+
+    user = UserModel.get_single_user(self, userID, 0)
 
     args = parser.parse_args()
     action = args['action']
@@ -187,7 +190,27 @@ class User(Resource):
         current_user = get_jwt_identity()
         my_id = current_user[0]
         if my_id == 1:
-            edit_user(self, userID)
+            # edit_user(self, userID)
+            user = UserModel.get_single_user(self, userID, 0)
+
+            args = parser.parse_args()
+            action = args['action']
+            role = get_role(action)
+
+            mess = []
+            user = UserModel.get_single_user(self, userID, 0)
+            if not user:
+                mess = {'Error': 'User by that id does not exist'}, 404
+            try:
+                UserModel().promote_demote_user(userID, role)
+            except:
+                mess = {"Error": "Error...."}, 500
+            if action == 'promote':
+                mess = {'Message': "Success! User promoted to an admin"}, 201
+            if action == 'demote':
+                mess = {'Message': "Success! User demoted!"}, 201
+            return mess
+
         return {"Error": "Only the owner can promote or demote"}, 401
 
     @jwt_required

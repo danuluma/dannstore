@@ -7,6 +7,7 @@ sys.path.insert(0, LOCALPATH + '/')
 # Local imports now
 load_dotenv()
 
+
 from app import create_app
 
 

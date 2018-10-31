@@ -4,6 +4,7 @@ import sys
 import unittest
 
 # local
+
 LOCALPATH = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, LOCALPATH + '/../../../')
 
@@ -86,6 +87,7 @@ class ProductsTest(Apiv2Test):
         """ Test adding with a book valid credentials """
 
         book3 = {
+
             "title": "book3",
             "description": "Another awesome read",
             "category": "fiction",
