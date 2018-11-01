@@ -122,7 +122,7 @@ class Register(Resource):
             password,
             my_id
         ]
-        if role == 0:
+        if role == 'admin':
             return add_user(new_user)
         return {'Error': 'Only admins are allowed to add users'}, 401
 
@@ -137,30 +137,30 @@ class Login(Resource):
         username = args['username'].strip()
         password = args['password'].strip()
         user = UserModel().get_single_user(username, 1)
+        # return user
         if not user:
             return {'Error': 'Wrong password or username'}, 401
 
         if password != user['password']:
             return {'Error': 'Wrong password or username'}, 401
 
-        role = None                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
-        if user['role'] == 'admin':
-            role = 0
-            pass
+        # role = None                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+        # if user['role'] == 'admin':
+        #     role = 0
+        #     pass
 
-        if user['role'] == 'user':
-            role = 1
-            pass
-        print(role)
-        print("bvsdvbdsivbdisvbik")
-        user_details = [user['id'], user['username'], role]
+        # if user['role'] == 'user':
+        #     role = 1
+        # #     pass
+        # print(role)
+        # print("bvsdvbdsivbdisvbik")
+        user_details = [user['id'], user['username'], user['role']]
         access_token = create_access_token(
             identity=user_details, expires_delta=False)
 
         mesg = {
             'access_token': access_token,
         }
-        print("gfyesjvgsdevkbhs")
         return mesg, 200
 
 
@@ -188,7 +188,8 @@ class User(Resource):
 
         current_user = get_jwt_identity()
         role = current_user[2]
-        if role == 0:
+        return sale
+        if role == "admin":
             user = UserModel().get_single_user(userID, 0)
             return user, 200
         return {"Error": "Only admins can view other users"}, 401
@@ -199,7 +200,7 @@ class User(Resource):
 
         current_user = get_jwt_identity()
         my_id = current_user[0]
-        if my_id == 1:
+        if my_id == "user":
             # edit_user(self, userID)
             user = UserModel.get_single_user(self, userID, 0)
 
@@ -230,7 +231,7 @@ class User(Resource):
         current_user = get_jwt_identity()
         uid = current_user[0]
         user = UserModel().get_single_user(userID, 0)
-        if uid == 1:
+        if uid == "user":
             if user:
                 UserModel().delete_user(userID)
                 return {'Message': "Success! That user has been deleted"}, 201
@@ -247,6 +248,6 @@ class Users(Resource):
 
         current_user = get_jwt_identity()
         role = current_user[2]
-        if role == 0:
+        if role == "admin":
             return UserModel().get_all_users(), 200
         return {"Error": "Only admins can view all users"}, 401

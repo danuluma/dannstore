@@ -63,8 +63,8 @@ c3 = """CREATE TABLE blacklist (
       );
 """
 
-i2 = """
-       INSERT INTO users (username, password, role, created_by) VALUES (f'{name}', '{password}', 'admin', 0);
+i2 = f"""
+       INSERT INTO users (username, password, role, created_by) VALUES ('{name}', '{password}', 'admin', 0);
        """
 
 i3 = """ INSERT INTO books (title, description, price, quantity, minimum, image_url, created_by) VALUES ('mpya', 'still testing', 20, 10, 2, 'url', 0);

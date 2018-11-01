@@ -65,6 +65,13 @@ class ProductModel(Db):
 
         Db().db_query(f"""UPDATE books SET title = '{book[0]}', description = '{book[1]}',  category = '{book[2]}', price = {book[3]}, quantity = {book[4]}, minimum = {book[5]}, image_url = '{book[6]}', updated_by = {book[7]} WHERE id = {book_id};""")
 
+    
+    def sell_book(self, book_id, quantity):
+        """Updates a book's quantity"""
+
+        Db().db_query(f"""UPDATE books SET quantity = quantity - {quantity}  WHERE id = {book_id};""")
+
+
     def delete_book(self, book_id):
         """Deletes a book"""
         try:

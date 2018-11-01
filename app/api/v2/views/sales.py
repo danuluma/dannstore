@@ -37,7 +37,7 @@ class Records(Resource):
         current_user = get_jwt_identity()
         sales = SalesModel().get_all_sales()
         user_id = current_user[0]
-        if current_user[2] == 0:
+        if current_user[2] == "admin":
             if not sales:
                 return {"Error": "There are no sale records"}, 404
             return {"Sales": sales}, 200
@@ -62,8 +62,9 @@ class Records(Resource):
             total,
             created_by
         ]
-        if current_user[2] != 0:
+        if current_user[2] != "admin":
             SalesModel().add_new_record(new_sale)
+            ProductModel().sell_book(book_id, 1)
             return {"message": "Success! Sale recorded"}, 201
         return {"Error": "Only store attendants can create sale records"}, 401
 
@@ -82,6 +83,6 @@ class SingleRecord(Resource):
         user_role = current_user[2]
         user_id = current_user[0]
         sale_creator = record.get('created_by')
-        if (user_role == 0) or (user_id == sale_creator):
+        if (user_role == "admin") or (user_id == sale_creator):
             return {'Sale': record}, 200
         return {"Error": "Only admins can access this"}, 401

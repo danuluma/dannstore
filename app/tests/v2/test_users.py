@@ -46,6 +46,8 @@ class UsersTest(Apiv2Test):
         """ Test user registration with valid credentials """
 
         access_token = self.owner_token()
+        print(access_token)
+        print("heeey")
         response = self.client().post('/dann/api/v2/signup',
                                       headers={"Authorization": "Bearer " + access_token}, json=self.test_user)
         json_data = json.loads(response.data)
@@ -118,7 +120,7 @@ class UsersTest(Apiv2Test):
         self.assertNotEqual(response.status_code, 200)
         self.assertTrue(json_data.get('Error'))
         self.assertEqual(json_data.get('Error'), "Wrong password or username")
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 401)
 
     def test_user_login_with_wrong_username(self):
         """ test user login with wrong username """
@@ -133,7 +135,7 @@ class UsersTest(Apiv2Test):
         self.assertNotEqual(response.status_code, 200)
         self.assertTrue(json_data.get('Error'))
         self.assertEqual(json_data.get('Error'), "Wrong password or username")
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 401)
 
     def test_access_protected_endpoint_without_authorization(self):
         """Test access to a protected endpoint without logging in"""

@@ -63,6 +63,7 @@ class Products(Resource):
             return {'Error': 'Quantity can\'t be less than one'}, 400
 
         current_user = get_jwt_identity()
+        # return current_user
         role = current_user[2]
         my_id = current_user[0]
         new_book = [
@@ -76,7 +77,7 @@ class Products(Resource):
             my_id
         ]
 
-        if role == 0:
+        if role == 'admin':
             ProductModel().add_new_book(new_book)
             return {'Message': "Success! Book added"}, 201
         return {'Error': 'Only admins are allowed to add new books'}, 401
@@ -111,6 +112,7 @@ class SingleProduct(Resource):
             return {'Error': 'Book by that ID does not exists'}, 404
 
         current_user = get_jwt_identity()
+        # return current_user
         role = current_user[2]
         my_id = current_user[0]
         new_book = [
@@ -124,7 +126,8 @@ class SingleProduct(Resource):
             my_id
         ]
 
-        if role == 0:
+        if role == 'admin':
+
             try:
                 ProductModel().edit_book(productID, new_book)
             except:
@@ -138,7 +141,7 @@ class SingleProduct(Resource):
 
         current_user = get_jwt_identity()
         role = current_user[2]
-        if role == 0:
+        if role == 'admin':
             ProductModel().delete_book(productID)
             return {'Message': "Success! Book deleted"}, 200
         return {"Error": "Only admins can delete books"}, 401
