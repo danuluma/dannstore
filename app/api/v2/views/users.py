@@ -54,7 +54,6 @@ def ret_errors(errors):
     """Returns errors from a list"""
 
     for i in range(len(errors)):
-        print(errors[i])
         return {"Error": errors[i]}, 400
 
 
@@ -187,8 +186,6 @@ class User(Resource):
 
         current_user = get_jwt_identity()
         role = current_user[2]
-        print(role)
-        print("Uppppppppp")
         if role == "admin":
             # edit_user(self, userID)
             user = UserModel.get_single_user(self, userID, 0)

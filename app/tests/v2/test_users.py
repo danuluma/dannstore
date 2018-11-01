@@ -46,8 +46,6 @@ class UsersTest(Apiv2Test):
         """ Test user registration with valid credentials """
 
         access_token = self.owner_token()
-        print(access_token)
-        print("heeey")
         response = self.client().post('/api/v2/signup',
                                       headers={"Authorization": "Bearer " + access_token}, json=self.test_user)
         json_data = json.loads(response.data)
@@ -76,7 +74,6 @@ class UsersTest(Apiv2Test):
         response = self.client().post('/api/v2/signup',
                                       headers={"Authorization": "Bearer " + access_token}, json=test_user2)
         json_data = json.loads(response.data)
-        print(json_data)
         self.assertTrue(json_data.get('Error'))
         self.assertEqual(json_data.get('Error'),
                          "Please input a valid username")
@@ -143,7 +140,6 @@ class UsersTest(Apiv2Test):
 
         response = self.client().post('/api/v2/signup')
         json_data = json.loads(response.data)
-        print(json_data)
         self.assertNotEqual(response.status_code, 201)
 
     def test_get_all_users_as_owner(self):
@@ -204,8 +200,6 @@ class UsersTest(Apiv2Test):
         response = self.client().put('/api/v2/users/1',
                                      headers={"Authorization": "Bearer " + access_token}, json={"action": "promote"})
         json_data = json.loads(response.data)
-        print(json_data)
-        print("buhbwefuwebfcuh")
         self.assertNotEqual(response.status_code, 200)
         self.assertTrue(json_data.get('Message'))
         self.assertEqual(json_data.get('Message'),
@@ -236,7 +230,6 @@ class UsersTest(Apiv2Test):
         response = self.client().delete('/api/v2/users/1',
                                         headers={"Authorization": "Bearer " + access_token})
         json_data = json.loads(response.data)
-        print("Here")
         self.assertNotEqual(response.status_code, 200)
         self.assertTrue(json_data.get('Message'))
         self.assertEqual(json_data.get('Message'),

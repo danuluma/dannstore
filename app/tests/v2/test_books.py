@@ -66,9 +66,6 @@ class ProductsTest(Apiv2Test):
         response = self.client().post('/api/v2/products',
                                       headers={"Authorization": "Bearer " + access_token}, json=self.test_book)
         json_data = json.loads(response.data)
-        print(json_data)
-        print(access_token)
-        print("adminnnnnnnnn")
         self.assertTrue(json_data.get('Error'))
         self.assertEqual(json_data.get('Error'), "Title already exists")
         self.assertEqual(response.status_code, 409)
@@ -103,8 +100,6 @@ class ProductsTest(Apiv2Test):
         response = self.client().put('/api/v2/products/1',
                                      headers={"Authorization": "Bearer " + access_token}, json=book3)
         json_data = json.loads(response.data)
-        print(json_data)
-        print(access_token)
         self.assertTrue(json_data.get('Message'))
         self.assertEqual(json_data.get('Message'),
                          "Success! Book details updated!")
