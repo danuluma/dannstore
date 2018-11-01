@@ -126,6 +126,7 @@ The following endpoints are currently available:
 ## Credits
 #### [Andela](https://andela.com/)
 #### [Edward Mudaida](https://github.com/EdwardMudaida)
+#### Daniel Maina
 
 ## Author
 #### [Dann](https://github.com/danuluma)

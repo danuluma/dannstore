@@ -16,7 +16,7 @@ c1 = """CREATE TABLE users (
        id SERIAL primary key,
        username VARCHAR(80) UNIQUE not null,
        password VARCHAR(80) not null,
-       role VARCHAR DEFAULT 'attendant',
+       role VARCHAR,
        created_by INTEGER,
        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
@@ -72,7 +72,6 @@ i3 = """ INSERT INTO books (title, description, price, quantity, minimum, image_
 
 
 create_tables = [c1, c2, c3, c4, c5, c6, i2]
-
 
 
 dr1 = """DROP TABLE IF EXISTS users  CASCADE;"""

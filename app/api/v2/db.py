@@ -76,7 +76,7 @@ class Db(object):
                 cur.close()
                 conn.close()
             except:
-                pass
+                print(query)
 
     def create(self):
         """Creates the necessary tables"""

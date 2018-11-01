@@ -76,6 +76,7 @@ class UsersTest(Apiv2Test):
         response = self.client().post('/dann/api/v2/signup',
                                       headers={"Authorization": "Bearer " + access_token}, json=test_user2)
         json_data = json.loads(response.data)
+        print(json_data)
         self.assertTrue(json_data.get('Error'))
         self.assertEqual(json_data.get('Error'),
                          "Please input a valid username")
