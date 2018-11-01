@@ -27,7 +27,7 @@ def clear_books():
 
 
 class Home(Resource):
-    """Just a test endpoint ~/dann/api/v1/home"""
+    """Just a test endpoint ~/api/v1/home"""
 
     def get(self):
         return {"message": "Hello, there ;-)"}, 200
@@ -37,7 +37,7 @@ class Products(Resource):
     """Maps to /products endpoint"""
 
     def get(self):
-        """ Endpoint for GET requests to /dann/api/v1/products"""
+        """ Endpoint for GET requests to /api/v1/products"""
 
         if len(books) != 0:
             return {"Books": books}, 200
@@ -46,7 +46,7 @@ class Products(Resource):
 
     @jwt_required
     def post(self):
-        """ Endpoint for POST requests to /dann/api/v1/products"""
+        """ Endpoint for POST requests to /api/v1/products"""
         """ adds a new book"""
 
         args = parser.parse_args()
@@ -65,17 +65,17 @@ class Products(Resource):
             'image_url': args['image_url']
         }
         current_user = get_jwt_identity()
-        if current_user[2] == 0:
+        if current_user[2] == 'admin':
             books.append(new_book)
             return {'message': 'Success! Book added'}, 201
-        return {"Error": "Only Admins are allowed to add books"}, 401
+        return {"Error": "Only Admins are allowed to add books"}, 403
 
 
 class SingleProduct(Resource):
     """Maps to /products/<productID> endpoint."""
 
     def get(self, productID):
-        """ endpoint for GET requests to /dann/api/v1/products/<productID>"""
+        """ endpoint for GET requests to /api/v1/products/<productID>"""
 
         book = [book for book in books if book['id'] == productID]
         if len(book) == 0:

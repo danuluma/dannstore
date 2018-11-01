@@ -74,8 +74,8 @@ def create_app(config_name):
     create_admin()
     Db().drop()
     Db().create()
-    app.register_blueprint(api_bp, url_prefix='/dann/api/v1')
-    app.register_blueprint(api_bp2, url_prefix='/dann/api/v2')
+    app.register_blueprint(api_bp, url_prefix='/api/v1')
+    app.register_blueprint(api_bp2, url_prefix='/api/v2')
 
     @app.errorhandler(500)
     def server_error(error):

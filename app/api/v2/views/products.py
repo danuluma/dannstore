@@ -80,7 +80,7 @@ class Products(Resource):
         if role == 'admin':
             ProductModel().add_new_book(new_book)
             return {'Message': "Success! Book added"}, 201
-        return {'Error': 'Only admins are allowed to add new books'}, 401
+        return {'Error': 'Only admins are allowed to add new books'}, 403
 
 
 class SingleProduct(Resource):
@@ -133,7 +133,7 @@ class SingleProduct(Resource):
             except:
                 return {"Error": "Error"}, 404
             return {'Message': "Success! Book details updated!"}, 201
-        return {"Error": "Only an admin can edit a book"}, 401
+        return {"Error": "Only an admin can edit a book"}, 403
 
     @jwt_required
     def delete(self, productID):
@@ -144,4 +144,4 @@ class SingleProduct(Resource):
         if role == 'admin':
             ProductModel().delete_book(productID)
             return {'Message': "Success! Book deleted"}, 200
-        return {"Error": "Only admins can delete books"}, 401
+        return {"Error": "Only admins can delete books"}, 403

@@ -32,7 +32,7 @@ class Records(Resource):
 
     @jwt_required
     def get(self):
-        """ endpoint for GET requests to /dann/api/v2/sales"""
+        """ endpoint for GET requests to /api/v2/sales"""
 
         current_user = get_jwt_identity()
         sales = SalesModel().get_all_sales()
@@ -42,11 +42,11 @@ class Records(Resource):
                 return {"Error": "There are no sale records"}, 404
             return {"Sales": sales}, 200
         attendant_sales(sales, user_id)
-        return {"Error": "Only admins are allowed to view all sales records"}, 401
+        return {"Error": "Only admins are allowed to view all sales records"}, 403
 
     @jwt_required
     def post(self):
-        """ Endpoint for POST requests to /dann/api/v2/sales"""
+        """ Endpoint for POST requests to /api/v2/sales"""
 
         args = parser.parse_args()
         book_id = args['book_id']
@@ -66,7 +66,7 @@ class Records(Resource):
             SalesModel().add_new_record(new_sale)
             ProductModel().sell_book(book_id, 1)
             return {"message": "Success! Sale recorded"}, 201
-        return {"Error": "Only store attendants can create sale records"}, 401
+        return {"Error": "Only store attendants can create sale records"}, 403
 
 
 class SingleRecord(Resource):
@@ -74,7 +74,7 @@ class SingleRecord(Resource):
 
     @jwt_required
     def get(self, saleID):
-        """ Endpoint for POST requests to /dann/api/v2/sales/<saleId>"""
+        """ Endpoint for POST requests to /api/v2/sales/<saleId>"""
 
         record = SalesModel().get_single_sale(saleID, 0)
         if not record:
@@ -85,4 +85,4 @@ class SingleRecord(Resource):
         sale_creator = record.get('created_by')
         if (user_role == "admin") or (user_id == sale_creator):
             return {'Sale': record}, 200
-        return {"Error": "Only admins can access this"}, 401
+        return {"Error": "Only admins can access this"}, 403

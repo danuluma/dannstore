@@ -15,7 +15,7 @@ parser.add_argument('username', type=str, required=True,
 parser.add_argument('password', type=str, required=True,
                     help='password can\'t be empty', location='json')
 parser.add_argument(
-    'role', type=int, help='enter user access level', location='json')
+    'role', type=str, help='enter user access level(admin or user)', location='json')
 parser.add_argument('access_token', location='json')
 
 
@@ -33,7 +33,7 @@ def create_admin():
         "id": 0,
         "username": "owner",
         "password": "secret1",
-        "role": 0
+        "role": "admin"
     })
 
 
@@ -84,10 +84,10 @@ class Register(Resource):
             'role': role
         }
         current_user = get_jwt_identity()
-        if current_user[2] == 0:
+        if current_user[2] == 'admin':
             users.append(new_user)
             return {'message': "Success!"}, 200
-        return {'Error': 'Only admins are allowed to add users'}, 401
+        return {'Error': 'Only admins are allowed to add users'}, 403
 
 
 class Login(Resource):

@@ -3,7 +3,7 @@
 
 [![Build Status](https://travis-ci.com/danuluma/dannstore.svg?branch=develop)](https://travis-ci.com/danuluma/dannstore)  [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://raw.githubusercontent.com/danuluma/dannstore/develop/LICENSE)
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/aff46e1c9a8c80f7235d/maintainability)](https://codeclimate.com/github/danuluma/dannstore/maintainability) 
+[![Maintainability](https://api.codeclimate.com/v1/badges/aff46e1c9a8c80f7235d/maintainability)](https://codeclimate.com/github/danuluma/dannstore/maintainability)
 
 [![Coverage Status](https://coveralls.io/repos/github/danuluma/dannstore/badge.svg?branch=ch-update-readme-161247582)](https://coveralls.io/github/danuluma/dannstore?branch=ch-update-readme-161247582)
 
@@ -47,14 +47,14 @@ The following endpoints are currently available:
 ### Endpoints
 |  URL Endpoint | HTTP Request  |  Access | Status  |
 |---|---|---|---|
-|  /dann/api/v1/reg |  POST | It registers a new user  |  Private (Only the owner can add new attendants) |
-|  /dann/api/v1/login |  POST | It authenticates a user and generates access_token  |  Public |
-|  /dann/api/v1/products | GET  |  Fetch all products |  Public |
-|  /dann/api/v1/products/productID | GET  |  Get a specific product using the product’s id |  Public |
-|  /dann/api/v1/sales |  GET |  Fetch all sale records | Private (Only admins/owner can view all sales)  |
-|  /dann/api/v1/sales/saleID| GET | Get a specific sale record using the sale record Id. | Private(Only admins/record creator can view)  |
-|  /dann/api/v1/products |  POST |  Create a new product record. |  Private (Only admins/owner can add products) |
-|  /dann/api/v1/sales |  POST |  Create a sale record.  |  Private (Only attendants can create sale records) |
+|  /api/v1/reg |  POST | It registers a new user  |  Private (Only the owner can add new attendants) |
+|  /api/v1/login |  POST | It authenticates a user and generates access_token  |  Public |
+|  /api/v1/products | GET  |  Fetch all products |  Public |
+|  /api/v1/products/productID | GET  |  Get a specific product using the product’s id |  Public |
+|  /api/v1/sales |  GET |  Fetch all sale records | Private (Only admins/owner can view all sales)  |
+|  /api/v1/sales/saleID| GET | Get a specific sale record using the sale record Id. | Private(Only admins/record creator can view)  |
+|  /api/v1/products |  POST |  Create a new product record. |  Private (Only admins/owner can add products) |
+|  /api/v1/sales |  POST |  Create a sale record.  |  Private (Only attendants can create sale records) |
 
 
 ## Usage example
@@ -71,21 +71,21 @@ The following endpoints are currently available:
 
 |  URL Endpoint | HTTP Request  |  Access | Status  |
 |---|---|---|---|
-|  /dann/api/v2/signup |  POST | It registers a new user  |  Private (Only the owner can add new attendants) |
-|  /dann/api/v2/login |  POST | It authenticates a user and generates access_token  |  Public |
-|  /dann/api/v2/logout |  DELETE | It logs out a user  |  Public |
-|  /dann/api/v2/users/userID |  GET | it retrieves a user by ID |  Private(Only the admin can access) |
-|  /dann/api/v2/users/userID |  PUT | It promotes or demotes a user |  Private(Only the owner can access) |
-|  /dann/api/v2/users |  GET | It retrieves all the users in the database  |  Private(Only admins can access) |
-|  /dann/api/v2/users |  DELETE | It deletes a user by userID  |  Private(Only the owner can access) |
-|  /dann/api/v2/products | GET  |  Fetch all products |  Public |
-|  /dann/api/v2/products/productID | GET  |  Get a specific product using the product’s id |  Public |
-|  /dann/api/v2/products |  POST |  Create a new product record. |  Private (Only admins/owner can add products) |
-|  /dann/api/v2/products |  PUT |  Updates a product record. |  Private (Only admins/owner can edit products) |
-|  /dann/api/v2/products |  DELETE |  Deletes a product record. |  Private (Only admins/owner can delete products) |
-|  /dann/api/v2/sales |  POST |  Create a sale record.  |  Private (Only attendants can create sale records) |
-|  /dann/api/v2/sales/saleID| GET | Get a specific sale record using the sale record Id. | Private(Only admins/record creator can view)  |
-|  /dann/api/v2/sales |  GET |  Fetch all sale records | Private (Only admins/owner can view all records)
+|  /api/v2/signup |  POST | It registers a new user  |  Private (Only the owner can add new attendants) |
+|  /api/v2/login |  POST | It authenticates a user and generates access_token  |  Public |
+|  /api/v2/logout |  DELETE | It logs out a user  |  Public |
+|  /api/v2/users/userID |  GET | it retrieves a user by ID |  Private(Only the admin can access) |
+|  /api/v2/users/userID |  PUT | It promotes or demotes a user |  Private(Only the owner can access) |
+|  /api/v2/users |  GET | It retrieves all the users in the database  |  Private(Only admins can access) |
+|  /api/v2/users |  DELETE | It deletes a user by userID  |  Private(Only the owner can access) |
+|  /api/v2/products | GET  |  Fetch all products |  Public |
+|  /api/v2/products/productID | GET  |  Get a specific product using the product’s id |  Public |
+|  /api/v2/products |  POST |  Create a new product record. |  Private (Only admins/owner can add products) |
+|  /api/v2/products |  PUT |  Updates a product record. |  Private (Only admins/owner can edit products) |
+|  /api/v2/products |  DELETE |  Deletes a product record. |  Private (Only admins/owner can delete products) |
+|  /api/v2/sales |  POST |  Create a sale record.  |  Private (Only attendants can create sale records) |
+|  /api/v2/sales/saleID| GET | Get a specific sale record using the sale record Id. | Private(Only admins/record creator can view)  |
+|  /api/v2/sales |  GET |  Fetch all sale records | Private (Only admins/owner can view all records)
 
 
 ## Usage example
