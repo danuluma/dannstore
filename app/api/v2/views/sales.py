@@ -37,6 +37,7 @@ class Records(Resource):
         current_user = get_jwt_identity()
         sales = SalesModel().get_all_sales()
         user_id = current_user[0]
+
         if current_user[2] == "admin":
             if not sales:
                 return {"Error": "There are no sale records"}, 404
@@ -57,6 +58,7 @@ class Records(Resource):
         book_id = details.get('id')
         current_user = get_jwt_identity()
         created_by = current_user[0]
+        print(created_by)
         new_sale = [
             book_id,
             total,
