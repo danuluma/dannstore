@@ -1,9 +1,12 @@
 import os
 import sys
+from dotenv import load_dotenv
 
 LOCALPATH = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, LOCALPATH + '/')
 # Local imports now
+load_dotenv()
+
 
 from app import create_app
 

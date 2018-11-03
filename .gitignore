@@ -111,3 +111,6 @@ ignore
 ignore2
 app/api/v1/ahoy.py
 ahoy.py
+app/api/v2/sijui.py
+dann/*
+dann

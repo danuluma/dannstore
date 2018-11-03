@@ -1,10 +1,12 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, redirect
 from flask import Blueprint
 from flask_restful import Api
 import flask_restful
-import os, sys
+import os
+import sys
 from flask_jwt_extended import JWTManager
 from dotenv import load_dotenv
+from flask_cors import CORS
 
 
 # local imports
@@ -39,7 +41,7 @@ api.add_resource(Register, '/reg')
 api.add_resource(Login, '/login')
 api.add_resource(Records, '/sales')
 api.add_resource(SingleRecord, '/sales/<int:saleID>')
-api2.add_resource(R2, '/reg')
+api2.add_resource(R2, '/signup')
 api2.add_resource(L2, '/login')
 api2.add_resource(User, '/users/<int:userID>')
 api2.add_resource(Users, '/users')
@@ -54,6 +56,7 @@ def create_app(config_name):
     """Create the flask app."""
 
     app = Flask(__name__)
+    CORS(app)
     app.config.from_object(app_config[config_name])
 
     from app import api_bp, api_bp2
@@ -69,10 +72,16 @@ def create_app(config_name):
         jti = decrypted_token['jti']
         return jti in UserModel().blacklisted_tokens()
     create_admin()
-    Db().drop()
+    # Db().drop()
     Db().create()
-    app.register_blueprint(api_bp, url_prefix='/dann/api/v1')
-    app.register_blueprint(api_bp2, url_prefix='/dann/api/v2')
+    app.register_blueprint(api_bp, url_prefix='/api/v1')
+    app.register_blueprint(api_bp2, url_prefix='/api/v2')
+
+    @app.errorhandler(500)
+    def server_error(error):
+        """Handle server error"""
+
+        return jsonify({"Error": "Internal server error"}), 500
 
     @app.errorhandler(404)
     def not_found(error):
@@ -80,10 +89,9 @@ def create_app(config_name):
 
         return jsonify({"Error": "Resource not found"}), 404
 
-    @app.errorhandler(500)
-    def server_error(error):
-        """Handle server error"""
+    @app.route('/')
+    def root():
+        return redirect('https://documenter.getpostman.com/view/5303933/RWgxvvVD')
 
-        return jsonify({"Error": "Internal server error"}), 500
 
     return app
