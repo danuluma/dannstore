@@ -57,6 +57,7 @@ class Records(Resource):
         book_id = details.get('id')
         current_user = get_jwt_identity()
         created_by = current_user[0]
+        print(created_by)
         new_sale = [
             book_id,
             total,
