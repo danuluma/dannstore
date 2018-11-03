@@ -13,7 +13,7 @@ This api provides and interface for the users to interact with the database via 
 ## Local Installation Guide
 
 ## Requirements
-This project is written in python3 hence requires python 3 to be installed on your local environment. Download and install the latest version for your OS from https://www.python.org/downloads/
+This project is written in python3.7 hence requires python >3.6 to be installed on your local environment. Download and install the latest version for your OS from https://www.python.org/downloads/
 
 It's best to install this project in a virtual environment. Please first install virtualenv package which we'll use to create a virtual environment later by running
 ```pip install virtualenv```.

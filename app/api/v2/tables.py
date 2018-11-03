@@ -16,7 +16,7 @@ c1 = """CREATE TABLE users (
        id SERIAL primary key,
        username VARCHAR(80) UNIQUE not null,
        password VARCHAR(80) not null,
-       role VARCHAR,
+       role VARCHAR DEFAULT 'user',
        created_by INTEGER,
        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );

@@ -47,7 +47,7 @@ class Db(object):
         """Creates the necessary databases"""
 
         conn = psycopg2.connect(os.getenv("HOST"))
-        conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+        # conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
         cur = conn.cursor()
         try:
             cur.execute("""CREATE DATABASE {};""".format(

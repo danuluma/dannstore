@@ -26,23 +26,21 @@ def attendant_sales(sales, user_id):
             items.append(sale)
         return {"Sales": items}, 200
 
-
 class Records(Resource):
     """Maps to /sales"""
 
     @jwt_required
     def get(self):
-        """ endpoint for GET requests to /api/v2/sales"""
+        """ Endpoint for GET requests to /api/v2/sales"""
 
         current_user = get_jwt_identity()
         sales = SalesModel().get_all_sales()
         user_id = current_user[0]
+        if not sales:
+            return {"Error": "There are no sale records"}, 404
         if current_user[2] == "admin":
-            if not sales:
-                return {"Error": "There are no sale records"}, 404
             return {"Sales": sales}, 200
-        attendant_sales(sales, user_id)
-        return {"Error": "Only admins are allowed to view all sales records"}, 403
+        return attendant_sales(sales, user_id)
 
     @jwt_required
     def post(self):
