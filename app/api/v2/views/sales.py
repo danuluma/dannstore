@@ -24,6 +24,8 @@ def attendant_sales(sales, user_id):
         items = []
         if sale.get('created_by') == user_id:
             items.append(sale)
+        if not items:
+            return {"Error": "You don't have any sales"}, 404
         return {"Sales": items}, 200
 
 class Records(Resource):
