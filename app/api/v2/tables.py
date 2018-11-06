@@ -24,7 +24,7 @@ c1 = """CREATE TABLE users (
 
 c2 = """CREATE TABLE books (
        id SERIAL primary key,
-       title VARCHAR UNIQUE not null,
+       title VARCHAR not null,
        description VARCHAR,
        category VARCHAR,
        price INTEGER,
@@ -38,7 +38,7 @@ c2 = """CREATE TABLE books (
 """
 c6 = """CREATE TABLE sales (
        id SERIAL primary key,
-       book_id INTEGER,
+       book_id INTEGER ARRAY,
        total INTEGER,
        created_by INTEGER,
        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

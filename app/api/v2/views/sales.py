@@ -14,7 +14,7 @@ from app.api.v2.models.sales import SalesModel
 
 
 parser = reqparse.RequestParser(bundle_errors=True)
-parser.add_argument('book_id', type=int, location='json')
+parser.add_argument('books_id', action='append', type=int, location='json')
 
 
 def attendant_sales(sales, user_id):
@@ -37,6 +37,7 @@ class Records(Resource):
 
         current_user = get_jwt_identity()
         sales = SalesModel().get_all_sales()
+
         user_id = current_user[0]
         if not sales:
             return {"Error": "There are no sale records"}, 404
@@ -49,23 +50,25 @@ class Records(Resource):
         """ Endpoint for POST requests to /api/v2/sales"""
 
         args = parser.parse_args()
-        book_id = args['book_id']
-        details = ProductModel().get_single_book(book_id, 0)
-        if not details:
-            return {"Error": "That book does not exist"}, 404
-        total = details.get('price')
-        book_id = details.get('id')
+        books_id = args['books_id']
+        total= 0
+        for book in books_id:
+            details = ProductModel().get_single_book(book, 0)
+            if not details:
+                return {"Error": f"Book {book} does not exist"}, 404
+            total += details.get('price')
+
         current_user = get_jwt_identity()
         created_by = current_user[0]
-        print(created_by)
         new_sale = [
-            book_id,
+            books_id,
             total,
             created_by
         ]
         if current_user[2] != "admin":
             SalesModel().add_new_record(new_sale)
-            ProductModel().sell_book(book_id, 1)
+            for book in books_id:
+                ProductModel().sell_book(book, 1)
             return {"message": "Success! Sale recorded"}, 201
         return {"Error": "Only store attendants can create sale records"}, 403
 
