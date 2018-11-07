@@ -28,6 +28,18 @@ def attendant_sales(sales, user_id):
             return {"Error": "You don't have any sales"}, 404
         return {"Sales": items}, 200
 
+def get_total_price(books_id):
+    """Return price of the books"""
+
+    total= 0
+    for book in books_id:
+        details = ProductModel().get_single_book(book, 0)
+        if not details:
+            return {"Error": f"Book {book} does not exist"}, 404
+        total += details.get('price')
+    return total
+
+
 class Records(Resource):
     """Maps to /sales"""
 
@@ -51,13 +63,7 @@ class Records(Resource):
 
         args = parser.parse_args()
         books_id = args['books_id']
-        total= 0
-        for book in books_id:
-            details = ProductModel().get_single_book(book, 0)
-            if not details:
-                return {"Error": f"Book {book} does not exist"}, 404
-            total += details.get('price')
-
+        total = get_total_price(books_id)
         current_user = get_jwt_identity()
         created_by = current_user[0]
         new_sale = [
