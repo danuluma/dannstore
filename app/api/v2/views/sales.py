@@ -66,11 +66,14 @@ class Records(Resource):
         total = get_total_price(books_id)
         current_user = get_jwt_identity()
         created_by = current_user[0]
+        attendant = current_user[1]
         new_sale = [
             books_id,
             total,
-            created_by
+            created_by,
+            attendant
         ]
+        # return new_sale
         if current_user[2] != "admin":
             SalesModel().add_new_record(new_sale)
             for book in books_id:
