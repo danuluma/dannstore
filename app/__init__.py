@@ -72,7 +72,7 @@ def create_app(config_name):
         jti = decrypted_token['jti']
         return jti in UserModel().blacklisted_tokens()
     create_admin()
-    Db().drop()
+    # Db().drop()
     Db().create()
     app.register_blueprint(api_bp, url_prefix='/api/v1')
     app.register_blueprint(api_bp2, url_prefix='/api/v2')
