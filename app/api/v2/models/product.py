@@ -29,8 +29,6 @@ def format_book(book):
 class ProductModel(Db):
     """Product Model. Books stuff here"""
 
-    def __init__(self):
-        pass
 
     def get_all_books(self):
         """Gets all books from the db"""
@@ -65,7 +63,7 @@ class ProductModel(Db):
 
         Db().db_query(f"""UPDATE books SET title = '{book[0]}', description = '{book[1]}',  category = '{book[2]}', price = {book[3]}, quantity = {book[4]}, minimum = {book[5]}, image_url = '{book[6]}', updated_by = {book[7]} WHERE id = {book_id};""")
 
-    
+
     def sell_book(self, book_id, quantity):
         """Updates a book's quantity"""
 
@@ -78,4 +76,3 @@ class ProductModel(Db):
             Db().db_query(f"""DELETE FROM books WHERE id = {book_id};""")
         except:
             return "Failed", 500
-

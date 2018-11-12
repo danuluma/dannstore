@@ -24,7 +24,7 @@ c1 = """CREATE TABLE users (
 
 c2 = """CREATE TABLE books (
        id SERIAL primary key,
-       title VARCHAR UNIQUE not null,
+       title VARCHAR not null,
        description VARCHAR,
        category VARCHAR,
        price INTEGER,
@@ -38,10 +38,11 @@ c2 = """CREATE TABLE books (
 """
 c6 = """CREATE TABLE sales (
        id SERIAL primary key,
-       book_id INTEGER,
+       book_id INTEGER ARRAY,
        total INTEGER,
        created_by INTEGER,
-       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+       attendant VARCHAR
       );
 """
 
@@ -67,11 +68,14 @@ i2 = f"""
        INSERT INTO users (username, password, role, created_by) VALUES ('{name}', '{password}', 'admin', 0);
        """
 
-i3 = """ INSERT INTO books (title, description, price, quantity, minimum, image_url, created_by) VALUES ('mpya', 'still testing', 20, 10, 2, 'url', 0);
+i3 = """ INSERT INTO books (title, description, price, quantity, minimum, image_url, created_by) VALUES ('mpya', '
+Lorem ipsum dolor sit amet consectetur, adipisicing elit. Mollitia impedit autem veniam soluta tempora cum repudiandae odit maiores animi, suscipit aspernatur nesciunt architecto nisi pariatur. Maiores beatae impedit similique dignissimos!
+
+', 20, 10, 2, 'https://res.cloudinary.com/danuluma/image/upload/v1541557642/dannstore/aaaindex.png', 0);
     """
 
 
-create_tables = [c1, c2, c3, c4, c5, c6, i2]
+create_tables = [c1, c2, c3, c4, c5, c6, i2, i3, i3]
 
 
 dr1 = """DROP TABLE IF EXISTS users  CASCADE;"""
