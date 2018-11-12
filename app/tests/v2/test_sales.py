@@ -14,25 +14,6 @@ from app.tests.v2.test_base import Apiv2Test
 class SalesTest(Apiv2Test):
     """ Tests for apiv2 products endpoints """
 
-    def owner_token(self):
-        """Get admin(owner) token."""
-
-        response = self.client().post('/api/v2/login', json=self.test_owner)
-        json_data = json.loads(response.data)
-        access_token = json_data.get('access_token')
-        return access_token
-
-    def attendant_token(self):
-        """Get attendant token."""
-
-        access_token = self.owner_token()
-        self.client().post('/api/v2/signup',
-                           headers={"Authorization": "Bearer " + access_token}, json=self.test_user)
-        response = self.client().post('/api/v2/login',
-                                      headers={"Authorization": "Bearer " + access_token}, json=self.test_user)
-        json_data = json.loads(response.data)
-        att_access_token = json_data.get('access_token')
-        return att_access_token
 
     def test_get_empty_sales_record(self):
         """Tests /sales endpoint. There are no sales records yet"""

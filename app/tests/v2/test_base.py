@@ -41,6 +41,27 @@ class Apiv2Test(unittest.TestCase):
         with self.app.app_context():
             Db().drop()
 
+    def owner_token(self):
+        """Get admin(owner) token."""
+
+        response = self.client().post('/api/v2/login', json=self.test_owner)
+        json_data = json.loads(response.data)
+        access_token = json_data.get('access_token')
+        return access_token
+
+    def attendant_token(self):
+        """Get attendant token."""
+
+        access_token = self.owner_token()
+        self.client().post('/api/v2/signup',
+                           headers={"Authorization": "Bearer " + access_token}, json=self.test_user)
+        response = self.client().post('/api/v2/login',
+                                      headers={"Authorization": "Bearer " + access_token}, json=self.test_user)
+        json_data = json.loads(response.data)
+        att_access_token = json_data.get('access_token')
+        return att_access_token
+
+
 if __name__ == '__main__':
     unittest.main()
 
