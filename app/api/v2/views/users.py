@@ -150,6 +150,7 @@ class Login(Resource):
 
         mesg = {
             'access_token': access_token,
+            'role': user['role']
         }
         return mesg, 200
 

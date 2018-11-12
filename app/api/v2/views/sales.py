@@ -19,14 +19,13 @@ parser.add_argument('book_id', type=int, location='json')
 
 def attendant_sales(sales, user_id):
     """Return attendant sales"""
-
+    items = []
     for sale in sales:
-        items = []
         if sale.get('created_by') == user_id:
             items.append(sale)
         if not items:
             return {"Error": "You don't have any sales"}, 404
-        return {"Sales": items}, 200
+    return {"Sales": items}, 200
 
 class Records(Resource):
     """Maps to /sales"""
