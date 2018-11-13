@@ -25,7 +25,7 @@ c1 = """CREATE TABLE users (
 c2 = """CREATE TABLE books (
        id SERIAL primary key,
        title VARCHAR UNIQUE not null,
-       description VARCHAR,
+       description TEXT,
        category VARCHAR,
        price INTEGER,
        quantity INTEGER,

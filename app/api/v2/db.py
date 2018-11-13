@@ -32,7 +32,7 @@ class Db(object):
             # print("Connection successful")
             return conn
         except:
-            print("Error connecting......Hold on while I create one")
+            print("Error connecting to database......Hold on while I create one")
             try:
                 """Try creating the databases and return a connection"""
 

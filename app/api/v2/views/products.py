@@ -47,7 +47,8 @@ class Products(Resource):
 
         args = parser.parse_args()
         title = args['title'].strip()
-        description = args['description'].strip()
+        description = args['description'].strip().replace("\'", "")
+        # return description
         category = args['category'].strip()
         price = args['price']
         quantity = args['quantity']
@@ -99,7 +100,7 @@ class SingleProduct(Resource):
 
         args = parser.parse_args()
         title = args['title'].strip()
-        description = args['description'].strip()
+        description = args['description'].strip().replace("\'", "")
         category = args['category'].strip()
         price = args['price']
         quantity = args['quantity']
@@ -127,7 +128,6 @@ class SingleProduct(Resource):
         ]
 
         if role == 'admin':
-
             try:
                 ProductModel().edit_book(productID, new_book)
             except:
