@@ -12,9 +12,10 @@ def format_sale(sale):
 
     sale = {
         "id": sale[0],
-        "book_id": sale[1],
+        "books": sale[1],
         "total": sale[2],
         "created_by": sale[3],
+        "attendant_name": sale[5],
         "created_at": str(sale[4])
     }
     return sale
@@ -46,8 +47,8 @@ class SalesModel(Db):
 
         try:
             Db().db_query(f"""
-      INSERT INTO sales (book_id, total, created_by)
-      VALUES ('{new_sale[0]}', {new_sale[1]}, {new_sale[2]});
-      """)
+              INSERT INTO sales (book_id, total, created_by, attendant)
+              VALUES (ARRAY{new_sale[0]}, {new_sale[1]}, {new_sale[2]}, '{new_sale[3]}');
+              """)
         except:
             return "Failed to add", 500

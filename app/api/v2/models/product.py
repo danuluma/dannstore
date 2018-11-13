@@ -29,8 +29,6 @@ def format_book(book):
 class ProductModel(Db):
     """Product Model. Books stuff here"""
 
-    def __init__(self):
-        pass
 
     def get_all_books(self):
         """Gets all books from the db"""
@@ -78,4 +76,3 @@ class ProductModel(Db):
             Db().db_query(f"""DELETE FROM books WHERE id = {book_id};""")
         except:
             return "Failed", 500
-
