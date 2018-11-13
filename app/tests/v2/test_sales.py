@@ -32,7 +32,7 @@ class SalesTest(Apiv2Test):
         self.client().post('/api/v2/products',
                            headers={"Authorization": "Bearer " + access_token}, json=self.test_book)
         response = self.client().post('/api/v2/sales',
-                                      headers={"Authorization": "Bearer " + access_token}, json={'book_id': 1})
+                                      headers={"Authorization": "Bearer " + access_token}, json={'books_id': [1]})
         json_data = json.loads(response.data)
         self.assertTrue(json_data.get('Error'))
         self.assertEqual(json_data.get('Error'),
@@ -47,7 +47,7 @@ class SalesTest(Apiv2Test):
                            headers={"Authorization": "Bearer " + access_token}, json=self.test_book)
         access_token = self.attendant_token()
         response = self.client().post('/api/v2/sales',
-                                      headers={"Authorization": "Bearer " + access_token}, json={'book_id': 1})
+                                      headers={"Authorization": "Bearer " + access_token}, json={'books_id': [1]})
         json_data = json.loads(response.data)
         self.assertTrue(json_data.get('message'))
         self.assertEqual(json_data.get('message'), "Success! Sale recorded")
@@ -61,11 +61,13 @@ class SalesTest(Apiv2Test):
                            headers={"Authorization": "Bearer " + access_token}, json=self.test_book)
         access_token = self.attendant_token()
         self.client().post('/api/v2/sales',
-                           headers={"Authorization": "Bearer " + access_token}, json={'book_id': 1})
+                           headers={"Authorization": "Bearer " + access_token}, json={'books_id': [1]})
         access_token = self.owner_token()
         response = self.client().get('/api/v2/sales',
                                      headers={"Authorization": "Bearer " + access_token})
         json_data = json.loads(response.data)
+        print(json_data)
+        print("get sales")
         self.assertTrue(json_data.get('Sales'))
         self.assertEqual(response.status_code, 200)
 
@@ -77,7 +79,7 @@ class SalesTest(Apiv2Test):
                            headers={"Authorization": "Bearer " + access_token}, json=self.test_book)
         access_token = self.attendant_token()
         self.client().post('/api/v2/sales',
-                           headers={"Authorization": "Bearer " + access_token}, json={'book_id': 1})
+                           headers={"Authorization": "Bearer " + access_token}, json={'books_id': [1]})
         response = self.client().get('/api/v2/sales',
                                      headers={"Authorization": "Bearer " + access_token})
         json_data = json.loads(response.data)
