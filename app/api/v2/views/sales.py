@@ -48,7 +48,6 @@ class Records(Resource):
 
         current_user = get_jwt_identity()
         sales = SalesModel().get_all_sales()
-
         user_id = current_user[0]
         if not sales:
             return {"Error": "There are no sale records"}, 404
@@ -66,13 +65,16 @@ class Records(Resource):
         current_user = get_jwt_identity()
         created_by = current_user[0]
         attendant = current_user[1]
+        for book in books_id:
+            this_book = ProductModel().get_single_book(book, 0)
+            if not this_book:
+                return {"Error": f"Book with id {book} does not exist"}, 404
         new_sale = [
             books_id,
             total,
             created_by,
             attendant
         ]
-        # return new_sale
         if current_user[2] != "admin":
             SalesModel().add_new_record(new_sale)
             for book in books_id:

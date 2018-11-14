@@ -69,13 +69,11 @@ i2 = f"""
        """
 
 i3 = """ INSERT INTO books (title, description, price, quantity, minimum, image_url, created_by) VALUES ('mpya', '
-Lorem ipsum dolor sit amet consectetur, adipisicing elit. Mollitia impedit autem veniam soluta tempora cum repudiandae odit maiores animi, suscipit aspernatur nesciunt architecto nisi pariatur. Maiores beatae impedit similique dignissimos!
-
-', 20, 10, 2, 'https://res.cloudinary.com/danuluma/image/upload/v1541557642/dannstore/aaaindex.png', 0);
+Lorem ipsum dolor sit amet consectetur, adipisicing elit. Mollitia impedit autem veniam soluta tempora cum repudiandae odit maiores animi, suscipit aspernatur nesciunt architecto nisi pariatur. Maiores beatae impedit similique dignissimos!', 20, 10, 2, 'https://res.cloudinary.com/danuluma/image/upload/v1541557642/dannstore/aaaindex.png', 0);
     """
 
 
-create_tables = [c1, c2, c3, c4, c5, c6, i2, i3, i3]
+create_tables = [c1, c2, c3, c4, c5, c6, i2, i3]
 
 
 dr1 = """DROP TABLE IF EXISTS users  CASCADE;"""
