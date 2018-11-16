@@ -29,7 +29,6 @@ def format_book(book):
 class ProductModel(Db):
     """Product Model. Books stuff here"""
 
-
     def get_all_books(self):
         """Gets all books from the db"""
 

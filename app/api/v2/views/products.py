@@ -90,7 +90,7 @@ class SingleProduct(Resource):
         self.not_found = ({"Error": "Book with that ID does not exist"}, 404)
 
     def book(self, productID):
-        """Returns a single book"""
+        """Returns a single book if available"""
 
         return ProductModel().get_single_book(productID, 0)
 

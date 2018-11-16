@@ -18,8 +18,8 @@ class ProductsTest(Apiv2Test):
     def test_add_book(self):
         """ Test adding with a book valid credentials """
 
-        access_token = self.owner_token()
-        response = self.client().post('/api/v2/products',
+        access_token = self.get_token(self.test_owner)
+        response = self.client().post(self.url + 'products',
                                       headers={"Authorization": "Bearer " + access_token}, json=self.test_book)
         json_data = json.loads(response.data)
         self.assertTrue(json_data.get('Message'))
@@ -29,8 +29,8 @@ class ProductsTest(Apiv2Test):
     def test_try_add_book_without_admin_rights(self):
         """ Test adding with a book invalid credentials """
 
-        access_token = self.attendant_token()
-        response = self.client().post('/api/v2/products',
+        access_token = self.get_token(self.test_user)
+        response = self.client().post(self.url + 'products',
                                       headers={"Authorization": "Bearer " + access_token}, json=self.test_book)
         json_data = json.loads(response.data)
         self.assertTrue(json_data.get('Error'))
@@ -41,10 +41,10 @@ class ProductsTest(Apiv2Test):
     def test_try_add_a_duplicate_book(self):
         """ Test adding a book that already exists """
 
-        access_token = self.owner_token()
-        self.client().post('/api/v2/products',
+        access_token = self.get_token(self.test_owner)
+        self.client().post(self.url + 'products',
                            headers={"Authorization": "Bearer " + access_token}, json=self.test_book)
-        response = self.client().post('/api/v2/products',
+        response = self.client().post(self.url + 'products',
                                       headers={"Authorization": "Bearer " + access_token}, json=self.test_book)
         json_data = json.loads(response.data)
         self.assertTrue(json_data.get('Error'))
@@ -54,10 +54,10 @@ class ProductsTest(Apiv2Test):
     def test_get_all_books(self):
         """Test retrieve all books"""
 
-        access_token = self.owner_token()
-        self.client().post('/api/v2/products',
+        access_token = self.get_token(self.test_owner)
+        self.client().post(self.url + 'products',
                            headers={"Authorization": "Bearer " + access_token}, json=self.test_book)
-        response = self.client().get('/api/v2/products',
+        response = self.client().get(self.url + 'products',
                                      headers={"Authorization": "Bearer " + access_token})
         self.assertEqual(response.status_code, 200)
 
@@ -75,10 +75,10 @@ class ProductsTest(Apiv2Test):
             "image_url": "new_url",
             "updated_by": 0
         }
-        access_token = self.owner_token()
-        self.client().post('/api/v2/products',
+        access_token = self.get_token(self.test_owner)
+        self.client().post(self.url + 'products',
                            headers={"Authorization": "Bearer " + access_token}, json=self.test_book)
-        response = self.client().put('/api/v2/products/1',
+        response = self.client().put(self.url + 'products/1',
                                      headers={"Authorization": "Bearer " + access_token}, json=book3)
         json_data = json.loads(response.data)
         self.assertTrue(json_data.get('Message'))
@@ -89,10 +89,10 @@ class ProductsTest(Apiv2Test):
     def test_delete_a_book(self):
         """Delete a user as the owner"""
 
-        access_token = self.owner_token()
-        self.client().post('/api/v2/products',
+        access_token = self.get_token(self.test_owner)
+        self.client().post(self.url + 'products',
                            headers={"Authorization": "Bearer " + access_token}, json=self.test_book)
-        response = self.client().delete('/api/v2/products/1',
+        response = self.client().delete(self.url + 'products/1',
                                         headers={"Authorization": "Bearer " + access_token})
         json_data = json.loads(response.data)
         self.assertTrue(json_data.get('Message'))
@@ -102,13 +102,12 @@ class ProductsTest(Apiv2Test):
     def test_try_delete_a_book_without_admin_rights(self):
         """Try to delete a book without admin rights"""
 
-        access_token = self.attendant_token()
-        self.client().post('/api/v2/products',
+        access_token = self.get_token(self.test_user)
+        self.client().post(self.url + 'products',
                            headers={"Authorization": "Bearer " + access_token}, json=self.test_book)
-        response = self.client().delete('/api/v2/products/1',
+        response = self.client().delete(self.url + 'products/1',
                                         headers={"Authorization": "Bearer " + access_token}, json={"user_id": 1})
         json_data = json.loads(response.data)
-        self.assertNotEqual(response.status_code, 200)
         self.assertTrue(json_data.get('Error'))
         self.assertEqual(json_data.get('Error'),
                          "Only admins can delete books")

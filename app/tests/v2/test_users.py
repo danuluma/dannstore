@@ -18,7 +18,7 @@ class UsersTest(Apiv2Test):
     def test_owner_login(self):
         """Default owner login."""
 
-        response = self.client().post('/api/v2/login', json=self.test_owner)
+        response = self.client().post(self.url + 'login', json=self.test_owner)
         json_data = json.loads(response.data)
         self.assertTrue(json_data.get('access_token'))
         self.assertEqual(response.status_code, 200)
@@ -26,8 +26,8 @@ class UsersTest(Apiv2Test):
     def test_user_reg(self):
         """ Test user registration with valid credentials """
 
-        access_token = self.owner_token()
-        response = self.client().post('/api/v2/signup',
+        access_token = self.get_token(self.test_owner)
+        response = self.client().post(self.url + 'signup',
                                       headers={"Authorization": "Bearer " + access_token}, json=self.test_user)
         json_data = json.loads(response.data)
         self.assertTrue(json_data.get('Message'))
@@ -37,10 +37,10 @@ class UsersTest(Apiv2Test):
     def test_duplicate_user_reg(self):
         """ Test user registration with valid credentials """
 
-        access_token = self.owner_token()
-        self.client().post('/api/v2/signup',
+        access_token = self.get_token(self.test_owner)
+        self.client().post(self.url + 'signup',
                            headers={"Authorization": "Bearer " + access_token}, json=self.test_user)
-        response = self.client().post('/api/v2/signup',
+        response = self.client().post(self.url + 'signup',
                                       headers={"Authorization": "Bearer " + access_token}, json=self.test_user)
         json_data = json.loads(response.data)
         self.assertTrue(json_data.get('Error'))
@@ -51,8 +51,8 @@ class UsersTest(Apiv2Test):
         """ Test user registration with null username """
 
         test_user2 = {"username": "", "password": "Admintest1"}
-        access_token = self.owner_token()
-        response = self.client().post('/api/v2/signup',
+        access_token = self.get_token(self.test_owner)
+        response = self.client().post(self.url + 'signup',
                                       headers={"Authorization": "Bearer " + access_token}, json=test_user2)
         json_data = json.loads(response.data)
         self.assertTrue(json_data.get('Error'))
@@ -64,8 +64,8 @@ class UsersTest(Apiv2Test):
         """ test user registration with null password """
 
         test_user3 = {"username": "dann", "password": ""}
-        access_token = self.owner_token()
-        response = self.client().post('/api/v2/signup',
+        access_token = self.get_token(self.test_owner)
+        response = self.client().post(self.url + 'signup',
                                       headers={"Authorization": "Bearer " + access_token}, json=test_user3)
         json_data = json.loads(response.data)
         self.assertTrue(json_data.get('Error'))
@@ -77,11 +77,11 @@ class UsersTest(Apiv2Test):
         """ test user login """
 
         test_user5 = {"username": "dann79", "password": "Admintest1"}
-        access_token = self.owner_token()
-        self.client().post('/api/v2/signup',
+        access_token = self.get_token(self.test_owner)
+        self.client().post(self.url + 'signup',
                            headers={"Authorization": "Bearer " + access_token},
                            json=test_user5)
-        response = self.client().post('/api/v2/login', json=test_user5)
+        response = self.client().post(self.url + 'login', json=test_user5)
         json_data = json.loads(response.data)
         self.assertTrue(json_data.get('access_token'))
         self.assertEqual(response.status_code, 200)
@@ -91,10 +91,10 @@ class UsersTest(Apiv2Test):
 
         test_user4 = {"username": "dancan",
                       "password": "wrong"}
-        access_token = self.owner_token()
-        self.client().post('/api/v2/signup',
+        access_token = self.get_token(self.test_owner)
+        self.client().post(self.url + 'signup',
                            headers={"Authorization": "Bearer " + access_token}, json=self.test_user)
-        response = self.client().post('/api/v2/login', json=test_user4)
+        response = self.client().post(self.url + 'login', json=test_user4)
         json_data = json.loads(response.data)
         self.assertNotEqual(response.status_code, 200)
         self.assertTrue(json_data.get('Error'))
@@ -106,10 +106,10 @@ class UsersTest(Apiv2Test):
 
         test_user4 = {"username": "wrong",
                       "password": "Admintest1"}
-        access_token = self.owner_token()
-        self.client().post('/api/v2/signup',
+        access_token = self.get_token(self.test_owner)
+        self.client().post(self.url + 'signup',
                            headers={"Authorization": "Bearer " + access_token}, json=self.test_user)
-        response = self.client().post('/api/v2/login', json=test_user4)
+        response = self.client().post(self.url + 'login', json=test_user4)
         json_data = json.loads(response.data)
         self.assertNotEqual(response.status_code, 200)
         self.assertTrue(json_data.get('Error'))
@@ -119,28 +119,28 @@ class UsersTest(Apiv2Test):
     def test_access_protected_endpoint_without_authorization(self):
         """Test access to a protected endpoint without logging in"""
 
-        response = self.client().post('/api/v2/signup')
+        response = self.client().post(self.url + 'signup')
         json_data = json.loads(response.data)
         self.assertNotEqual(response.status_code, 201)
 
     def test_get_all_users_as_owner(self):
         """Test retrieve all users with admin rights"""
 
-        access_token = self.owner_token()
-        self.client().post('/api/v2/signup',
+        access_token = self.get_token(self.test_owner)
+        self.client().post(self.url + 'signup',
                            headers={"Authorization": "Bearer " + access_token}, json=self.test_user)
-        response = self.client().get('/api/v2/users',
+        response = self.client().get(self.url + 'users',
                                      headers={"Authorization": "Bearer " + access_token})
         self.assertEqual(response.status_code, 200)
 
     def test_try_get_all_users_as_attendant(self):
         """Test retrieve all users without admin rights"""
 
-        access_token = self.owner_token()
-        self.client().post('/api/v2/signup',
+        access_token = self.get_token(self.test_owner)
+        self.client().post(self.url + 'signup',
                            headers={"Authorization": "Bearer " + access_token}, json=self.test_user)
-        access_token = self.attendant_token()
-        response = self.client().get('/api/v2/users',
+        access_token = self.get_token(self.test_user)
+        response = self.client().get(self.url + 'users',
                                      headers={"Authorization": "Bearer " + access_token})
         json_data = json.loads(response.data)
         self.assertTrue(json_data.get('Error'))
@@ -151,20 +151,20 @@ class UsersTest(Apiv2Test):
     def test_get_single_users_as_owner(self):
         """Test retrieve a single user by id with admin rights"""
 
-        access_token = self.owner_token()
-        self.client().post('/api/v2/signup',
+        access_token = self.get_token(self.test_owner)
+        self.client().post(self.url + 'signup',
                            headers={"Authorization": "Bearer " + access_token}, json=self.test_user)
-        response = self.client().get('/api/v2/users/1',
+        response = self.client().get(self.url + 'users/1',
                                      headers={"Authorization": "Bearer " + access_token})
         self.assertEqual(response.status_code, 200)
 
     def test_try_get_single_users_as_attendant(self):
         """Test retrieve a single user by id without admin rights"""
 
-        access_token = self.attendant_token()
-        self.client().post('/api/v2/signup',
+        access_token = self.get_token(self.test_user)
+        self.client().post(self.url + 'signup',
                            headers={"Authorization": "Bearer " + access_token}, json=self.test_user)
-        response = self.client().get('/api/v2/users/1',
+        response = self.client().get(self.url + 'users/1',
                                      headers={"Authorization": "Bearer " + access_token})
         json_data = json.loads(response.data)
         self.assertTrue(json_data.get('Error'))
@@ -175,10 +175,10 @@ class UsersTest(Apiv2Test):
     def test_promote_user(self):
         """Test promote user as the owner."""
 
-        access_token = self.owner_token()
-        self.client().post('/api/v2/signup',
+        access_token = self.get_token(self.test_owner)
+        self.client().post(self.url + 'signup',
                            headers={"Authorization": "Bearer " + access_token}, json=self.test_user)
-        response = self.client().put('/api/v2/users/1',
+        response = self.client().put(self.url + 'users/1',
                                      headers={"Authorization": "Bearer " + access_token}, json={"action": "promote"})
         json_data = json.loads(response.data)
         self.assertNotEqual(response.status_code, 200)
@@ -190,10 +190,10 @@ class UsersTest(Apiv2Test):
     def test_promote_fellow_user(self):
         """Try promote another user as an attendant"""
 
-        access_token = self.attendant_token()
-        self.client().post('/api/v2/signup',
+        access_token = self.get_token(self.test_user)
+        self.client().post(self.url + 'signup',
                            headers={"Authorization": "Bearer " + access_token}, json=self.test_user)
-        response = self.client().put('/api/v2/users/1',
+        response = self.client().put(self.url + 'users/1',
                                      headers={"Authorization": "Bearer " + access_token}, json={"action": "promote"})
         json_data = json.loads(response.data)
         self.assertNotEqual(response.status_code, 200)
@@ -205,10 +205,10 @@ class UsersTest(Apiv2Test):
     def test_delete_a_user(self):
         """Delete a user as the owner"""
 
-        access_token = self.owner_token()
-        self.client().post('/api/v2/signup',
+        access_token = self.get_token(self.test_owner)
+        self.client().post(self.url + 'signup',
                            headers={"Authorization": "Bearer " + access_token}, json=self.test_user)
-        response = self.client().delete('/api/v2/users/1',
+        response = self.client().delete(self.url + 'users/1',
                                         headers={"Authorization": "Bearer " + access_token})
         json_data = json.loads(response.data)
         self.assertNotEqual(response.status_code, 200)
@@ -220,10 +220,10 @@ class UsersTest(Apiv2Test):
     def test_try_delete_a_fellow_user(self):
         """Try to delete a user without admin rights"""
 
-        access_token = self.attendant_token()
-        self.client().post('/api/v2/signup',
+        access_token = self.get_token(self.test_user)
+        self.client().post(self.url + 'signup',
                            headers={"Authorization": "Bearer " + access_token}, json=self.test_user)
-        response = self.client().delete('/api/v2/users/1',
+        response = self.client().delete(self.url + 'users/1',
                                         headers={"Authorization": "Bearer " + access_token})
         json_data = json.loads(response.data)
         self.assertNotEqual(response.status_code, 200)
@@ -233,8 +233,8 @@ class UsersTest(Apiv2Test):
         self.assertEqual(response.status_code, 403)
 
     def test_user_logout(self):
-        access_token = self.owner_token()
-        response = self.client().delete('/api/v2/logout',
+        access_token = self.get_token(self.test_owner)
+        response = self.client().delete(self.url + 'logout',
                                         headers={"Authorization": "Bearer " + access_token})
         json_data = json.loads(response.data)
         self.assertTrue(json_data.get('Message'))

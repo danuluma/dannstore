@@ -11,7 +11,6 @@ name = os.getenv('DEFAULT_OWNER')
 password = os.getenv('DEFAULT_OWNER_PASSW')
 
 
-
 c1 = """CREATE TABLE users (
        id SERIAL primary key,
        username VARCHAR(80) UNIQUE not null,
@@ -80,9 +79,7 @@ dr1 = """DROP TABLE IF EXISTS users  CASCADE;"""
 dr2 = """DROP TABLE IF EXISTS blacklist  CASCADE;"""
 dr3 = """DROP TABLE IF EXISTS books  CASCADE;"""
 dr4 = """DROP TABLE IF EXISTS categories  CASCADE;"""
-
 dr5 = """DROP TABLE IF EXISTS books_categories CASCADE;"""
-
 dr6 = """DROP TABLE IF EXISTS sales CASCADE;"""
 
 drop_tables = [dr1, dr2, dr3, dr4, dr5, dr6]

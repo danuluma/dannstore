@@ -17,8 +17,8 @@ class SalesTest(Apiv2Test):
 
     def test_get_empty_sales_record(self):
         """Tests /sales endpoint. There are no sales records yet"""
-        access_token = self.owner_token()
-        response = self.client().get('/api/v2/sales',
+        access_token = self.get_token(self.test_owner)
+        response = self.client().get(self.url + 'sales',
                                      headers={"Authorization": "Bearer " + access_token})
         json_data = json.loads(response.data)
         self.assertTrue(json_data.get('Error'))
@@ -28,10 +28,10 @@ class SalesTest(Apiv2Test):
     def test_try_add_a_sales_record_as_admin(self):
         """Tests POST /sales endpoint. Only attendants can access this"""
 
-        access_token = self.owner_token()
-        self.client().post('/api/v2/products',
+        access_token = self.get_token(self.test_owner)
+        self.client().post(self.url + 'products',
                            headers={"Authorization": "Bearer " + access_token}, json=self.test_book)
-        response = self.client().post('/api/v2/sales',
+        response = self.client().post(self.url + 'sales',
                                       headers={"Authorization": "Bearer " + access_token}, json={'books_id': [1]})
         json_data = json.loads(response.data)
         self.assertTrue(json_data.get('Error'))
@@ -42,11 +42,11 @@ class SalesTest(Apiv2Test):
     def test_add_a_sales_record_as_attendant(self):
         """Tests POST /sales endpoint. Only attendants can access this"""
 
-        access_token = self.owner_token()
-        self.client().post('/api/v2/products',
+        access_token = self.get_token(self.test_owner)
+        self.client().post(self.url + 'products',
                            headers={"Authorization": "Bearer " + access_token}, json=self.test_book)
-        access_token = self.attendant_token()
-        response = self.client().post('/api/v2/sales',
+        access_token = self.get_token(self.test_user)
+        response = self.client().post(self.url + 'sales',
                                       headers={"Authorization": "Bearer " + access_token}, json={'books_id': [1]})
         json_data = json.loads(response.data)
         self.assertTrue(json_data.get('message'))
@@ -56,14 +56,14 @@ class SalesTest(Apiv2Test):
     def test_get_all_sales_record_as_admin(self):
         """Tests /sales endpoint."""
 
-        access_token = self.owner_token()
-        self.client().post('/api/v2/products',
+        access_token = self.get_token(self.test_owner)
+        self.client().post(self.url + 'products',
                            headers={"Authorization": "Bearer " + access_token}, json=self.test_book)
-        access_token = self.attendant_token()
-        self.client().post('/api/v2/sales',
+        access_token = self.get_token(self.test_user)
+        self.client().post(self.url + 'sales',
                            headers={"Authorization": "Bearer " + access_token}, json={'books_id': [1]})
-        access_token = self.owner_token()
-        response = self.client().get('/api/v2/sales',
+        access_token = self.get_token(self.test_owner)
+        response = self.client().get(self.url + 'sales',
                                      headers={"Authorization": "Bearer " + access_token})
         json_data = json.loads(response.data)
         print(json_data)
@@ -74,13 +74,13 @@ class SalesTest(Apiv2Test):
     def test_get_sales_record_as_attendant(self):
         """Tests /sales endpoint."""
 
-        access_token = self.owner_token()
-        self.client().post('/api/v2/products',
+        access_token = self.get_token(self.test_owner)
+        self.client().post(self.url + 'products',
                            headers={"Authorization": "Bearer " + access_token}, json=self.test_book)
-        access_token = self.attendant_token()
-        self.client().post('/api/v2/sales',
+        access_token = self.get_token(self.test_user)
+        self.client().post(self.url + 'sales',
                            headers={"Authorization": "Bearer " + access_token}, json={'books_id': [1]})
-        response = self.client().get('/api/v2/sales',
+        response = self.client().get(self.url + 'sales',
                                      headers={"Authorization": "Bearer " + access_token})
         json_data = json.loads(response.data)
         self.assertTrue(json_data.get('Sales'))
@@ -89,8 +89,8 @@ class SalesTest(Apiv2Test):
     def test_get_non_existent_sale(self):
         """Tests /sales/<saleId> endpoint. There are no sales records yet"""
 
-        access_token = self.owner_token()
-        response = self.client().get('/api/v2/sales/0',
+        access_token = self.get_token(self.test_owner)
+        response = self.client().get(self.url + 'sales/0',
                                      headers={"Authorization": "Bearer " + access_token})
         json_data = json.loads(response.data)
         self.assertTrue(json_data.get('Error'))
