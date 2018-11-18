@@ -32,7 +32,10 @@ For windows users, please use ```pip install virtualenvwrapper-win```.
 * Install the project's dependencies by running ```pip install -r requirements.txt```
 * Copy .env.sample to .env ```cp .env.sample .env```
 * Run the app locally with ```python3 run.py```
-* If you followed along properly, the app will create the neccesary databases and tables on its own during the first run
+* Now lets create the databases ```psql -p 5432 -h localhost -U postgres -c 'create database testing;'```
+```psql -p 5432 -h localhost -U postgres -c 'create database development;'```
+* When prompted for a password, please use ```postgres``` else you'll have to update the ```HOST_PASSW``` value in the .env file
+* If you followed along properly, the app will create the necessary tables on its own during the first run
 
 
 ## Usage
