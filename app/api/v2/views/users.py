@@ -136,7 +136,6 @@ class Login(Resource):
         username = args['username'].strip()
         password = args['password'].strip()
         user = UserModel().get_single_user(username, 1)
-        # return user
         if not user:
             return {'Error': 'Wrong password or username'}, 401
 
@@ -150,6 +149,7 @@ class Login(Resource):
 
         mesg = {
             'access_token': access_token,
+            'role': user['role']
         }
         return mesg, 200
 
@@ -177,7 +177,7 @@ class User(Resource):
         role = current_user[2]
         if role == "admin":
             user = UserModel().get_single_user(userID, 0)
-            return user, 200
+            return (user, 200) if user else ({"Error": "User not found"}, 404)
         return {"Error": "Only admins can view other users"}, 403
 
     @jwt_required
@@ -187,7 +187,6 @@ class User(Resource):
         current_user = get_jwt_identity()
         role = current_user[2]
         if role == "admin":
-            # edit_user(self, userID)
             user = UserModel.get_single_user(self, userID, 0)
 
             args = parser.parse_args()
@@ -197,7 +196,7 @@ class User(Resource):
             mess = []
             user = UserModel.get_single_user(self, userID, 0)
             if not user:
-                mess = {'Error': 'User by that id does not exist'}, 404
+                return {'Error': 'User by that id does not exist'}, 404
             try:
                 UserModel().promote_demote_user(userID, role)
             except:

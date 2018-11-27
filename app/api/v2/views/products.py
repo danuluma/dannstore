@@ -47,7 +47,8 @@ class Products(Resource):
 
         args = parser.parse_args()
         title = args['title'].strip()
-        description = args['description'].strip()
+        description = args['description'].strip().replace("\'", "")
+        # return description
         category = args['category'].strip()
         price = args['price']
         quantity = args['quantity']
@@ -63,7 +64,6 @@ class Products(Resource):
             return {'Error': 'Quantity can\'t be less than one'}, 400
 
         current_user = get_jwt_identity()
-        # return current_user
         role = current_user[2]
         my_id = current_user[0]
         new_book = [
@@ -86,12 +86,20 @@ class Products(Resource):
 class SingleProduct(Resource):
     """Maps to /product/productID"""
 
+    def __init__(self):
+        self.not_found = ({"Error": "Book with that ID does not exist"}, 404)
+
+    def book(self, productID):
+        """Returns a single book if available"""
+
+        return ProductModel().get_single_book(productID, 0)
+
     @jwt_required
     def get(self, productID):
         """Retrieves a single product by its ID"""
 
-        book = ProductModel().get_single_book(productID, 0)
-        return book, 200
+        book = self.book(productID)
+        return (book, 200) if book else self.not_found
 
     @jwt_required
     def put(self, productID):
@@ -99,20 +107,19 @@ class SingleProduct(Resource):
 
         args = parser.parse_args()
         title = args['title'].strip()
-        description = args['description'].strip()
+        description = args['description'].strip().replace("\'", "")
         category = args['category'].strip()
         price = args['price']
         quantity = args['quantity']
         minimum = args['minimum']
         image_url = args['image_url'].strip()
 
-        book = ProductModel().get_single_book(productID, 0)
+        book = self.book(productID)
 
         if not book:
-            return {'Error': 'Book by that ID does not exists'}, 404
+            return self.not_found
 
         current_user = get_jwt_identity()
-        # return current_user
         role = current_user[2]
         my_id = current_user[0]
         new_book = [
@@ -127,7 +134,6 @@ class SingleProduct(Resource):
         ]
 
         if role == 'admin':
-
             try:
                 ProductModel().edit_book(productID, new_book)
             except:
@@ -142,6 +148,8 @@ class SingleProduct(Resource):
         current_user = get_jwt_identity()
         role = current_user[2]
         if role == 'admin':
+            if not self.book(productID):
+                return self.not_found
             ProductModel().delete_book(productID)
             return {'Message': "Success! Book deleted"}, 200
         return {"Error": "Only admins can delete books"}, 403

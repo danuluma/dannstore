@@ -19,14 +19,13 @@ parser.add_argument('books_id', action='append', type=int, location='json')
 
 def attendant_sales(sales, user_id):
     """Return attendant sales"""
-
+    items = []
     for sale in sales:
-        items = []
         if sale.get('created_by') == user_id:
             items.append(sale)
         if not items:
             return {"Error": "You don't have any sales"}, 404
-        return {"Sales": items}, 200
+    return {"Sales": items}, 200
 
 def get_total_price(books_id):
     """Return price of the books"""
@@ -39,6 +38,16 @@ def get_total_price(books_id):
         total += details.get('price')
     return total
 
+def validate_list(books_id):
+    """Validates presence of the books in the database"""
+
+    for book in books_id:
+        this_book = ProductModel().get_single_book(book, 0)
+        if not this_book:
+            return {"Error": f"Book with id {book} does not exist"}, 404
+    return False
+    # return pass
+
 
 class Records(Resource):
     """Maps to /sales"""
@@ -49,7 +58,6 @@ class Records(Resource):
 
         current_user = get_jwt_identity()
         sales = SalesModel().get_all_sales()
-
         user_id = current_user[0]
         if not sales:
             return {"Error": "There are no sale records"}, 404
@@ -67,13 +75,14 @@ class Records(Resource):
         current_user = get_jwt_identity()
         created_by = current_user[0]
         attendant = current_user[1]
+        if validate_list(books_id):
+            return validate_list(books_id)
         new_sale = [
             books_id,
             total,
             created_by,
             attendant
         ]
-        # return new_sale
         if current_user[2] != "admin":
             SalesModel().add_new_record(new_sale)
             for book in books_id:
