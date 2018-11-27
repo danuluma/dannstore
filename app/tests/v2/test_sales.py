@@ -63,6 +63,7 @@ class SalesTest(Apiv2Test):
         response = self.client().post(self.url + 'sales',
                                       headers={"Authorization": "Bearer " + access_token}, json={'books_id': [11]})
         json_data = json.loads(response.data)
+        print(json_data)
         self.assertTrue(json_data.get('Error'))
         self.assertEqual(json_data.get('Error'), "Book with id 11 does not exist")
         self.assertEqual(response.status_code, 404)

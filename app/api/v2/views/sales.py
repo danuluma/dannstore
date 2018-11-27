@@ -44,8 +44,9 @@ def validate_list(books_id):
     for book in books_id:
         this_book = ProductModel().get_single_book(book, 0)
         if not this_book:
-            return book
+            return {"Error": f"Book with id {book} does not exist"}, 404
     return False
+    # return pass
 
 
 class Records(Resource):
@@ -74,22 +75,20 @@ class Records(Resource):
         current_user = get_jwt_identity()
         created_by = current_user[0]
         attendant = current_user[1]
-        check = validate_list(books_id)
-        if not check:
-            new_sale = [
-                books_id,
-                total,
-                created_by,
-                attendant
-            ]
-            if current_user[2] != "admin":
-                SalesModel().add_new_record(new_sale)
-                for book in books_id:
-                    ProductModel().sell_book(book, 1)
-                return {"message": "Success! Sale recorded"}, 201
-            return {"Error": "Only store attendants can create sale records"}, 403
-        else:
-            return {"Error": f"Book with id {check} does not exist"}, 404
+        if validate_list(books_id):
+            return validate_list(books_id)
+        new_sale = [
+            books_id,
+            total,
+            created_by,
+            attendant
+        ]
+        if current_user[2] != "admin":
+            SalesModel().add_new_record(new_sale)
+            for book in books_id:
+                ProductModel().sell_book(book, 1)
+            return {"message": "Success! Sale recorded"}, 201
+        return {"Error": "Only store attendants can create sale records"}, 403
 
 
 class SingleRecord(Resource):
