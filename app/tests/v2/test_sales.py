@@ -53,6 +53,20 @@ class SalesTest(Apiv2Test):
         self.assertEqual(json_data.get('message'), "Success! Sale recorded")
         self.assertEqual(response.status_code, 201)
 
+    def test_sell_invalid_product(self):
+        """Tests POST /sales endpoint. Only attendants can access this"""
+
+        access_token = self.get_token(self.test_owner)
+        self.client().post(self.url + 'products',
+                           headers={"Authorization": "Bearer " + access_token}, json=self.test_book)
+        access_token = self.get_token(self.test_user)
+        response = self.client().post(self.url + 'sales',
+                                      headers={"Authorization": "Bearer " + access_token}, json={'books_id': [11]})
+        json_data = json.loads(response.data)
+        self.assertTrue(json_data.get('Error'))
+        self.assertEqual(json_data.get('Error'), "Book with id 11 does not exist")
+        self.assertEqual(response.status_code, 404)
+
     def test_get_all_sales_record_as_admin(self):
         """Tests /sales endpoint."""
 
@@ -66,8 +80,6 @@ class SalesTest(Apiv2Test):
         response = self.client().get(self.url + 'sales',
                                      headers={"Authorization": "Bearer " + access_token})
         json_data = json.loads(response.data)
-        print(json_data)
-        print("get sales")
         self.assertTrue(json_data.get('Sales'))
         self.assertEqual(response.status_code, 200)
 

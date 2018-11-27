@@ -43,7 +43,7 @@ For windows users, please use ```pip install virtualenvwrapper-win```.
 The following endpoints are currently available:
 
 ## Version 1
-* Versin 1 uses data structures(lists and dictionaries to store data)
+* Versin 1 uses data structures(lists and dictionaries) to store data.
 
 ### Endpoints
 |  URL Endpoint | HTTP Request  |  Access | Status  |
@@ -119,8 +119,8 @@ The following endpoints are currently available:
 
 ## Demo
 * [Heroku](https://dannstore.herokuapp.com)
-* [Documentation](https://documenter.getpostman.com/view/5303933/RWguvGJK)
-* [Documentation](https://documenter.getpostman.com/view/5303933/RWgxvvVD)
+* [Documentation v1](https://documenter.getpostman.com/view/5303933/RWguvGJK)
+* [Documentation v2](https://documenter.getpostman.com/view/5303933/RWgxvvVD)
 
 
 
