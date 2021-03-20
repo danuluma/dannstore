@@ -18,7 +18,7 @@ idna==2.6
 IMAPClient==2.0.0
 itsdangerous==0.24
 jdcal==1.4
-Jinja2==2.10
+Jinja2==2.11.3
 jsonify==0.5
 jsonschema==2.6.0
 lxml==4.2.5
