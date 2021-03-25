@@ -44,7 +44,7 @@ python-dotenv==0.9.1
 python3-xlib==0.15
 PyTweening==1.0.3
 pytz==2018.5
-PyYAML==3.13
+PyYAML==5.4
 selenium==3.13.0
 Send2Trash==1.5.0
 six==1.11.0
